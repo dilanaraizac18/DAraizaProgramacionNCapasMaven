@@ -9,11 +9,13 @@ import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.UsuarioDAOIm
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Pais;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Result;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario;
+import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -78,9 +80,14 @@ public class UsuarioController {
     }
 
     @PostMapping("form")
-    public String Formulario(@ModelAttribute("usuario") Usuario usuario) {
-
-        return "Formulario";
+    public String Formulario(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult,Model model) {
+        
+        if(bindingResult.hasErrors()){
+            model.addAttribute("usuario",usuario);
+            
+            return "Formulario";
+        }
+        return "redirect:/usuario";
     }
 
     @GetMapping("getEstadosByPais/{idPais}")

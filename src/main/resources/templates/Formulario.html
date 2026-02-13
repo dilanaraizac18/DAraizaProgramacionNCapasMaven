@@ -27,7 +27,7 @@
                         <div class="col-md-4">
                             <label id= "ApellidoPaternoUsuario" class = "form-label text-white fs-5">Apellido Paterno</label><br>
                             <input id= "ApellidoPaternoUsuario" type="text" class = "form-control bg-dark border border-success text-success" onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
-                            <span id='#errorApellidoPaternoUsuario'></span>
+                            <span id='#errorApellidoPaternoUsuario' th:if="{#fields.hasErrors('Nombre')}" th:errors="*{Nombre}"></span>
 
                         </div>
                         <div class="col-md-4" >

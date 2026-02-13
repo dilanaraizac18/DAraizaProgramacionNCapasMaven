@@ -1,13 +1,18 @@
 
 package com.digis01.DAraizaProgramacionNCapasMaven.ML;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
 public class Usuario {
+    
     private int IdUsuario;
+    @NotEmpty(message= "No puede ser nulo")
+    @Size(min = 3, max = 50, message = "El nombre debe llevar minimo 3 caracteres")
     private String Nombre;
     private String ApellidoPaterno;
     private String ApellidoMaterno;
