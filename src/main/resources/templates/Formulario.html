@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Formulario</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    </head>
+    <body class = "bg-dark text-white">
+        <div class = "container ">
+
+            <h1 class = "text-center mt-4 mb-4">Por favor, responda el siguiente formulario...</h1>
+
+
+            <div>
+                <form method="post" th:object="${usuario}" th:action="@{/usuario/form}">
+                    <div class="col-12 text-center m-4 text-success fs-3">Informacion General del usuario</div>
+                    <div class="row mb-5">
+                        <div class="col-md-4">
+                            <label id= "NombreUsuario" class = "form-label text-white fs-5">Nombre</label><br>
+                            <input id= "NombreUsuario" class = "form-control bg-dark border border-success text-success" th:field="*{Nombre}" onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
+                            <span id='#errorNombreUsuario'></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label id= "ApellidoPaternoUsuario" class = "form-label text-white fs-5">Apellido Paterno</label><br>
+                            <input id= "ApellidoPaternoUsuario" type="text" class = "form-control bg-dark border border-success text-success" onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
+                            <span id='#errorApellidoPaternoUsuario'></span>
+
+                        </div>
+                        <div class="col-md-4" >
+                            <label class = "form-label text-white fs-5">Apellido Materno</label><br>
+                            <input id='ApellidoMaternoUsuario' class = "form-control bg-dark border border-success text-success" th:field="*{ApellidoMaterno}" onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
+                            <span id='#errorApellidoMaternoUsuario'></span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row mb-5 col">
+                        <div class="mb-3 col-2">
+                            <label class = "form-label text-white fs-5">Fecha de nacimiento</label><br>
+                            <input type="date" min="1930-01-01" max="2007-12-12" class = "form-control bg-dark border border-success text-success" th:field="*{FechaNacimiento}" onkeydown="return false"> 
+                        </div>
+
+                        <div class="mb-3 col-3" >
+                            <label class = "form-label text-white fs-5">CURP</label><br>
+                            <input class = "form-control bg-dark border border-success text-success" th:field="*{CURP}" onkeypress="CURPValida(this, event)" onblur="CURPBlur(this, event)"> 
+                        </div>
+
+                        <div class="mb-3 col-2">
+                            <label class = "form-label text-white fs-5">Sexo: </label>
+                            <input type = "radio" name="radioSexo" checked><label class = "pe-2 text-success">Masculino</label>
+                            <input type = "radio" name="radioSexo" ><label class="text-success">Femenino</label>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 text-center m-4 text-success fs-3">Datos de contacto</div>
+
+                    <div class = "row">
+                        <div class="mb-3 col-2">
+                            <label class = "form-label text-white fs-5">Username</label><br>
+                            <input class = "form-control bg-dark border border-success text-success" th:field="*{Username}" onkeypress="UserNameValido(this, event)" onblur="UserNameValidoBlur(this)"> 
+                        </div>
+
+                        <div class="mb-3 col-2">
+                            <label class = "form-label text-white fs-5">Email</label><br>
+                            <input class = "form-control bg-dark border border-success text-success" th:field="*{Email}"> 
+                        </div>
+
+                        <div class="mb-3">
+                            <label class = "form-label text-white fs-5">Número telefónico</label><br>
+                            <input type="text" class = "form-control bg-dark border border-success text-success" th:field="*{NumeroTelefonico}" maxlength="10" onkeypress="NumeroyCelular(this, event)" onblur="NumeroyCelularBlur(this)"> 
+                        </div>
+
+                        <div class="mb-3">
+                            <label class = "form-label text-white fs-5">Contraseña</label><br>
+                            <input type="password" class = "form-control bg-dark border border-success text-success" th:field="*{Password}" minlength="8" maxlength="16"  onkeypress="PasswordValido(this, event)"> 
+                        </div>
+
+
+                        <div class="mb-3 col-2">
+                            <label class = "form-label text-white fs-5">Celular</label><br>
+                            <input type="text" class = "form-control bg-dark border border-success text-success" th:field="*{Celular}" maxlength="10" onkeypress="NumeroyCelular(this, event)" onblur="NumeroyCelularBlur(this)"> 
+                        </div>
+
+                        <div class="mb-3">
+                            <label class = "form-label text-white fs-5">Rol</label><br>
+                            <select class="form-select form-select-sm w-25 bg-dark text-success border-success" >
+                                <option value = 0 selected >Seleccione un rol</option>
+                                <option th:each = "rol : ${roles}" th:value = "${rol.idRol}" th:text = "${rol.NombreRol}"></option>
+
+
+
+                            </select>                    
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 text-center m-4 text-success fs-3">Dirección del usuario</div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class = "form-label text-white fs-5">Pais</label>
+                            <select id="ddlpais" class="form-select form-select-sm w-25 bg-dark text-success border-success">
+                                <option value=0 selected> Seleccione un pais</option>
+                                <option th:each="pais : ${paises}" th:value="${pais.IdPais}" th:text="${pais.Nombre}"></option>
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-3 w100">
+                            <label for="ddlestado" class = "form-label text-white fs-5">Estado</label>
+                            <select id="ddlestado" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example">
+                                <option value=0 selected>Seleccione un estado</option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-md-3 w100">
+                            <label for="ddlmunicipio" class = "form-label text-white fs-5">Municipio</label>
+                            <select id="ddlmunicipio" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example">
+                                <option value=0 selected>Seleccione un municipio</option>                                
+                            </select>
+
+                        </div>
+
+
+
+
+                        <div class="col-md-5 w100">
+                            <label class ="form-label text-white fs-5">Colonia</label>
+                            <input type="text" class = "form-control bg-dark border border-success text-success">
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+                    <div class = "col-12 container row m-4 p-4">
+                        <div class = "col-6 text-center">
+
+                            <button class = "btn btn-danger mb-4 ">Cancelar</button>
+
+                        </div>
+                        <div class = "col-6 text-center">
+
+                            <button type ="submit" class = "btn btn-success mb-4 w-10">Guardar</button>
+
+                        </div>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+
+        </div>
+    </body>
+
+    <script>
+        document.addEventListener('copy', (e) => e.preventDefault());
+        document.addEventListener('paste', (e) => e.preventDefault());
+
+        function validarExpresionLetras(input, event) {
+
+            console.log(input);
+
+            var valorCompleto = $(input).val() + event.key;
+            console.log(valorCompleto);
+
+            console.log("ID: ", input.id);
+
+
+            var regex = /[a-zA-Z]+$/;
+
+            if (regex.test(valorCompleto)) {
+                console.log("Paso la expresion regular");
+                $('#error' + input.id + '').text('')
+                $(input).removeClass("border border-danger text-danger")
+
+
+            } else {
+                console.log("No paso la expresion regular");
+                event.preventDefault();
+                $(input).addClass("border border-danger bg-danger text-danger");
+                $('#error' + input.id + '').text('Error').addClass("text-white");
+
+
+            }
+        }
+
+        function validarUsuarioBlur(input) {
+            var regex = /[a-zA-Z]+$/;
+
+            if (regex.test($(input).val())) {
+                $('error' + input.id + '').text('');
+                $(input).removeClass('border border-danger text-danger');
+                $('#error' + input.id + '').addClass('border border-success text-success')
+
+            }
+
+        }
+
+        function CURPValida(input, event) {
+            console.log(input);
+
+            var CURP = $(input).val() + event.key;
+
+            console.log(CURP);
+
+            var regex = /[A-Z0-9]+$/;
+
+            if (regex.test(CURP)) {
+                $(input).removeClass("border border-danger text-danger");
+
+            } else {
+                event.preventDefault();
+                $(input).addClass("border border-danger text-danger")
+
+            }
+        }
+
+        function CURPBlur(input) {
+            var regex = /[A-Z0-9]+$/;
+
+            if (regex.test($(input).val())) {
+                $(input).removeClass('border border-danger text-danger');
+
+                $('#error' + input.id + '').addClass('border border-success text-success')
+            }
+        }
+
+        function UserNameValido(input, event) {
+            var UserNameCompleto = $(input).val() + event.key;
+
+            var regex = /[a-z0-9]+$/;
+
+            if (regex.test(UserNameCompleto)) {
+                $(input).removeClass("border border-danger text-danger");
+
+            } else {
+                event.preventDefault();
+                $(input).addClass("border border-danger text-danger")
+            }
+        }
+
+        function UserNameValidoBlur(input) {
+            var regex = /[a-z0-9]+$/;
+
+            if (regex.test($(input).val())) {
+                $(input).removeClass("border border-danger text-danger");
+            }
+
+        }
+
+        function NumeroyCelular(input, event) {
+            var numeros = $(input).val() + event.key;
+
+            var regex = /[0-9]+$/
+
+            if (regex.test(numeros)) {
+                $(input).removeClass("border boder-danger text-danger");
+
+            } else {
+                event.preventDefault();
+                $(input).addClass("border border-danger text-danger")
+            }
+        }
+
+        function NumeroyCelularBlur(input) {
+            var regex = /[0-9]+$/
+
+            if (regex.test($(imput).val())) {
+                $(input).removeClass("border border-danger text-danger");
+            }
+
+        }
+        
+        
+        function PasswordValido(input, event){
+            var passwordValida = $(input).val() + event.key;
+            
+            var regex = /.+email.com$/;
+            
+            if(regex.test(passwordValida)){
+                $(input).removeClass("border border-danger text-danger");
+                
+            }else{
+                event.preventDefault();
+                $(input).addClass("border border-danger text-danger");
+            }
+
+        }
+
+        $(document).ready(function () {
+
+            console.log("Se ha cargado correctamente la pagina");
+
+
+            $("#ddlpais").change(function () {
+                console.log("Ha cambiado la informacion");
+                var idPais = $("#ddlpais").val();
+                if (idPais != 0) {
+                    $.ajax({
+                        url: "getEstadosByPais/" + idPais,
+                        type: "GET",
+                        dataType: 'json',
+                        success: function (data, textStatus, jqXHR) {
+                            console.log("Todo OK");
+                            $("#ddlestado").empty();
+                            $("#ddlestado").append("<option value=0 selected>Selecciona un estado</option>");
+                            $.each(data.objects, function (i, estado) {
+                                console.log(estado.Nombre)
+                                $("#ddlestado").append("<option value=" + estado.idEstado + ">" + estado.Nombre + "</option>");
+                            });
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("No se pudo procesar la tarea");
+                        }
+                    });
+                } else {
+                    $("#ddlestado").empty();
+                    $("#ddlestado").append("<option value=0 selected>Seleccione un estado</option>");
+                }
+                //Agregar modificaciones para el municipio y colonia
+
+            });
+
+
+            $("#ddlestado").change(function () {
+                console.log("Ha cambiado la informacion");
+                var idEstado = $("#ddlestado").val();
+                if (idEstado != 0) {
+
+                    $.ajax({
+                        url: "getMunicipioByEstado/" + idEstado,
+                        type: "GET",
+                        dataType: 'json',
+                        success: function (data, textStatus, jqXHR) {
+                            console.log("Todo OK");
+                            $("#ddlmunicipio").empty();
+                            $("#ddlmunicipio").append("<option value=0 selected>Selecciona un municipio</option>");
+                            $.each(data.objects, function (i, municipio) {
+                                console.log(municipio.NombreMuncipio)
+                                $("#ddlmunicipio").append("<option value=" + municipio.idMunicipio + ">" + municipio.NombreMunicipio + "</option>");
+                            });
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("No se pudo procesar la tarea");
+                        }
+                    });
+                } else {
+                    $("#ddlmunicipio").empty();
+                    $("#ddlmunicipio").append("<option value=0 selected>Seleccione un municipio</option>");
+                }
+                //Agregar modificaciones para el municipio y colonia
+
+            });
+
+
+
+        });
+
+    </script>
+</html>

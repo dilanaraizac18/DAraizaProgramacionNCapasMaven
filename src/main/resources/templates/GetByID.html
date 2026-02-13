@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+        <title>Get By ID</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>Usuarios por id</div>
+        
+        <div class = "col-sm table-responsive">
+                <table class = "table table-dark table-striped table-responsive border border-success table-hover">
+                    <thead class = "table-dark ">
+                        <tr>
+                            <!--                        <th>Datos Personales</th>
+                                                        <th>Información de contacto</th>
+                                                        <th>Rol del usuario</th>    
+                                                        <th>Acciones</th>
+                            -->
+                            <th>Datos Personales</th>
+                            <th>Información de contacto</th>                            
+                            <th>Direccion(es)</th>                           
+                            <th>Acciones</th>
+
+
+
+                        </tr>
+                    </thead>
+
+                    <tbody  >
+                        
+                        <tr th:each = "usuario : ${usuario}">
+
+
+                    <td >
+                         <li th:text = "|Nombre: ${usuario.Nombre} ${usuario.ApellidoMaterno}|"></li>
+                         <li th:text = "|CURP: ${usuario.CURP}|"></li>
+                         <li th:text = "|Fecha de nacimiento: ${usuario.FechaNacimiento} |"></li>
+                    </td>
+                    <td >
+                    <li th:text =" | Numero telefonico: ${usuario.NumeroTelefonico}|" ></li>
+                    <li th:text = "|Username: ${usuario.Username}|"></li>
+                    <li th:text = "|Email: ${usuario.Email}|"></li>
+                        <li th:each = "rol : ${usuario.Rol}" th:text="|Rol: ${rol.NombreRol}|"></li>
+
+                        
+                        
+                    </td>
+                    <td>
+                    <li th:each = "direccion : ${usuario.Direcciones} " th:text="|Calle: ${direccion.Calle} ${direccion.NumeroInterior} ${direccion.NumeroExterior}|"></li>
+<!--                    <li th:each = "colonia : ${usuario.direccion.colonia}" th:text = "|${colonia.Nombre}|"></li>-->
+                    </td> 
+
+                    <td><a class="btn btn-success" th:href="@{usuario/form}"><i class="bi bi-pencil-fill"></i></a> <a class="btn btn-danger" ><i class="bi bi-person-dash"></i></a></td>
+
+
+                    </tr> 
+
+                    </tbody>
+
+                </table>
+            </div>
+    </body>
+</html>
