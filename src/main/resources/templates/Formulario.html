@@ -22,16 +22,17 @@
                         <div class="col-md-4">
                             <label id= "NombreUsuario" class = "form-label text-white fs-5">Nombre</label><br>
                             <input id= "NombreUsuario" class = "form-control bg-dark border border-success text-success" th:field="*{Nombre}" onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
-                            <span id='#errorNombreUsuario'></span>
+                            <span id='#errorNombreUsuario' ></span>
+                            <span th:if="{#fields.hasErrors('NombreUsuario')}" th:errors="*{NombreUsuario}"></span>
                         </div>
                         <div class="col-md-4">
                             <label id= "ApellidoPaternoUsuario" class = "form-label text-white fs-5">Apellido Paterno</label><br>
                             <input id= "ApellidoPaternoUsuario" type="text" class = "form-control bg-dark border border-success text-success" onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
-                            <span id='#errorApellidoPaternoUsuario' th:if="{#fields.hasErrors('Nombre')}" th:errors="*{Nombre}"></span>
+                            <span id='#errorApellidoPaternoUsuario'></span>
 
                         </div>
                         <div class="col-md-4" >
-                            <label class = "form-label text-white fs-5">Apellido Materno</label><br>
+<!--                            <label class = "form-label text-white fs-5">Apellido Materno</label><br>-->
                             <input id='ApellidoMaternoUsuario' class = "form-control bg-dark border border-success text-success" th:field="*{ApellidoMaterno}" onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
                             <span id='#errorApellidoMaternoUsuario'></span>
 
