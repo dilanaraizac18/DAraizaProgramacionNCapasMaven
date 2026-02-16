@@ -1,4 +1,5 @@
 package com.digis01.DAraizaProgramacionNCapasMaven;
+
 import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.ColoniaDAOImplementation;
 import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.EstadoDAOImplementation;
 import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.MunicipioDAOImplementation;
@@ -9,7 +10,9 @@ import com.digis01.DAraizaProgramacionNCapasMaven.ML.Pais;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Result;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario;
 import jakarta.validation.Valid;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("usuario")
@@ -79,7 +83,7 @@ public class UsuarioController {
     }
 
     @PostMapping("form")
-    public String Formulario(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult, Model model) {
+    public String Formulario(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult, @RequestParam("Imagen")MultipartFile imagen, Model model) {
         
         if (bindingResult.hasErrors()) {
             model.addAttribute("usuario", usuario);
@@ -88,6 +92,25 @@ public class UsuarioController {
             return "form";
             
         }
+        
+         String nombreArchivo = imagen.getOriginalFilename();
+         
+        //2. Cortar la palabra
+        String[] cadena = nombreArchivo.split("\\.");
+        if (cadena[1].equals("jpg") || cadena[1].equals("png")) {
+            //convierto imagen a base 64, y la cargo en el modelo alumno 
+            byte [] fileContent = nombreArchivo.getBytes();
+            
+            String encodedString = Base64.getEncoder().encodeToString(fileContent);   
+            
+            System.out.println(encodedString);
+            // realizar la conversión de imagen a base 64; 
+        } else if (imagen != null){
+            //retorno error de archivo no permititido y regreso a formulario 
+            System.out.println("Error");
+        }
+        System.out.println("Agregar");
+        //proceso de agregar datos y retorno a vista de todos los usuarios
         return "redirect:/usuario";
     }
     
