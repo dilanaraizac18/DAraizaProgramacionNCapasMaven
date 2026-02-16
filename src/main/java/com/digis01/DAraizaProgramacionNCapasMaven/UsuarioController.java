@@ -82,13 +82,25 @@ public class UsuarioController {
     @PostMapping("form")
     public String Formulario(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult,Model model) {
         
-        if(bindingResult.hasErrors()){
-            model.addAttribute("usuario",usuario);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("roles", rolDAOImplementation.GetAll().objects);
+            model.addAttribute("paises", paisDAOImplementation.GetAll().objects);
+            return "form";
             
-            return "Formulario";
         }
         return "redirect:/usuario";
     }
+    
+    @GetMapping("/GetById/IdUsuario")
+    public String GetById(@RequestParam int IdUsuario, Model model) {
+
+        Result result = usuarioDAOImplementation.GetById(IdUsuario);
+
+        model.addAttribute("usuario", result.object);
+        return "usuario";
+    }
+    
 
     @GetMapping("getEstadosByPais/{idPais}")
     @ResponseBody

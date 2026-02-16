@@ -1,7 +1,11 @@
 
 package com.digis01.DAraizaProgramacionNCapasMaven.ML;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
@@ -14,18 +18,38 @@ public class Usuario {
     @NotEmpty(message= "No puede ser nulo")
     @Size(min = 3, max = 50, message = "El nombre debe llevar minimo 3 caracteres")
     private String Nombre;
+    @NotEmpty(message= "No puede ser nulo")
+    @Size(min = 3, max = 50, message = "El nombre debe llevar minimo 3 caracteres")
     private String ApellidoPaterno;
+    @NotEmpty(message= "No puede ser nulo")
+    @Size(min = 3, max = 50, message = "El nombre debe llevar minimo 3 caracteres")
     private String ApellidoMaterno;
+    @NotEmpty(message = "No puedo ser vacio")
+    @Pattern(regexp = "^[0-9]{10}$", message = "Solo numeros")
+    @Size(min = 10, max = 10, message = "Debe haber minimo 10 numeros")
     private String NumeroTelefonico;
+    @NotNull(message = "La fecha no puede ser nula")
+    @PastOrPresent(message = "La fecha debe ser en el pasado")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date FechaNacimiento;
+    @Pattern(regexp = "^([A-Z][AEIOUX][A-Z]{2}\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\\d])(\\d)$", message = "Formato invalido")
     private String CURP;
+    @NotEmpty(message = "No puedo ser vacio")
+    @Pattern(regexp = "^[a-zA-Z ]+[0-9]+$", message = "Introduzca minimo una letra y minimo un numero")
     private String Username;
     private String Sexo;
+    @Pattern(regexp = "^[0-9]{10}$", message = "Solo numeros")
+    @Size(min = 10, max = 10, message = "Debe haber minimo 10 numeros")
     private String Celular;
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z]+.com$", message = "formato invalido")
+    @NotEmpty(message = "No puedo ser vacio")
     private String Email;
     private String Password;
-    public com.digis01.DAraizaProgramacionNCapasMaven.ML.Rol Rol;    
+    @Valid
+    public com.digis01.DAraizaProgramacionNCapasMaven.ML.Rol Rol; 
+    
+    @Valid
+    @NotEmpty(message = "No puede estar vacio")
     public List<com.digis01.DAraizaProgramacionNCapasMaven.ML.Direccion> Direcciones;
     
     //setters
