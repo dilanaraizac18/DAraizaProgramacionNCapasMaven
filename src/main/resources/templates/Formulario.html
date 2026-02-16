@@ -17,6 +17,13 @@
 
             <div>
                 <form method="post" th:object="${usuario}" th:action="@{/usuario/form}">
+                    
+                    <div>
+                        <label class="form-label text-white fs-5">Introduzca una imagen</label>
+                        <input accept="image/png, image/jpg" type="file" class="form-control bg-dark text-success border border-success">
+                    </div> 
+                    
+                    
                     <div class="col-12 text-center m-4 text-success fs-3">Informacion General del usuario</div>
                     <div class="row mb-5">
                         <div class="col-md-4">
@@ -32,7 +39,7 @@
 
                         </div>
                         <div class="col-md-4" >
-<!--                            <label class = "form-label text-white fs-5">Apellido Materno</label><br>-->
+                            <label class = "form-label text-white fs-5">Apellido Materno</label><br>
                             <input id='ApellidoMaternoUsuario' class = "form-control bg-dark border border-success text-success" th:field="*{ApellidoMaterno}" onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
                             <span id='#errorApellidoMaternoUsuario'></span>
 

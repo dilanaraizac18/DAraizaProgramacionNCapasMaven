@@ -12,5 +12,5 @@ import com.digis01.DAraizaProgramacionNCapasMaven.ML.Result;
  */
 public interface IUsuario {
     Result GetAll();
-    Result GetById(int idUsuario);
+    Result GetById(int identificador);
 }

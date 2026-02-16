@@ -1,5 +1,4 @@
 package com.digis01.DAraizaProgramacionNCapasMaven;
-
 import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.ColoniaDAOImplementation;
 import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.EstadoDAOImplementation;
 import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.MunicipioDAOImplementation;
@@ -80,7 +79,7 @@ public class UsuarioController {
     }
 
     @PostMapping("form")
-    public String Formulario(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult,Model model) {
+    public String Formulario(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult, Model model) {
         
         if (bindingResult.hasErrors()) {
             model.addAttribute("usuario", usuario);
