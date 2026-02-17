@@ -36,12 +36,14 @@
                             <label id= "ApellidoPaternoUsuario" class = "form-label text-white fs-5">Apellido Paterno</label><br>
                             <input id= "ApellidoPaternoUsuario" type="text" class = "form-control bg-dark border border-success text-success" onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
                             <span id='#errorApellidoPaternoUsuario'></span>
+                            <span th:if="${#fields.hasErrors('ApellidoPaterno')}" th:errors="*ApellidoPaterno" class='text-danger'></span>
 
                         </div>
                         <div class="col-md-4" >
                             <label class = "form-label text-white fs-5">Apellido Materno</label><br>
                             <input id='ApellidoMaternoUsuario' class = "form-control bg-dark border border-success text-success" th:field="*{ApellidoMaterno}" onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
                             <span id='#errorApellidoMaternoUsuario'></span>
+                            <span th:if="${#fields.hasErrors('ApellidoMaterno')}" th:errors="*ApellidoMaterno" class='text-danger'></span>
 
                         </div>
 
@@ -56,7 +58,10 @@
 
                         <div class="mb-3 col-3" >
                             <label class = "form-label text-white fs-5">CURP</label><br>
+                            
                             <input class = "form-control bg-dark border border-success text-success" th:field="*{CURP}" onkeypress="CURPValida(this, event)" onblur="CURPBlur(this, event)"> 
+                            <span th:if="${#fields.hasErrors('CURP')}" th:errors="*CURP" class='text-danger'></span>
+                        
                         </div>
 
                         <div class="mb-3 col-2">
@@ -74,16 +79,22 @@
                         <div class="mb-3 col-2">
                             <label class = "form-label text-white fs-5">Username</label><br>
                             <input class = "form-control bg-dark border border-success text-success" th:field="*{Username}" onkeypress="UserNameValido(this, event)" onblur="UserNameValidoBlur(this)"> 
+                            <span th:if="${#fields.hasErrors('Username')}" th:errors="*Username" class='text-danger'></span>
+                        
                         </div>
 
                         <div class="mb-3 col-2">
                             <label class = "form-label text-white fs-5">Email</label><br>
                             <input class = "form-control bg-dark border border-success text-success" th:field="*{Email}"> 
+                            <span th:if="${#fields.hasErrors('Email')}" th:errors="*Email" class='text-danger'></span>
+                        
                         </div>
 
                         <div class="mb-3">
                             <label class = "form-label text-white fs-5">Número telefónico</label><br>
                             <input type="text" class = "form-control bg-dark border border-success text-success" th:field="*{NumeroTelefonico}" maxlength="10" onkeypress="NumeroyCelular(this, event)" onblur="NumeroyCelularBlur(this)"> 
+                            <span th:if="${#fields.hasErrors('NumeroTelefonico')}" th:errors="*NumeroTelefonico" class='text-danger'></span>
+                       
                         </div>
 
                         <div class="mb-3">
@@ -95,6 +106,8 @@
                         <div class="mb-3 col-2">
                             <label class = "form-label text-white fs-5">Celular</label><br>
                             <input type="text" class = "form-control bg-dark border border-success text-success" th:field="*{Celular}" maxlength="10" onkeypress="NumeroyCelular(this, event)" onblur="NumeroyCelularBlur(this)"> 
+                            <span th:if="${#fields.hasErrors('Celular')}" th:errors="*Celular" class='text-danger'></span>
+
                         </div>
 
                         <div class="mb-3">
