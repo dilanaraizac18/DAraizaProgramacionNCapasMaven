@@ -110,6 +110,7 @@ public class UsuarioController {
             System.out.println("Error");
         }
         System.out.println("Agregar");
+//        usuarioDAOImplementation.Add(usuario); IMPLEMENTAR MAS TARDE
         //proceso de agregar datos y retorno a vista de todos los usuarios
         return "redirect:/usuario";
     }

@@ -48,7 +48,7 @@ public class Usuario {
     @Valid
     public com.digis01.DAraizaProgramacionNCapasMaven.ML.Rol Rol; 
     
-    private String Imagen;
+    public String Imagen;
     
     @Valid
     @NotEmpty(message = "No puede estar vacio")
