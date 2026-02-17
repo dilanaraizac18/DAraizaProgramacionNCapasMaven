@@ -48,6 +48,8 @@ public class Usuario {
     @Valid
     public com.digis01.DAraizaProgramacionNCapasMaven.ML.Rol Rol; 
     
+    private String Imagen;
+    
     @Valid
     @NotEmpty(message = "No puede estar vacio")
     public List<com.digis01.DAraizaProgramacionNCapasMaven.ML.Direccion> Direcciones;
@@ -61,7 +63,7 @@ public class Usuario {
         this.IdUsuario = IdUsuario;
     }
 
-    public Usuario(int IdUsuario, String Nombre, String ApellidoPaterno, String ApellidoMaterno, String NumeroTelefonico, Date FechaNacimiento, String CURP, String Username, String Sexo, String Celular, String Email, String Password, Rol Rol, List<Direccion> Direcciones) {
+    public Usuario(int IdUsuario, String Nombre, String ApellidoPaterno, String ApellidoMaterno, String NumeroTelefonico, Date FechaNacimiento, String CURP, String Username, String Sexo, String Celular, String Email, String Imagen,String Password, Rol Rol, List<Direccion> Direcciones) {
         this.IdUsuario = IdUsuario;
         this.Nombre = Nombre;
         this.ApellidoPaterno = ApellidoPaterno;
@@ -76,6 +78,7 @@ public class Usuario {
         this.Password = Password;
         this.Rol = Rol;
         this.Direcciones = Direcciones;
+        this.Imagen = Imagen;
     }
     
     
@@ -136,6 +139,14 @@ public class Usuario {
     
     public void setUsername(String Username){
         this.Username = Username;
+    }
+
+    public String getImagen() {
+        return Imagen;
+    }
+
+    public void setImagen(String Imagen) {
+        this.Imagen = Imagen;
     }
     
     public String getUsername(){
