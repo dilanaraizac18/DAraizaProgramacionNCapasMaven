@@ -17,13 +17,49 @@
 
             <div>
                 <form method="post" th:object="${usuario}" th:action="@{/usuario/form} " enctype="multipart/form-data">
-                    
+
                     <div>
                         <label class="form-label text-white fs-5">Introduzca una imagen</label>
                         <input name="imagen" id="imagen" accept="image/png, image/jpg" type="file" class="form-control bg-dark text-success border border-success">
+
+
+
+                        <script>
+                            document.getElementById('imagen').addEventListener('change', function (event) {
+                                const file = event.target.files[0];
+                                if (file) {
+                                    const reader = new FileReader();
+                                    reader.onload = function (e) {
+                                        const preview = document.getElementById('verimagen');
+                                        preview.src = e.target.result;
+                                        preview.style.display = 'block'; // Mostrar la imagen
+                                    }
+                                    reader.readAsDataURL(event.target.files[0]);
+                                }
+                            });
+                        </script>
                     </div> 
-                    
-                    
+                    <script>
+                        document.getElementById('imagen').addEventListener('change', function (event) {
+                            const file = event.target.files[0];
+                            if (file) {
+                                const reader = new FileReader();
+                                reader.onload = function (e) {
+                                    const preview = document.getElementById('verimagen');
+                                    preview.src = e.target.result;
+                                    preview.style.display = 'block'; // Mostrar la imagen
+                                }
+                                reader.readAsDataURL(event.target.files[0]);
+                            }
+                        });
+                    </script>
+
+
+
+                    <div class="col-12" style="align-content: center;">
+                        <img id='verimagen' src= "" style='max-width: 300xp; align-content: center'>
+                    </div>
+
                     <div class="col-12 text-center m-4 text-success fs-3">Informacion General del usuario</div>
                     <div class="row mb-5">
                         <div class="col-md-4">
@@ -34,9 +70,9 @@
                         </div>
                         <div class="col-md-4">
                             <label id= "ApellidoPaternoUsuario" class = "form-label text-white fs-5">Apellido Paterno</label><br>
-                            <input id= "ApellidoPaternoUsuario" type="text" class = "form-control bg-dark border border-success text-success" onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
+                            <input id= "ApellidoPaternoUsuario" type="text" class = "form-control bg-dark border border-success text-success"  onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
                             <span id='#errorApellidoPaternoUsuario'></span>
-<!--                            <span th:if="${#fields.hasErrors('ApellidoPaterno')}" th:errors="*ApellidoPaterno" class='text-danger'></span>-->
+                            <!--                            <span th:if="${#fields.hasErrors('ApellidoPaterno')}" th:errors="*ApellidoPaterno" class='text-danger'></span>-->
 
                         </div>
                         <div class="col-md-4" >
@@ -58,15 +94,15 @@
 
                         <div class="mb-3 col-3" >
                             <label class = "form-label text-white fs-5">CURP</label><br>
-                            
+
                             <input class = "form-control bg-dark border border-success text-success" th:field="*{CURP}" onkeypress="CURPValida(this, event)" onblur="CURPBlur(this, event)"> 
                             <span th:if="${#fields.hasErrors('CURP')}" th:errors="*CURP" class='text-danger'></span>
-                        
+
                         </div>
 
                         <div class="mb-3 col-2">
                             <label class = "form-label text-white fs-5">Sexo: </label>
-                            <input type = "radio" name="radioSexo" checked><label class = "pe-2 text-success">Masculino</label>
+                            <input type = "radio" name="radioSexo" checked><label class = "pe-2 text-success" th:field="*{Sexo}">Masculino</label>
                             <input type = "radio" name="radioSexo" ><label class="text-success">Femenino</label>
 
                         </div>
@@ -80,21 +116,21 @@
                             <label class = "form-label text-white fs-5">Username</label><br>
                             <input class = "form-control bg-dark border border-success text-success" th:field="*{Username}" onkeypress="UserNameValido(this, event)" onblur="UserNameValidoBlur(this)"> 
                             <span th:if="${#fields.hasErrors('Username')}" th:errors="*Username" class='text-danger'></span>
-                        
+
                         </div>
 
                         <div class="mb-3 col-2">
                             <label class = "form-label text-white fs-5">Email</label><br>
                             <input class = "form-control bg-dark border border-success text-success" th:field="*{Email}"> 
                             <span th:if="${#fields.hasErrors('Email')}" th:errors="*Email" class='text-danger'></span>
-                        
+
                         </div>
 
                         <div class="mb-3">
                             <label class = "form-label text-white fs-5">Número telefónico</label><br>
                             <input type="text" class = "form-control bg-dark border border-success text-success" th:field="*{NumeroTelefonico}" maxlength="10" onkeypress="NumeroyCelular(this, event)" onblur="NumeroyCelularBlur(this)"> 
                             <span th:if="${#fields.hasErrors('NumeroTelefonico')}" th:errors="*NumeroTelefonico" class='text-danger'></span>
-                       
+
                         </div>
 
                         <div class="mb-3">
@@ -112,7 +148,7 @@
 
                         <div class="mb-3">
                             <label class = "form-label text-white fs-5">Rol</label><br>
-                            <select class="form-select form-select-sm w-25 bg-dark text-success border-success" >
+                            <select class="form-select form-select-sm w-25 bg-dark text-success border-success" th:field="*{rol.idRol}">
                                 <option value = 0 selected >Seleccione un rol</option>
                                 <option th:each = "rol : ${roles}" th:value = "${rol.idRol}" th:text = "${rol.NombreRol}"></option>
 
@@ -146,41 +182,46 @@
 
                         <div class="col-md-3 w100">
                             <label for="ddlmunicipio" class = "form-label text-white fs-5">Municipio</label>
-                            <select id="ddlmunicipio" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example">
+                            <select id="ddlmunicipio" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example" >
                                 <option value=0 selected>Seleccione un municipio</option>                                
                             </select>
 
                         </div>
-                        
+
                         <div class="col-md-3 w100">
                             <label for="ddlcolonia" class = "form-label text-white fs-5">Colonia</label>
-                            <select id="ddlcolonia" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example">
-                                <option value="0"  data-cp-id selected>Selecciona tu Colonia</option>
+                            <select id="ddlcolonia" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example" th:field="*{Direcciones[0].colonia}">
+                                <option value="0" selected>Selecciona tu Colonia</option>
                             </select>
 
                         </div>
-                        
+
                         <div class="col-md-3 w100">
-                                
-                            <input id="codigopostal" class="form-control bg-dark border border-success text-success" placeholder="C.P.">
+                            <label for="codigopostal" class = "form-label text-white fs-5">CodigoPostal</label>
+                            <input id="codigopostal" class="form-control bg-dark border border-success text-success" placeholder="C.P." >
 
                         </div>
-                        
-                        
 
+                        <div class="col-md-3 w100">
+                            <label for="calle" class = "form-label text-white fs-5">Calle</label>
+                            <input id="calle" class="form-control bg-dark border border-success text-success" th:field="*{Direcciones[0].Calle}">
 
+                        </div>
 
+                        <div class="col-md-3 w100">
+                            <label for="numeroExterior" class = "form-label text-white fs-5">Numero Exterior</label>
+                            <input id="numeroExterior" class="form-control bg-dark border border-success text-success" th:field="*{Direcciones[0].NumeroExterior}">
 
-                       
+                        </div>
 
+                        <div class="col-md-3 w100">
+                            <label for="numeroInterior" class = "form-label text-white fs-5">Numero interior</label>
+                            <input id="numeroInterior" class="form-control bg-dark border border-success text-success" th:field="*{Direcciones[0].NumeroInterior}">
 
-
+                        </div>
 
 
                     </div>
-
-
-
 
 
 
@@ -325,27 +366,27 @@
             }
 
         }
-        
-        
-        
-        
-        function PasswordValido(input, event){
+
+
+
+
+        function PasswordValido(input, event) {
             var passwordValida = $(input).val() + event.key;
-            
+
             var regex = /.+email.com$/;
-            
-            if(regex.test(passwordValida)){
+
+            if (regex.test(passwordValida)) {
                 $(input).removeClass("border border-danger text-danger");
-                
-            }else{
+
+            } else {
                 event.preventDefault();
                 $(input).addClass("border border-danger text-danger");
             }
 
         }
-        
-        function CorreoValido(input, event){
-             var valorCompleto = $(input).val() + event.key;
+
+        function CorreoValido(input, event) {
+            var valorCompleto = $(input).val() + event.key;
             var regex = /[a-zA-Z0-9._%+-]+@[a-zA-Z]+.com/;
 
             if (regex.test(valorCompleto)) {
@@ -407,7 +448,7 @@
                             $("#ddlmunicipio").empty();
                             $("#ddlmunicipio").append("<option value=0 selected>Selecciona un municipio</option>");
                             $.each(data.objects, function (i, municipio) {
-                                console.log(municipio.NombreMuncipio)
+                                console.log(municipio.Nombre)
                                 $("#ddlmunicipio").append("<option value=" + municipio.idMunicipio + ">" + municipio.Nombre + "</option>");
                             });
                         },
@@ -421,9 +462,9 @@
                 }
                 //Agregar modificaciones para el municipio y colonia
 
-            
-            
-            
+
+
+
 
 
             });
@@ -434,10 +475,11 @@
 
             $("#ddlmunicipio").change(function () {
                 console.log("Ya cambie, municipio");
-                var IdMunicipio = $("#ddlmunicipio").val();
-                if (IdMunicipio != 0) {
+                var idMunicipio = $("#ddlmunicipio").val();
+                console.log(idMunicipio);
+                if (idMunicipio != 0) {
                     $.ajax({
-                        url: "/usuario/getColoniaByMunicipio/" + IdMunicipio,
+                        url: "/usuario/getColoniaByMunicipio/" + idMunicipio,
                         type: 'GET',
                         dataType: 'json',
                         success: function (data, textStatus, jqXHR) {
@@ -474,11 +516,15 @@
                 $("#codigopostal").val($("#ddlcolonia option:selected").data("cp"));
             });
 
-        
+
 
 
 
         });
 
     </script>
+
+    <!--previsualizacion de la imagen-->
+
+
 </html>

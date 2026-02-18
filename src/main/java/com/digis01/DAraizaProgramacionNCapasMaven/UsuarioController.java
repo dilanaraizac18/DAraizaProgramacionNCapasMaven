@@ -92,7 +92,10 @@ public class UsuarioController {
 
             if (true) {
 
+                usuario.Direcciones.get(0).colonia.municipio.estado.pais.getIdPais();
                 usuario.Direcciones.get(0).colonia.municipio.estado.getIdEstado();
+                usuario.Direcciones.get(0).colonia.municipio.getIdMunicipio();
+                usuario.Direcciones.get(0).colonia.getIdColonia();
                 return "form";
             }
         }
@@ -161,7 +164,7 @@ public class UsuarioController {
 
     @GetMapping("getColoniaByMunicipio/{idMunicipio}")
     @ResponseBody
-    public Result getColoniaByMunicipioS(@PathVariable("idMunicipio") int idMunicipio) {
+    public Result getColoniaByMunicipio(@PathVariable("idMunicipio") int idMunicipio) {
         Result result = coloniaDAOImplementation.GetByID(idMunicipio);
         
         result.correct = true;

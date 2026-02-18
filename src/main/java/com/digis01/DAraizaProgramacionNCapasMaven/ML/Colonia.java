@@ -7,6 +7,20 @@ public class Colonia {
     private String Nombre;
     private String CodigoPostal;
     public com.digis01.DAraizaProgramacionNCapasMaven.ML.Municipio municipio;
+
+    public Colonia(int idColonia, String Nombre, String CodigoPostal, Municipio municipio) {
+        this.idColonia = idColonia;
+        this.Nombre = Nombre;
+        this.CodigoPostal = CodigoPostal;
+        this.municipio = municipio;
+    }
+    
+    
+    
+    public Colonia(){
+        
+    }
+    
     
     public void setIdColonia(int idColonia){
         this.idColonia = idColonia;

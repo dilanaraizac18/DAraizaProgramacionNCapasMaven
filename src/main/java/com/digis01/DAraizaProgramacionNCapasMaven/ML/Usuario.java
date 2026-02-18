@@ -51,7 +51,6 @@ public class Usuario {
     public String Imagen;
     
     @Valid
-    @NotEmpty(message = "No puede estar vacio")
     public List<com.digis01.DAraizaProgramacionNCapasMaven.ML.Direccion> Direcciones;
     
     //setters
