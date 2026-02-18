@@ -8,10 +8,10 @@
         <title>Get All</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+
         <style>
             li{
-            list-style :none;
+                list-style :none;
             }
         </style>
     </head>
@@ -57,32 +57,52 @@
                     </thead>
 
                     <tbody  >
-                        
+
                         <tr th:each = "usuario : ${usuario}">
 
 
-                    <td >
-                         <li th:text = "|Nombre: ${usuario.Nombre} ${usuario.ApellidoMaterno}|"></li>
-                         <li th:text = "|CURP: ${usuario.CURP}|"></li>
-                         <li th:text = "|Fecha de nacimiento: ${usuario.FechaNacimiento} |"></li>
+                            <td >
+                    <li th:text = "|Nombre: ${usuario.Nombre} ${usuario.ApellidoMaterno}|"></li>
+                    <li th:text = "|CURP: ${usuario.CURP}|"></li>
+                    <li th:text = "|Fecha de nacimiento: ${usuario.FechaNacimiento} |"></li>
                     </td>
                     <td >
                     <li th:text =" | Numero telefonico: ${usuario.NumeroTelefonico}|" ></li>
                     <li th:text = "|Username: ${usuario.Username}|"></li>
                     <li th:text = "|Email: ${usuario.Email}|"></li>
-                        <li th:each = "rol : ${usuario.Rol}" th:text="|Rol: ${rol.NombreRol}|"></li>
+                    <li th:each = "rol : ${usuario.Rol}" th:text="|Rol: ${rol.NombreRol}|"></li>
 
-                        
-                        
+
+
                     </td>
                     <td>
                     <li th:each = "direccion : ${usuario.Direcciones} " th:text="|Calle: ${direccion.Calle} ${direccion.NumeroInterior} ${direccion.NumeroExterior}|"></li>
-<!--                    <li th:each = "colonia : ${usuario.direccion.colonia}" th:text = "|${colonia.Nombre}|"></li>-->
+                    <!--                    <li th:each = "colonia : ${usuario.direccion.colonia}" th:text = "|${colonia.Nombre}|"></li>-->
                     </td> 
 
-                    <td><a class="btn btn-success" th:href="@{usuario/form}"><i class="bi bi-pencil-fill"></i></a> <a class="btn btn-danger" ><i class="bi bi-person-dash"></i></a></td>
+                    <td><a class="btn btn-success" th:href="@{usuario/form}"><i class="bi bi-pencil-fill"></i></a> 
+                        <a class="btn btn-danger" href= "#" data-bs-target="#modalEliminar" data-bs-toggle="modal"><i class="bi bi-person-dash"></i></a></td>
+
+                    <div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-hiden="true">
+                        <div class="modal-dialog bg-dark" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">¿Desea eliminar el usuario?</h5>
+                                        <span aria-hidden="true">&times;</span>
+                                </div>
+                                <div class="modal-body">
+                                    El usuario que ha seleccionado sera eliminado
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-danger">Eliminar usuario</button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
 
 
+                    </div>
                     </tr> 
 
                     </tbody>

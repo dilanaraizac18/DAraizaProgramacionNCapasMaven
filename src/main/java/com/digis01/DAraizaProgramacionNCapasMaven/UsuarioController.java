@@ -90,21 +90,31 @@ public class UsuarioController {
             model.addAttribute("roles", rolDAOImplementation.GetAll().objects);
             model.addAttribute("paises", paisDAOImplementation.GetAll().objects);
 
-            if (true) {
+            int idPais = usuario.Direcciones.get(0).colonia.municipio.estado.pais.getIdPais();
+            int idEstado = usuario.Direcciones.get(0).colonia.municipio.estado.getIdEstado();
+            int idMunicipio = usuario.Direcciones.get(0).colonia.municipio.getIdMunicipio();
+            int idColonia = usuario.Direcciones.get(0).colonia.getIdColonia();
 
-                usuario.Direcciones.get(0).colonia.municipio.estado.pais.getIdPais();
-                usuario.Direcciones.get(0).colonia.municipio.estado.getIdEstado();
-                usuario.Direcciones.get(0).colonia.municipio.getIdMunicipio();
-                usuario.Direcciones.get(0).colonia.getIdColonia();
-                return "form";
+//            if (idEstado != 0) {
+//                model.addAttribute("estados", estadoDAOImplementation.GetByID(idPais).objects);
+//            }
+            if (idMunicipio != 0) {
+                model.addAttribute("municipios", municipioDAOImplementation.GetById(idEstado).objects);
             }
+
+            if (idColonia != 0) {
+                model.addAttribute("colonias", coloniaDAOImplementation.GetByID(idMunicipio));
+            }
+            return "form";
+
         }
 
         String nombreArchivo = imagen.getOriginalFilename();
 
         //2. Cortar la palabra
         String[] cadena = nombreArchivo.split("\\.");
-        if (cadena[1].equals("jpg") || cadena[1].equals("png")) {
+        if (cadena[1].equals(
+                "jpg") || cadena[1].equals("png")) {
             //convierto imagen a base 64, y la cargo en el modelo alumno 
             Result result = new Result();
             try {
@@ -123,15 +133,19 @@ public class UsuarioController {
             }
 
             // realizar la conversión de imagen a base 64; 
-        } else if (imagen != null) {
+        } else if (imagen
+                != null) {
             System.out.println("Error");
 
             return "form";
             //retorno error de archivo no permititido y regreso a formulario 
         }
-        System.out.println("Agregar");
+
+        System.out.println(
+                "Agregar");
 //        usuarioDAOImplementation.Add(usuario); IMPLEMENTAR MAS TARDE
         //proceso de agregar datos y retorno a vista de todos los usuarios
+
         return "redirect:/usuario";
     }
 
@@ -157,7 +171,7 @@ public class UsuarioController {
     @ResponseBody
     public Result getMunicipioByEstado(@PathVariable("idEstado") int idEstado) {
         Result result = municipioDAOImplementation.GetById(idEstado);
-       
+
         result.correct = true;
         return result;
     }
@@ -166,7 +180,7 @@ public class UsuarioController {
     @ResponseBody
     public Result getColoniaByMunicipio(@PathVariable("idMunicipio") int idMunicipio) {
         Result result = coloniaDAOImplementation.GetByID(idMunicipio);
-        
+
         result.correct = true;
         return result;
     }
