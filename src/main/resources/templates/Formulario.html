@@ -20,7 +20,7 @@
                     
                     <div>
                         <label class="form-label text-white fs-5">Introduzca una imagen</label>
-                        <input name="Imagen" accept="image/png, image/jpg" type="file" class="form-control bg-dark text-success border border-success">
+                        <input name="imagen" id="imagen" accept="image/png, image/jpg" type="file" class="form-control bg-dark text-success border border-success">
                     </div> 
                     
                     
@@ -36,7 +36,7 @@
                             <label id= "ApellidoPaternoUsuario" class = "form-label text-white fs-5">Apellido Paterno</label><br>
                             <input id= "ApellidoPaternoUsuario" type="text" class = "form-control bg-dark border border-success text-success" onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
                             <span id='#errorApellidoPaternoUsuario'></span>
-                            <span th:if="${#fields.hasErrors('ApellidoPaterno')}" th:errors="*ApellidoPaterno" class='text-danger'></span>
+<!--                            <span th:if="${#fields.hasErrors('ApellidoPaterno')}" th:errors="*ApellidoPaterno" class='text-danger'></span>-->
 
                         </div>
                         <div class="col-md-4" >
@@ -151,16 +151,27 @@
                             </select>
 
                         </div>
-
-
-
-
-                        <div class="col-md-5 w100">
-                            <label class ="form-label text-white fs-5">Colonia</label>
-                            <input type="text" class = "form-control bg-dark border border-success text-success">
-
+                        
+                        <div class="col-md-3 w100">
+                            <label for="ddlcolonia" class = "form-label text-white fs-5">Colonia</label>
+                            <select id="ddlcolonia" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example">
+                                <option value="0"  data-cp-id selected>Selecciona tu Colonia</option>
+                            </select>
 
                         </div>
+                        
+                        <div class="col-md-3 w100">
+                                
+                            <input id="codigopostal" class="form-control bg-dark border border-success text-success" placeholder="C.P.">
+
+                        </div>
+                        
+                        
+
+
+
+
+                       
 
 
 
@@ -397,7 +408,7 @@
                             $("#ddlmunicipio").append("<option value=0 selected>Selecciona un municipio</option>");
                             $.each(data.objects, function (i, municipio) {
                                 console.log(municipio.NombreMuncipio)
-                                $("#ddlmunicipio").append("<option value=" + municipio.idMunicipio + ">" + municipio.NombreMunicipio + "</option>");
+                                $("#ddlmunicipio").append("<option value=" + municipio.idMunicipio + ">" + municipio.Nombre + "</option>");
                             });
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -410,38 +421,9 @@
                 }
                 //Agregar modificaciones para el municipio y colonia
 
-            });
             
-             $("#ddlestado").change(function () {
-                console.log("Ya cambie, estado");
-                var IdEstado = $("#ddlestado").val();
-                if (IdEstado != 0) {
-                    $.ajax({
-                        url: "/usuario/getMunicipioByEstado/" + IdEstado,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (data, textStatus, jqXHR) {
-                            console.log("Todo ok, estado");
-                            $("#ddlmunicipio").empty();
-                            $("#ddlmunicipio").append("<option value= 0 selected> selecciona tu municipio</option>");
-                            $.each(data.objects, function (i, municipio) {
-                                console.log(municipio.Nombre);
-                                $("#ddlmunicipio").append("<option value=" + municipio.IdMunicipio + ">" + municipio.Nombre + "</option>");
-                            });
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            alert("No se pudo procesar la tarea, estado");
-                        }
-                    });
-                } else {
-                    $("#ddlmunicipio").empty();
-                    $("#ddlmunicipio").append("<option value= 0 selected> selecciona tu municipio</option>");
-
-                    $("#ddlcolonia").empty();
-                    $("#ddlcolonia").append("<option value= 0 selected> selecciona tu colonia</option>");
-
-                    $("#codigopostal").val("");
-                }
+            
+            
 
 
             });
@@ -470,9 +452,6 @@
 
 //                                document.getElementById("#ddlcodigopostal").value(data - cp);
 //                                $("#ddlcodigopostal").append("<input >" + data - cp + "</input>");
-
-
-
 
 
                             });

@@ -45,10 +45,10 @@ public class UsuarioController {
 
     @Autowired
     private MunicipioDAOImplementation municipioDAOImplementation;
-    
+
     @Autowired
     private ColoniaDAOImplementation coloniaDAOImplementation;
-    
+
     @GetMapping
     public String Usuarios(Model model) {
 //        List<Usuario> usuario= new ArrayList<>();  
@@ -83,38 +83,55 @@ public class UsuarioController {
     }
 
     @PostMapping("form")
-    public String Formulario(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult, @RequestParam("Imagen")MultipartFile imagen, Model model) {
-        
+    public String Formulario(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult, @RequestParam("imagen") MultipartFile imagen, Model model) {
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("usuario", usuario);
             model.addAttribute("roles", rolDAOImplementation.GetAll().objects);
             model.addAttribute("paises", paisDAOImplementation.GetAll().objects);
-            return "form";
-            
+
+            if (true) {
+
+                usuario.Direcciones.get(0).colonia.municipio.estado.getIdEstado();
+                return "form";
+            }
         }
-        
-         String nombreArchivo = imagen.getOriginalFilename();
-         
+
+        String nombreArchivo = imagen.getOriginalFilename();
+
         //2. Cortar la palabra
         String[] cadena = nombreArchivo.split("\\.");
         if (cadena[1].equals("jpg") || cadena[1].equals("png")) {
             //convierto imagen a base 64, y la cargo en el modelo alumno 
-            byte [] fileContent = nombreArchivo.getBytes();
-            
-            String encodedString = Base64.getEncoder().encodeToString(fileContent);   
-            
-            System.out.println(encodedString);
+            Result result = new Result();
+            try {
+                byte[] fileContent = imagen.getBytes();
+
+                String encodedString = Base64.getEncoder().encodeToString(fileContent);
+
+                System.out.println(encodedString);
+
+                usuario.setImagen(encodedString);
+
+            } catch (Exception ex) {
+                result.correct = false;
+                result.errorMessage = ex.getLocalizedMessage();
+                result.ex = ex;
+            }
+
             // realizar la conversión de imagen a base 64; 
-        } else if (imagen != null){
-            //retorno error de archivo no permititido y regreso a formulario 
+        } else if (imagen != null) {
             System.out.println("Error");
+
+            return "form";
+            //retorno error de archivo no permititido y regreso a formulario 
         }
         System.out.println("Agregar");
 //        usuarioDAOImplementation.Add(usuario); IMPLEMENTAR MAS TARDE
         //proceso de agregar datos y retorno a vista de todos los usuarios
         return "redirect:/usuario";
     }
-    
+
     @GetMapping("/GetById/IdUsuario")
     public String GetById(@RequestParam int IdUsuario, Model model) {
 
@@ -123,29 +140,31 @@ public class UsuarioController {
         model.addAttribute("usuario", result.object);
         return "usuario";
     }
-    
 
     @GetMapping("getEstadosByPais/{idPais}")
     @ResponseBody
     public Result getEstadosByPais(@PathVariable("idPais") int idPais) {
         Result result = estadoDAOImplementation.GetByID(idPais);
 
+        result.correct = true;
         return result;
     }
-    
+
     @GetMapping("getMunicipioByEstado/{idEstado}")
     @ResponseBody
-    public Result getMunicipioByEstado(@PathVariable ("idEstado") int idEstado){
+    public Result getMunicipioByEstado(@PathVariable("idEstado") int idEstado) {
         Result result = municipioDAOImplementation.GetById(idEstado);
-        
+       
+        result.correct = true;
         return result;
     }
-    
+
     @GetMapping("getColoniaByMunicipio/{idMunicipio}")
     @ResponseBody
-    public Result getColoniaByMunicipioS(@PathVariable ("idMunicipio") int idMunicipio){
+    public Result getColoniaByMunicipioS(@PathVariable("idMunicipio") int idMunicipio) {
         Result result = coloniaDAOImplementation.GetByID(idMunicipio);
         
+        result.correct = true;
         return result;
     }
 
