@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-md-4">
                             <label id= "ApellidoPaternoUsuario" class = "form-label text-white fs-5">Apellido Paterno</label><br>
-                            <input id= "ApellidoPaternoUsuario" type="text" class = "form-control bg-dark border border-success text-success"  onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
+                            <input id= "ApellidoPaternoUsuario" type="text" class = "form-control bg-dark border border-success text-success" th:field="*{ApellidoPaterno}"  onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
                             <span id='#errorApellidoPaternoUsuario'></span>
                             <!--                            <span th:if="${#fields.hasErrors('ApellidoPaterno')}" th:errors="*ApellidoPaterno" class='text-danger'></span>-->
 
@@ -102,8 +102,8 @@
 
                         <div class="mb-3 col-2">
                             <label class = "form-label text-white fs-5">Sexo: </label>
-                            <input type = "radio" name="radioSexo" checked><label class = "pe-2 text-success" th:field="*{Sexo}">Masculino</label>
-                            <input type = "radio" name="radioSexo" ><label class="text-success">Femenino</label>
+                            <input  class="form-check-input" type = "radio" name="radioSexo" id="radiosexo1" value="Ma" th:field="*{Sexo}" checked><label class = "pe-2 text-success" th:field="*{Sexo}">Masculino</label>
+                            <input  class="form-check-input"  type = "radio" name="radioSexo" id="radiosexo2" value="Fe" th:field="*{Sexo}"><label class="text-success">Femenino</label>
 
                         </div>
                     </div>
@@ -164,7 +164,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <label class = "form-label text-white fs-5">Pais</label>
-                            <select id="ddlpais" class="form-select form-select-sm w-25 bg-dark text-success border-success" >
+                            <select id="ddlpais" class="form-select form-select-sm w-25 bg-dark text-success border-success" th:field="*{Direcciones[0].colonia.municipio.estado.pais.idPais}">
                                 <option value=0 selected> Seleccione un pais</option>
                                 <option th:each="pais : ${paises}" th:value="${pais.IdPais}" th:text="${pais.Nombre}"></option>
                             </select>
@@ -173,7 +173,7 @@
 
                         <div class="col-md-3 w100">
                             <label for="ddlestado" class = "form-label text-white fs-5">Estado</label>
-                            <select id="ddlestado" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example" >
+                            <select id="ddlestado" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example" th:field="*{Direcciones[0].colonia.municipio.estado.idEstado}"
                                 <option value=0 selected>Seleccione un estado</option>
                             </select>
 
@@ -182,7 +182,7 @@
 
                         <div class="col-md-3 w100">
                             <label for="ddlmunicipio" class = "form-label text-white fs-5">Municipio</label>
-                            <select id="ddlmunicipio" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example"  >
+                            <select id="ddlmunicipio" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example"  th:field="*{Direcciones[0].colonia.municipio.idMunicipio}">
                                 <option value=0 selected>Seleccione un municipio</option>                                
                             </select>
 
