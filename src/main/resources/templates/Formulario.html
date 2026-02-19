@@ -190,7 +190,7 @@
 
                         <div class="col-md-3 w100">
                             <label for="ddlcolonia" class = "form-label text-white fs-5">Colonia</label>
-                            <select id="ddlcolonia" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example" th:field="*{Direcciones[0].colonia}">
+                            <select id="ddlcolonia" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example" th:field="*{Direcciones[0].colonia.idColonia}">
                                 <option value="0" selected>Selecciona tu Colonia</option>
                             </select>
 
@@ -490,7 +490,7 @@
                                 console.log(colonia.Nombre);
                                 console.log(colonia.CodigoPostal);
 
-                                $("#ddlcolonia").append("<option value=" + colonia.IdColonia + " data-cp=" + colonia.CodigoPostal + ">" + colonia.Nombre + "</option>");
+                                $("#ddlcolonia").append("<option value=" + colonia.idColonia + " data-cp=" + colonia.CodigoPostal + ">" + colonia.Nombre + "</option>");
 
 //                                document.getElementById("#ddlcodigopostal").value(data - cp);
 //                                $("#ddlcodigopostal").append("<input >" + data - cp + "</input>");

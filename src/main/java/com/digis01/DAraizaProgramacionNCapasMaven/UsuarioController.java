@@ -90,7 +90,7 @@ public class UsuarioController {
             model.addAttribute("roles", rolDAOImplementation.GetAll().objects);
             model.addAttribute("paises", paisDAOImplementation.GetAll().objects);
 
-            int idPais = usuario.Direcciones.get(0).colonia.municipio.estado.pais.getIdPais();
+//            int idPais = usuario.Direcciones.get(0).colonia.municipio.estado.pais.getIdPais();
             int idEstado = usuario.Direcciones.get(0).colonia.municipio.estado.getIdEstado();
             int idMunicipio = usuario.Direcciones.get(0).colonia.municipio.getIdMunicipio();
             int idColonia = usuario.Direcciones.get(0).colonia.getIdColonia();
