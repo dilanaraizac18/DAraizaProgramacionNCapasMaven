@@ -96,7 +96,7 @@
                             <label class = "form-label text-white fs-5">CURP</label><br>
 
                             <input class = "form-control bg-dark border border-success text-success" th:field="*{CURP}" onkeypress="CURPValida(this, event)" onblur="CURPBlur(this, event)"> 
-                            <span th:if="${#fields.hasErrors('CURP')}" th:errors="*CURP" class='text-danger'></span>
+                            <span th:if="${#fields.hasErrors('CURP')}" th:errors="*{CURP}" class='text-danger'></span>
 
                         </div>
 

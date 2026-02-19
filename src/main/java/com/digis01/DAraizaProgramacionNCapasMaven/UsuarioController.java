@@ -109,7 +109,7 @@ public class UsuarioController {
             }
             }
          }
-            return "form";
+            return "Formulario";
 
         }
 
