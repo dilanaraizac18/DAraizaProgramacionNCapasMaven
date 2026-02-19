@@ -87,31 +87,31 @@ public class UsuarioController {
         Result result = new Result();
 
         try{
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("usuario", usuario);
-            model.addAttribute("roles", rolDAOImplementation.GetAll().objects);
-            model.addAttribute("paises", paisDAOImplementation.GetAll().objects);
-
-            int idPais = usuario.Direcciones.get(0).colonia.municipio.estado.pais.getIdPais();
-            int idEstado = usuario.Direcciones.get(0).colonia.municipio.estado.getIdEstado();
-            int idMunicipio = usuario.Direcciones.get(0).colonia.municipio.getIdMunicipio();
-            int idColonia = usuario.Direcciones.get(0).colonia.getIdColonia();
-
-         if (idEstado != 0) {
-               model.addAttribute("estados", estadoDAOImplementation.GetByID(idPais).objects);
-           
-            if (idMunicipio != 0) {
-                model.addAttribute("municipios", municipioDAOImplementation.GetById(idEstado).objects);
-            
-
-            if (idColonia != 0) {
-                model.addAttribute("colonias", coloniaDAOImplementation.GetByID(idMunicipio));
-            }
-            }
-         }
-            return "Formulario";
-
-        }
+//        if (bindingResult.hasErrors()) {
+//            model.addAttribute("usuario", usuario);
+//            model.addAttribute("roles", rolDAOImplementation.GetAll().objects);
+//            model.addAttribute("paises", paisDAOImplementation.GetAll().objects);
+//
+//            int idPais = usuario.Direcciones.get(0).colonia.municipio.estado.pais.getIdPais();
+//            int idEstado = usuario.Direcciones.get(0).colonia.municipio.estado.getIdEstado();
+//            int idMunicipio = usuario.Direcciones.get(0).colonia.municipio.getIdMunicipio();
+//            int idColonia = usuario.Direcciones.get(0).colonia.getIdColonia();
+//
+//         if (idEstado != 0) {
+//               model.addAttribute("estados", estadoDAOImplementation.GetByID(idPais).objects);
+//           
+//            if (idMunicipio != 0) {
+//                model.addAttribute("municipios", municipioDAOImplementation.GetById(idEstado).objects);
+//            
+//
+//            if (idColonia != 0) {
+//                model.addAttribute("colonias", coloniaDAOImplementation.GetByID(idMunicipio));
+//            }
+//            }
+//         }
+//            return "Formulario";
+//
+//        }
 
         String nombreArchivo = imagen.getOriginalFilename();
 
