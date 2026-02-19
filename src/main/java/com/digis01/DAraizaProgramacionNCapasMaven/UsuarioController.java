@@ -84,27 +84,31 @@ public class UsuarioController {
 
     @PostMapping("form")
     public String Formulario(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult, @RequestParam("imagen") MultipartFile imagen, Model model) {
+        Result result = new Result();
 
+        try{
         if (bindingResult.hasErrors()) {
             model.addAttribute("usuario", usuario);
             model.addAttribute("roles", rolDAOImplementation.GetAll().objects);
             model.addAttribute("paises", paisDAOImplementation.GetAll().objects);
 
-//            int idPais = usuario.Direcciones.get(0).colonia.municipio.estado.pais.getIdPais();
+            int idPais = usuario.Direcciones.get(0).colonia.municipio.estado.pais.getIdPais();
             int idEstado = usuario.Direcciones.get(0).colonia.municipio.estado.getIdEstado();
             int idMunicipio = usuario.Direcciones.get(0).colonia.municipio.getIdMunicipio();
             int idColonia = usuario.Direcciones.get(0).colonia.getIdColonia();
 
-//            if (idEstado != 0) {
-//                model.addAttribute("estados", estadoDAOImplementation.GetByID(idPais).objects);
-//            }
+         if (idEstado != 0) {
+               model.addAttribute("estados", estadoDAOImplementation.GetByID(idPais).objects);
+           
             if (idMunicipio != 0) {
                 model.addAttribute("municipios", municipioDAOImplementation.GetById(idEstado).objects);
-            }
+            
 
             if (idColonia != 0) {
                 model.addAttribute("colonias", coloniaDAOImplementation.GetByID(idMunicipio));
             }
+            }
+         }
             return "form";
 
         }
@@ -116,7 +120,6 @@ public class UsuarioController {
         if (cadena[1].equals(
                 "jpg") || cadena[1].equals("png")) {
             //convierto imagen a base 64, y la cargo en el modelo alumno 
-            Result result = new Result();
             try {
                 byte[] fileContent = imagen.getBytes();
 
@@ -140,11 +143,22 @@ public class UsuarioController {
             return "form";
             //retorno error de archivo no permititido y regreso a formulario 
         }
+        
+        }catch(Exception ex){
+            result.correct = false;
+            result.errorMessage= ex.getLocalizedMessage();
+            result.ex = ex;
+            
+            
+        }
 
         System.out.println(
                 "Agregar");
-//        usuarioDAOImplementation.Add(usuario); IMPLEMENTAR MAS TARDE
-        //proceso de agregar datos y retorno a vista de todos los usuarios
+        model.addAttribute("usuario", usuario);
+        result = usuarioDAOImplementation.Add(usuario);
+        if (result.correct == false) {
+            return "form";
+        }
 
         return "redirect:/usuario";
     }

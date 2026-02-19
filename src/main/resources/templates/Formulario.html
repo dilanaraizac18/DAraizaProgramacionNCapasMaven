@@ -57,7 +57,7 @@
 
 
                     <div class="col-12" style="align-content: center;">
-                        <img id='verimagen' src= "" style='max-width: 300xp; align-content: center'>
+                        <img id='verimagen' src= "" style='max-width: 100xp; align-content: center'>
                     </div>
 
                     <div class="col-12 text-center m-4 text-success fs-3">Informacion General del usuario</div>
@@ -164,7 +164,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <label class = "form-label text-white fs-5">Pais</label>
-                            <select id="ddlpais" class="form-select form-select-sm w-25 bg-dark text-success border-success">
+                            <select id="ddlpais" class="form-select form-select-sm w-25 bg-dark text-success border-success" >
                                 <option value=0 selected> Seleccione un pais</option>
                                 <option th:each="pais : ${paises}" th:value="${pais.IdPais}" th:text="${pais.Nombre}"></option>
                             </select>
@@ -173,7 +173,7 @@
 
                         <div class="col-md-3 w100">
                             <label for="ddlestado" class = "form-label text-white fs-5">Estado</label>
-                            <select id="ddlestado" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example">
+                            <select id="ddlestado" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example" >
                                 <option value=0 selected>Seleccione un estado</option>
                             </select>
 
@@ -182,7 +182,7 @@
 
                         <div class="col-md-3 w100">
                             <label for="ddlmunicipio" class = "form-label text-white fs-5">Municipio</label>
-                            <select id="ddlmunicipio" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example" >
+                            <select id="ddlmunicipio" class="form-select form-select-sm w-25 bg-dark text-success border-success" aria-label="Default select example"  >
                                 <option value=0 selected>Seleccione un municipio</option>                                
                             </select>
 
@@ -370,21 +370,7 @@
 
 
 
-        function PasswordValido(input, event) {
-            var passwordValida = $(input).val() + event.key;
-
-            var regex = /.+email.com$/;
-
-            if (regex.test(passwordValida)) {
-                $(input).removeClass("border border-danger text-danger");
-
-            } else {
-                event.preventDefault();
-                $(input).addClass("border border-danger text-danger");
-            }
-
-        }
-
+       
         function CorreoValido(input, event) {
             var valorCompleto = $(input).val() + event.key;
             var regex = /[a-zA-Z0-9._%+-]+@[a-zA-Z]+.com/;

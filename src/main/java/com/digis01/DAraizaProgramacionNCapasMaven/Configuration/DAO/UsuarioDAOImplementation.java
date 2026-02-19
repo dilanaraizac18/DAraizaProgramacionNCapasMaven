@@ -10,6 +10,7 @@ import com.digis01.DAraizaProgramacionNCapasMaven.ML.Result;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Rol;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.CallableStatementCallback;
@@ -207,6 +208,57 @@ public class UsuarioDAOImplementation implements IUsuario{
             
       
         
+        return result;
+    }
+    
+    @Override
+    public Result Add(Usuario usuario) {
+        Result result = new Result();
+        try {
+            jdbcTemplate.execute("{CALL UsuarioDireccionesAddSP(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}", (CallableStatementCallback<Boolean>) callableStatement -> {
+//            ResultSet resultSet = (ResultSet) callableStatement.getObject(1);            
+                Direccion direccion = usuario.Direcciones.get(0);
+//            direccion.setCalle(resultSet.getString("Calle")); //ya no se usa el resultset
+
+                callableStatement.setString(1, usuario.getNombre());
+                callableStatement.setString(2, usuario.getApellidoPaterno());
+                callableStatement.setString(3, usuario.getApellidoMaterno());
+                callableStatement.setString(4, usuario.getEmail());
+                callableStatement.setString(5, usuario.getPassword());
+                callableStatement.setString(6, usuario.getUsername());
+
+                SimpleDateFormat formatoOracle = new SimpleDateFormat("dd/MM/yyyy");
+                formatoOracle.format(usuario.getFechaNacimiento().getTime());
+
+                callableStatement.setDate(7, new java.sql.Date(usuario.getFechaNacimiento().getTime()));
+                System.out.println(usuario.getFechaNacimiento());
+                System.out.println(usuario.getFechaNacimiento().getTime());
+                callableStatement.setString(8, usuario.getSexo());
+
+                callableStatement.setString(9, usuario.getNumeroTelefonico());
+                callableStatement.setString(10, usuario.getCelular());
+                callableStatement.setString(11, usuario.getCURP());
+                callableStatement.setInt(12, usuario.Rol.getidRol());
+                callableStatement.setString(13, usuario.getImagen());
+                //aqui empiezan las direcciones
+                callableStatement.setString(14, direccion.getCalle());
+                callableStatement.setString(15, direccion.getNumeroInterior());
+                callableStatement.setString(16, direccion.getNumeroExterior());
+                callableStatement.setInt(17, direccion.colonia.getIdColonia());
+
+                int rowAffected = 0;
+                rowAffected = callableStatement.executeUpdate();
+
+                result.correct = rowAffected != 0 ? true : false;
+
+                return true;
+            });
+        } catch (Exception e) {
+            result.correct = false;
+            result.errorMessage = e.getLocalizedMessage();
+            result.ex = e;
+        }
+
         return result;
     }
     
