@@ -157,7 +157,7 @@ public class UsuarioController {
         model.addAttribute("usuario", usuario);
         result = usuarioDAOImplementation.Add(usuario);
         if (result.correct == false) {
-            return "form";
+            return "Formulario";
         }
 
         return "redirect:/usuario";
