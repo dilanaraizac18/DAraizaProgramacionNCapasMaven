@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("usuario")
@@ -162,12 +163,31 @@ public class UsuarioController {
 
         return "redirect:/usuario";
     }
+    
+    
+    @GetMapping("/delete/{idUsuario}")
+    public String Delete(@PathVariable ("idUsuario") int idUsuario, RedirectAttributes redirecAttributes){
+        
+        Result result = new Result();
+        result = usuarioDAOImplementation.Delete(idUsuario);
+        
+        if(result.correct == true){
+        redirecAttributes.addFlashAttribute("message","Usuario eliminado");    
+        return ("redirect:/usuario");
+
+        }else{
+            return("redirect:/usuario");
+        }
+
+}
+    
 
     @GetMapping("/GetById/IdUsuario")
     public String GetById(@RequestParam int IdUsuario, Model model) {
 
         Result result = usuarioDAOImplementation.GetById(IdUsuario);
 
+        
         model.addAttribute("usuario", result.object);
         return "usuario";
     }
@@ -177,6 +197,7 @@ public class UsuarioController {
     public Result getEstadosByPais(@PathVariable("idPais") int idPais) {
         Result result = estadoDAOImplementation.GetByID(idPais);
 
+        
         result.correct = true;
         return result;
     }

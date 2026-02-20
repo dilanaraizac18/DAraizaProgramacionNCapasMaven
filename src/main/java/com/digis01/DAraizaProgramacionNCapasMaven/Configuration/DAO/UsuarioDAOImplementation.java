@@ -260,7 +260,36 @@ public class UsuarioDAOImplementation implements IUsuario{
 
         return result;
     }
-    
+    @Override
+    public Result Delete (int identificadorUsuario){
+        Result result = new Result();
+        
+        try{
+            jdbcTemplate.execute("{Call UsuarioDeleteSP(?)}", (CallableStatementCallback<Boolean>) callableStatement->{
+               
+                callableStatement.setInt(1, identificadorUsuario);
+                int rowAffect = callableStatement.executeUpdate();
+                
+                if(rowAffect !=0){
+                    System.out.println("Completado con exito");
+                    result.correct = true;
+                }else{
+                    result.correct = false;
+                }
+                
+                return true;
+            });
+            
+            
+        } catch(Exception ex){
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+        
+        
+        return result;
+    }
 }
 
  

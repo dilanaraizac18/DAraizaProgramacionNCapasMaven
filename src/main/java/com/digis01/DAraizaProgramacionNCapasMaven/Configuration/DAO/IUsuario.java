@@ -15,4 +15,5 @@ public interface IUsuario {
     Result GetAll();
     Result GetById(int identificador);
     Result Add(Usuario Usuario);
+    Result Delete(int identificadorUsuario);
 }
