@@ -261,3 +261,48 @@ public class UsuarioDAOImplementation implements IUsuario{
     }
     
 }
+
+ 
+//colocar procedure y remplazar debido a que los datos son erroneos
+//create or replace PROCEDURE UsuarioDireccionesAddSP(
+//pNombre IN Varchar,
+//pApellidoMaterno in Varchar,
+//pApellidoPaterno in Varchar,
+//pEmail in VARCHAR,
+//pPassword in Varchar,
+//pUserName in Varchar,
+//pFechaNacimiento in Date,
+//pSexo in Varchar,
+//pNumeroTelefonico in Varchar,
+//pCelular in Varchar,
+//pCURP in Varchar,
+//pidRol in Number,
+//pImagen in CLOB,
+//pCalle in Varchar,
+//pNumeroInterior in Varchar,
+//pNumeroExterior in varchar,
+//pidColonia in Number
+//)
+//
+//as 
+// vidUsuario NUMBER;
+//
+// begin
+//
+// insert into Usuario (NombreUsuario, ApellidoPaterno, ApellidoMaterno, Email, Password, Username, FechaNacimiento, Sexo, NumeroTelefonico,Celular, CURP, idRol_fk, Imagen )
+// Values (pNombre, pApellidoPaterno, pApellidoMaterno, pEmail, pPassword, pUsername, pFechaNacimiento, pSexo, pNumeroTelefonico, pCelular, pCURP, pidRol, pImagen)
+// returning idUsuario into vidUsuario ;
+//
+// insert into Direccion(Calle, NumeroInterior, NumeroExterior,idColonia_fk,idusuario_fk ) 
+// values (pCalle, pNumeroInterior, pNumeroExterior, pidColonia, vidUsuario);
+//
+// commit;
+//
+// exception 
+// when others then 
+// rollback;
+// raise;
+//
+// end UsuarioDireccionesAddSP;
+// 
+// EXEC UsuarioDireccionesAddSP('Dilan','Lopez','Oropeza','dLopez@email.com', 'password1', 'dLopez213', To_date('2004-12-23','yyyy-mm-dd'), 'Ma', '9503432312', '4324324234', 'AACD030618HGRRRLA5', 4, 'DFSFDSF', 'Calle nueva', '23', '34')
