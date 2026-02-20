@@ -47,7 +47,7 @@
                     <li th:text = "|Username: ${usuario.Username}|"></li>
                     <li th:text = "|Email: ${usuario.Email}|"></li>
                         <li th:each = "rol : ${usuario.Rol}" th:text="|Rol: ${rol.NombreRol}|"></li>
-
+                        <img th:src="|data:image/png;base64,${usuario.Imagen}|"/>
                         
                         
                     </td>

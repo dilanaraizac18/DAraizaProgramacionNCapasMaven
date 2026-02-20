@@ -65,6 +65,8 @@
                     <li th:text = "|Nombre: ${usuario.Nombre} ${usuario.ApellidoMaterno}|"></li>
                     <li th:text = "|CURP: ${usuario.CURP}|"></li>
                     <li th:text = "|Fecha de nacimiento: ${usuario.FechaNacimiento} |"></li>
+                    <img th:src="|data:image/png;base64,${usuario.Imagen}|"/>
+
                     </td>
                     <td >
                     <li th:text =" | Numero telefonico: ${usuario.NumeroTelefonico}|" ></li>
