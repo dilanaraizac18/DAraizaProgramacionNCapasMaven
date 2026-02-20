@@ -290,6 +290,43 @@ public class UsuarioDAOImplementation implements IUsuario{
         
         return result;
     }
+    
+    @Override
+    public Result Details(int idUsuario){
+        Result result = new Result();
+        
+        try{
+            jdbcTemplate.execute("{CALL UsuarioDireccionGetById ()}", (CallableStatementCallback<Boolean>) callableStatement ->{
+                callableStatement.setInt(1, idUsuario);
+                
+                int rowAffected = callableStatement.executeUpdate();
+                
+                if (rowAffected !=0){
+                    System.out.println("Se ha realizado la tarea con exito");
+                    result.correct= true;
+                }
+                else{
+                    System.out.println("La tarea ");
+                }
+                
+                
+                            return true;
+
+            }
+            );
+            
+        }catch(Exception ex){
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+            
+        }
+        
+        
+        return result;
+    }
+    
+    
 }
 
  

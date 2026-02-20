@@ -87,10 +87,11 @@
 
 
                     <!--  colocar esto despues dentro del a                  -->
-                    <td><a class="btn btn-success" th:href="@{usuario/form}"><i class="bi bi-pencil-fill"></i></a> 
-                        <a class="btn btn-danger" href= "#" data-bs-target="#modalEliminar" data-bs-toggle="modal" th:onclick="|ChangeUrl(${usuario.idUsuario})|"><i class="bi bi-person-dash"></i></a></td>
-
-                    
+                    <td>
+                        <a class="btn btn-success" th:href="@{usuario/form}"><i class="bi bi-pencil-fill"></i></a> 
+                        <a class="btn btn-danger" href= "#" data-bs-target="#modalEliminar" data-bs-toggle="modal" th:onclick="|ChangeUrl(${usuario.idUsuario})|"><i class="bi bi-person-dash"></i></a>
+                        <a class="btn btn-warning" th:href="@{usuario/details}"><i class="bi bi-info-circle"></i></a>
+                    </td>
 <!--  --------------------------------------------            INICIO DEL MODAL --------------------------------------------------------------------------------------->
                     <div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-hiden="true" >
                         <div class="modal-dialog bg-dark" role="document">

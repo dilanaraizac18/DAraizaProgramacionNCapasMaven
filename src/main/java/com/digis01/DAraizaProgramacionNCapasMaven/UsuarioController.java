@@ -62,14 +62,15 @@ public class UsuarioController {
         model.addAttribute("usuario", result.objects);
         return ("GetAll");
     }
-
-    @GetMapping("getid")
-    public String UsuariosGetById(@RequestParam int numero, Model model) {
-        Result result = usuarioDAOImplementation.GetById(numero);
-        model.addAttribute("usuario", result.objects);
-
-        return ("GetByID");
+    
+    @GetMapping("details")
+    public String DetailsVista( Model model){
+        
+        return ("Details");
     }
+
+  
+
 
     @GetMapping("form")
     public String Formulario(Model model) {
@@ -182,14 +183,27 @@ public class UsuarioController {
 }
     
 
-    @GetMapping("/GetById/IdUsuario")
-    public String GetById(@RequestParam int IdUsuario, Model model) {
-
-        Result result = usuarioDAOImplementation.GetById(IdUsuario);
-
+    @GetMapping("/details/{idUsuario}")
+    public String GetById(@PathVariable("idUsuario") int idUsuario, Model model) {
+        Result result = new Result();
+        Usuario usuario = new Usuario();
+       
+        try{
         
-        model.addAttribute("usuario", result.object);
-        return "usuario";
+        result = usuarioDAOImplementation.GetById(idUsuario);
+        
+        model.addAttribute("pais", paisDAOImplementation.GetAll().object);
+        model.addAttribute("rol",rolDAOImplementation.GetAll().object);
+        model.addAttribute("usuario", usuarioDAOImplementation.GetById(idUsuario).object);
+        
+        }catch(Exception ex){
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        
+    }
+        
+        return "Details";
     }
 
     @GetMapping("getEstadosByPais/{idPais}")
