@@ -227,9 +227,7 @@ public class UsuarioDAOImplementation implements IUsuario{
                 callableStatement.setString(5, usuario.getPassword());
                 callableStatement.setString(6, usuario.getUsername());
 
-                SimpleDateFormat formatoOracle = new SimpleDateFormat("dd/MM/yyyy");
-                formatoOracle.format(usuario.getFechaNacimiento().getTime());
-
+               
                 callableStatement.setDate(7, new java.sql.Date(usuario.getFechaNacimiento().getTime()));
                 System.out.println(usuario.getFechaNacimiento());
                 System.out.println(usuario.getFechaNacimiento().getTime());
