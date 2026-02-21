@@ -182,11 +182,11 @@ public class UsuarioDAOImplementation implements IUsuario{
                             direccion.colonia.municipio.estado = new Estado();
                             direccion.colonia.municipio.estado.pais = new Pais();
 
-                            direccion.colonia.setIdColonia(resultSet.getInt("idcolonia"));
+                            direccion.colonia.setIdColonia(resultSet.getInt("idColonia"));
                             direccion.colonia.setNombre(resultSet.getString("NombreColonia"));
                             direccion.colonia.setCodigoPostal(resultSet.getString("CodigoPostal"));
                             direccion.colonia.municipio.setIdMunicipio(resultSet.getInt("IdMunicipio"));
-                            direccion.colonia.municipio.setNombre(resultSet.getString("NombreMunicipio"));
+                            direccion.colonia.municipio.setNombre(resultSet.getString("MunicipioNombre"));
                             direccion.colonia.municipio.estado.setIdEstado(resultSet.getInt("IdEstado"));
                             direccion.colonia.municipio.estado.setNombre(resultSet.getString("NombreEstado"));
                             direccion.colonia.municipio.estado.pais.setIdPais(resultSet.getInt("IdPais"));
