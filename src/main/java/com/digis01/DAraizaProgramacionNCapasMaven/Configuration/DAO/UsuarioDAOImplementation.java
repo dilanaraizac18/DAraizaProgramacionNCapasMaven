@@ -127,12 +127,12 @@ public class UsuarioDAOImplementation implements IUsuario{
          
          result.objects = new ArrayList<>();
                 while (resultSet.next()) {
-                    int idUsuario = resultSet.getInt("IdUsuario");
+                    int idUsuario = resultSet.getInt("idUsuario");
                     //si no esta vacias yyy es el mismo que el ultimo
                     if (!result.objects.isEmpty() && idUsuario == ((Usuario) (result.objects.get(result.objects.size() - 1))).getIdUsuario()) {
                         Direccion direccion = new Direccion();
 
-                        direccion.setIdDireccion(resultSet.getInt("IdDireccion"));
+                        direccion.setIdDireccion(resultSet.getInt("idDireccion"));
                         direccion.setCalle(resultSet.getString("Calle"));
                         direccion.setNumeroInterior("NumeroInterior");
                         direccion.setNumeroExterior(resultSet.getString("NumeroExterior"));
@@ -142,12 +142,12 @@ public class UsuarioDAOImplementation implements IUsuario{
                         direccion.colonia.municipio.estado = new Estado();
                         direccion.colonia.municipio.estado.pais = new Pais();
 
-                        direccion.colonia.setIdColonia(resultSet.getInt("IdColonia"));
+                        direccion.colonia.setIdColonia(resultSet.getInt("idColonia"));
                         direccion.colonia.setNombre(resultSet.getString("NombreColonia"));
                         direccion.colonia.setCodigoPostal(resultSet.getString("CodigoPostal"));
-                        direccion.colonia.municipio.setIdMunicipio(resultSet.getInt("IdMunicipio"));
+                        direccion.colonia.municipio.setIdMunicipio(resultSet.getInt("idMunicipio"));
                         direccion.colonia.municipio.setNombre(resultSet.getString("NombreMunicipio"));
-                        direccion.colonia.municipio.estado.setIdEstado(resultSet.getInt("IdEstado"));
+                        direccion.colonia.municipio.estado.setIdEstado(resultSet.getInt("idEstado"));
                         direccion.colonia.municipio.estado.setNombre(resultSet.getString("NombreEstado"));
                         direccion.colonia.municipio.estado.pais.setIdPais(resultSet.getInt("IdPais"));
                         direccion.colonia.municipio.estado.pais.setNombre("NombrePais");
@@ -161,6 +161,12 @@ public class UsuarioDAOImplementation implements IUsuario{
                         usuario.setApellidoMaterno(resultSet.getString("ApellidoMaterno"));
                         usuario.setNumeroTelefonico(resultSet.getString("NumeroTelefonico"));
                         usuario.setEmail(resultSet.getString("Email"));
+                        usuario.setCURP(resultSet.getString("CURP"));
+                        usuario.setPassword(resultSet.getString("Password"));
+                        usuario.setCelular(resultSet.getString("Celular"));
+                        usuario.setImagen(resultSet.getString("Imagen"));
+                        usuario.Rol = new Rol();
+                        usuario.Rol.setNombreRol(resultSet.getString("NombreRol"));
 
                         int idDireccion = resultSet.getInt("IdDireccion");
                         if (idDireccion != 0) {
