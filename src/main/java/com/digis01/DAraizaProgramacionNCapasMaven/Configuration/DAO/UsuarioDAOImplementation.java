@@ -149,7 +149,7 @@ public class UsuarioDAOImplementation implements IUsuario{
                         direccion.colonia.municipio.setNombre(resultSet.getString("NombreMunicipio"));
                         direccion.colonia.municipio.estado.setIdEstado(resultSet.getInt("idEstado"));
                         direccion.colonia.municipio.estado.setNombre(resultSet.getString("NombreEstado"));
-                        direccion.colonia.municipio.estado.pais.setIdPais(resultSet.getInt("IdPais"));
+                        direccion.colonia.municipio.estado.pais.setIdPais(resultSet.getInt("idPais"));
                         direccion.colonia.municipio.estado.pais.setNombre("NombrePais");
 
                         ((Usuario) (result.objects.get(result.objects.size() - 1))).Direcciones.add(direccion);
@@ -160,8 +160,11 @@ public class UsuarioDAOImplementation implements IUsuario{
                         usuario.setApellidoPaterno(resultSet.getString("ApellidoPaterno"));
                         usuario.setApellidoMaterno(resultSet.getString("ApellidoMaterno"));
                         usuario.setNumeroTelefonico(resultSet.getString("NumeroTelefonico"));
+                        usuario.setFechaNacimiento(resultSet.getDate("FechaNacimiento"));
                         usuario.setEmail(resultSet.getString("Email"));
                         usuario.setCURP(resultSet.getString("CURP"));
+                        usuario.setUsername(resultSet.getString("Username"));
+                        usuario.setSexo(resultSet.getString("Sexo"));
                         usuario.setPassword(resultSet.getString("Password"));
                         usuario.setCelular(resultSet.getString("Celular"));
                         usuario.setImagen(resultSet.getString("Imagen"));
@@ -186,23 +189,19 @@ public class UsuarioDAOImplementation implements IUsuario{
                             direccion.colonia.setNombre(resultSet.getString("NombreColonia"));
                             direccion.colonia.setCodigoPostal(resultSet.getString("CodigoPostal"));
                             direccion.colonia.municipio.setIdMunicipio(resultSet.getInt("IdMunicipio"));
-                            direccion.colonia.municipio.setNombre(resultSet.getString("MunicipioNombre"));
+                            direccion.colonia.municipio.setNombre(resultSet.getString("NombreMunicipio"));
                             direccion.colonia.municipio.estado.setIdEstado(resultSet.getInt("IdEstado"));
                             direccion.colonia.municipio.estado.setNombre(resultSet.getString("NombreEstado"));
                             direccion.colonia.municipio.estado.pais.setIdPais(resultSet.getInt("IdPais"));
                             direccion.colonia.municipio.estado.pais.setNombre("NombrePais");
 
                             usuario.Direcciones.add(direccion);
-                            ((Usuario) (result.objects.get(result.objects.size() - 1))).Direcciones.add(direccion);
 
                         }
                         result.object = usuario;
-//                        result.objects.add(usuario);
                         result.correct = true;
                     }
                 }
-
-                //////
                 return true;
             });
         
@@ -297,42 +296,45 @@ public class UsuarioDAOImplementation implements IUsuario{
         return result;
     }
     
+  
     @Override
-    public Result Details(int idUsuario){
+    public Result Update(Usuario usuario) {
         Result result = new Result();
-        
-        try{
-            jdbcTemplate.execute("{CALL UsuarioDireccionGetById ()}", (CallableStatementCallback<Boolean>) callableStatement ->{
-                callableStatement.setInt(1, idUsuario);
-                
-                int rowAffected = callableStatement.executeUpdate();
-                
-                if (rowAffected !=0){
-                    System.out.println("Se ha realizado la tarea con exito");
-                    result.correct= true;
-                }
-                else{
-                    System.out.println("La tarea ");
-                }
-                
-                
-                            return true;
 
-            }
-            );
-            
-        }catch(Exception ex){
+        try {
+
+            jdbcTemplate.execute("{CALL usuarioupdate(?,?,?,?,?,?,?,?,?,?,?,?,?)}", (CallableStatementCallback<Boolean>) callableStatement -> {
+
+                callableStatement.setString(1, usuario.getNombre());
+                callableStatement.setString(2, usuario.getApellidoPaterno());
+                callableStatement.setString(3, usuario.getApellidoMaterno());
+                callableStatement.setDate(4, new java.sql.Date(usuario.getFechaNacimiento().getTime()));
+                callableStatement.setString(5, usuario.getNumeroTelefonico());
+                callableStatement.setString(6, usuario.getEmail());
+                callableStatement.setString(7, usuario.getUsername());
+                callableStatement.setString(8, usuario.getPassword());
+                callableStatement.setString(9, usuario.getSexo());
+                callableStatement.setString(10, usuario.getCelular());
+                callableStatement.setString(11, usuario.getCURP());
+                callableStatement.setInt(12, usuario.Rol.getidRol());
+                callableStatement.setInt(13, usuario.getIdUsuario());
+                
+                int rowAffectted = 0;
+                rowAffectted = callableStatement.executeUpdate();
+                
+                result.correct = rowAffectted != 0 ? true : false;
+
+                return true;
+            });
+
+        } catch (Exception e) {
             result.correct = false;
-            result.errorMessage = ex.getLocalizedMessage();
-            result.ex = ex;
-            
+            result.errorMessage = e.getLocalizedMessage();
+            result.ex = e;
         }
-        
-        
+
         return result;
     }
-    
-    
 }
 
  

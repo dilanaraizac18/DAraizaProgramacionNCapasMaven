@@ -183,28 +183,108 @@ public class UsuarioController {
 }
     
 
-    @GetMapping("/details/{idUsuario}")
-    public String GetById(@PathVariable("idUsuario") int idUsuario, Model model) {
+        
+    
+        @PostMapping ("/update/{IdUsuario}") 
+    public String UpdateUsuario(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult, @PathVariable("IdUsuario") int identificador, Model model) {
+        Result result = new Result();
+
+        try {
+            
+            model.addAttribute("usuario", usuario);
+            result = usuarioDAOImplementation.Update(usuario);
+            if (result.correct == false) {
+                return "form";
+            }
+        } catch (Exception e) {
+            result.correct = false;
+            result.errorMessage = e.getLocalizedMessage();
+            result.ex = e;
+        }
+
+        return "GetAll";
+    }
+
+    @GetMapping("/GetById/{IdUsuario}")
+    @ResponseBody
+    public Result GetById(@PathVariable("IdUsuario") int identificador, Model model) {
+        Result result = new Result();
+        try {
+            result = usuarioDAOImplementation.GetById(identificador);
+
+        } catch (Exception e) {
+            result.correct = false;
+            result.errorMessage = e.getLocalizedMessage();
+            result.ex = e;
+        }
+        System.out.println("Funciona GetByIDPais");
+        return result;
+    }
+
+    @GetMapping("/details/{IdUsuario}")
+    public String Details(@PathVariable("IdUsuario") int identificador, Model model) {
         Result result = new Result();
         Usuario usuario = new Usuario();
-       
-        try{
-        
-        result = usuarioDAOImplementation.GetById(idUsuario);
-        
-        model.addAttribute("pais", paisDAOImplementation.GetAll().object);
-        model.addAttribute("rol",rolDAOImplementation.GetAll().object);
-        model.addAttribute("usuario", usuarioDAOImplementation.GetById(idUsuario).object);
-        
-        }catch(Exception ex){
+
+        try {
+            model.addAttribute("roles", rolDAOImplementation.GetAll().objects);
+            model.addAttribute("paises", paisDAOImplementation.GetAll().objects);
+            model.addAttribute("usuario", usuarioDAOImplementation.GetById(identificador).object);
+
+            int idPais = usuario.Direcciones.get(0).colonia.municipio.estado.pais.getIdPais();
+            int idEstado = usuario.Direcciones.get(0).colonia.municipio.estado.getIdEstado();
+            int idMunicipio = usuario.Direcciones.get(0).colonia.municipio.getIdMunicipio();
+            int idColonia = usuario.Direcciones.get(0).colonia.getIdColonia();
+
+            if (idEstado != 0) {
+                //guardo el valor
+                model.addAttribute("estados", estadoDAOImplementation.GetByID(idPais).objects);
+                if (idMunicipio != 0) {
+                    //guardo el valor
+                    model.addAttribute("municipios", municipioDAOImplementation.GetById(idEstado).objects);
+                    if (idColonia != 0) {
+                        //guardo el valor
+                        model.addAttribute("colonias", coloniaDAOImplementation.GetByID(idMunicipio).objects);
+
+                    }
+                }
+
+            }
+
+        } catch (Exception e) {
             result.correct = false;
-            result.errorMessage = ex.getLocalizedMessage();
-            result.ex = ex;
-        
-    }
-        
+            result.errorMessage = e.getLocalizedMessage();
+            result.ex = e;
+        }
+        System.out.println("Funciona GetByIDPais");
+
         return "Details";
     }
+
+//    COLOCAR EL PROCEDURE O ACTUALIZAR EN LA BASE DE DATOS, NO OLVIDAR CAMBIAR LOS NOMBRES DE LAS TABLAS EN LA BD DE LA EMPRESA
+//    CREATE OR REPLACE PROCEDURE UsuarioDireccionGetById (
+//pCursor out SYS_REFCURSOR,
+//pIdUsuario IN number
+//)
+//AS
+//
+//BEGIN 
+//OPEN pCursor for
+//SELECT Usuario.idUsuario, Usuario.NombreUsuario as NombreUsuario, Usuario.ApellidoPaterno, Usuario.ApellidoMaterno, Usuario.FechaNacimiento, Usuario.CURP, Usuario.Email, Usuario.NumeroTelefonico as NumeroTelefonico, Usuario.Password,
+//Usuario.Sexo, Usuario.Celular, Usuario.Username,Rol.NombreRol, Usuario.Imagen, Direccion.idDireccion, Direccion.Calle, Direccion.NumeroInterior, Direccion.NumeroExterior, Direccion.idColonia_fk as idColonia, Colonia.NombreColonia as NombreColonia, Colonia.CodigoPostal, Colonia.idMunicipio_fk as idMunicipio,
+//Municipio.NombreMunicipio, Municipio.idEstado_fk as idEstado, Estado.NombreEstado as NombreEstado, Estado.idPais_fk as idPais, Pais.NombrePais as NombrePais
+//FROM Usuario
+//LEFT JOIN Rol on Rol.idRol = Usuario.idRol_fk
+//LEFT JOIN Direccion on Usuario.idUsuario = Direccion.idUsuario_fk
+//LEFT JOIN Colonia on Direccion.idColonia_fk  = Colonia.idColonia
+//LEFT JOIN Municipio on Colonia.idMunicipio_fk = Municipio.idMunicipio
+//LEFT JOIN Estado on Municipio.idEstado_fk = Estado.idEstado
+//LEFT JOIN Pais on Estado.idPais_fk = Pais.idPais where Usuario.idUsuario = pIdUsuario;
+//
+//END UsuarioDireccionGetById;
+//
+//    
+    
 
     @GetMapping("getEstadosByPais/{idPais}")
     @ResponseBody
