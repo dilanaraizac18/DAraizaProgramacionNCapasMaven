@@ -68,7 +68,7 @@
                     <li th:text = "|Nombre: ${usuario.Nombre} ${usuario.ApellidoPaterno} ${usuario.ApellidoMaterno}|"></li>
                     <li th:text = "|CURP: ${usuario.CURP}|"></li>
                     <li th:text = "|Fecha de nacimiento: ${usuario.FechaNacimiento} |"></li>
-                    <img th:src="|data:image/png;base64,${usuario.Imagen}|"/>
+                    <img th:src="|data:image/png;base64,${usuario.Imagen}|" style="width:  150px"/>
 
                     </td>
                     <td >
@@ -90,7 +90,7 @@
                     <td>
                         <a class="btn btn-success" th:href="@{usuario/form}"><i class="bi bi-pencil-fill"></i></a> 
                         <a class="btn btn-danger" href= "#" data-bs-target="#modalEliminar" data-bs-toggle="modal" th:onclick="|ChangeUrl(${usuario.idUsuario})|"><i class="bi bi-person-dash"></i></a>
-                        <a class="btn btn-warning" th:href="@{usuario/details}"><i class="bi bi-info-circle"></i></a>
+                        <a th:href="@{/usuario/details/{IdUsuario}(IdUsuario=${usuario.idUsuario})}" class="btn btn-warning" ><i class="bi bi-info-circle"></i></a>
                     </td>
 <!--  --------------------------------------------            INICIO DEL MODAL --------------------------------------------------------------------------------------->
                     <div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-hiden="true" >
