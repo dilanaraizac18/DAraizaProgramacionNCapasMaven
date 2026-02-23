@@ -186,15 +186,14 @@ public class UsuarioController {
         
     
         @PostMapping ("/update/{IdUsuario}") 
-    public String UpdateUsuario(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult, @PathVariable("IdUsuario") int identificador, Model model) {
+    public String UpdateUsuario( @ModelAttribute("usuario") Usuario usuario,RedirectAttributes redirecAttribute, @PathVariable("IdUsuario") int identificador, Model model) {
         Result result = new Result();
 
         try {
             
-            model.addAttribute("usuario", usuario);
             result = usuarioDAOImplementation.Update(usuario);
             if (result.correct == false) {
-                return "form";
+                return "GetAll";
             }
         } catch (Exception e) {
             result.correct = false;

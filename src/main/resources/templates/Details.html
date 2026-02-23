@@ -4,6 +4,9 @@
     <head>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
         <title>Detalles del usuario</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,66 +64,145 @@
 
                     <!--  colocar esto despues dentro del a                  -->
                     <td>
-                        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#myModal" ><i class="bi bi-pencil-fill"></i></a> 
+                        <a class="btn btn-success" href="#" data-bs-toggle="modal" data-bs-target="#modalUpdate" ><i class="bi bi-pencil-fill"></i></a> 
                     </td>
 <!--  --------------------------------------------            INICIO DEL MODAL --------------------------------------------------------------------------------------->
-                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hiden="true" >
-                        <div class="modal-dialog bg-dark modal-xl" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">¿Está seguro que desea eliminar el usuario?</h5>
-                                </div>
-                                <div class="modal-body">
-                                    <span th:text="|¡El usuario será eliminado permanentemente!|"> </span>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <a id="btnEliminar" type="button" class="btn btn-danger" href="#">Eliminar usuario</a>
-
-
-                                    <!--     codigo para poder obtener un id desde la consola del navegador                               $("#btnEliminar").attr("href","/usuario/delete/5");-->
-                                    <!--      Funcion que permite obtener el id del usuario por medio de changeUrl y onclick   th:onclick="|ChangeUrl(${usuario.idUsuario})|"                           -->
-                                    <script>
-
-                                        function ChangeUrl(idUsuario) {
-                                            $("#btnEliminar").attr("href", "/usuario/delete/" + idUsuario);
-                                        }
-                                        document.getElementById("btnEliminar").addEventListener('click', function () {
-                                            alert("se ha tomado la entrada del boton")
-                                            var idUsuario = $("idUsuario").val();
-                                            console.log(idUsuario);
-                                            $.ajax({
-                                                url: "/delete/" + idUsuario,
-                                                type: "GET",
-                                                dataType: 'json',
-                                                success: function (data, textStatus, jqXHR) {
-                                                    console.log("Todo OK");
-
-                                                },
-                                                error: function (jqXHR, textStatus, errorThrown) {
-                                                    alert("No se pudo procesar la tarea");
-                                                }
-                                            }
-                                            )
-
-                                        });
-
-
-
-                                    </script>
-
-                                </div>
+                    <div class="modal fade  bg-dark" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                              
                             </div>
-                            
-<!--       ---------------------------------------------   FIN DEL MODAL       ------------------------------------------------           -->
-                            
-                            
-                            
+                            <div class="modal-body">
+                              <div>
+                <form method="post" th:object="${usuario}" th:action="@{/usuario/update/{IdUsuario}(IdUsuario=${usuario.idUsuario})} " enctype="multipart/form-data">
+
+                    <div>
+                        
+                    <div class="col-12 text-center m-4 text-success fs-3">Informacion General del usuario</div>
+                    <div class="row mb-5">
+                        <div class="col-md-4">
+                            <label id= "NombreUsuario" class = "form-label text-white fs-5">Nombre</label><br>
+                            <input id= "NombreUsuario" class = "form-control bg-dark border border-success text-success" th:field="*{Nombre}" onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
+                            <span id='#errorNombreUsuario' ></span>
+                            <span th:if="${#fields.hasErrors('Nombre')}" th:errors="*{Nombre}" class='text-danger'></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label id= "ApellidoPaternoUsuario" class = "form-label text-white fs-5">Apellido Paterno</label><br>
+                            <input id= "ApellidoPaternoUsuario" type="text" class = "form-control bg-dark border border-success text-success" th:field="*{ApellidoPaterno}"  onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
+                            <span id='#errorApellidoPaternoUsuario'></span>
+                            <span th:if="${#fields.hasErrors('ApellidoPaterno')}" th:errors="*{ApellidoPaterno}" class='text-danger'></span>-->
+
+                        </div>
+                        <div class="col-md-4" >
+                            <label class = "form-label text-white fs-5">Apellido Materno</label><br>
+                            <input id='ApellidoMaternoUsuario' class = "form-control bg-dark border border-success text-success" th:field="*{ApellidoMaterno}" onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
+                            <span id='#errorApellidoMaternoUsuario'></span>
+                            <span th:if="${#fields.hasErrors('ApellidoMaterno')}" th:errors="*{ApellidoMaterno}" class='text-danger'></span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row mb-5 col">
+                        <div class="mb-3 col-2">
+                            <label class = "form-label text-white fs-5">Fecha de nacimiento</label><br>
+                            <input type="date" min="1930-01-01" max="2007-12-12" class = "form-control bg-dark border border-success text-success" th:field="*{FechaNacimiento}" onkeydown="return false"> 
+                        </div>
+
+                        <div class="mb-3 col-3" >
+                            <label class = "form-label text-white fs-5">CURP</label><br>
+
+                            <input class = "form-control bg-dark border border-success text-success" th:field="*{CURP}" onkeypress="CURPValida(this, event)" onblur="CURPBlur(this, event)"> 
+                            <span th:if="${#fields.hasErrors('CURP')}" th:errors="*{CURP}" class='text-danger'></span>
+
+                        </div>
+
+                        <div class="mb-3 col-2">
+                            <label class = "form-label text-white fs-5">Sexo: </label>
+                            <input  class="form-check-input" type = "radio" name="radioSexo" id="radiosexo1" value="Ma" th:field="*{Sexo}" checked><label class = "pe-2 text-success" th:field="*{Sexo}">Masculino</label>
+                            <input  class="form-check-input"  type = "radio" name="radioSexo" id="radiosexo2" value="Fe" th:field="*{Sexo}"><label class="text-success">Femenino</label>
+
                         </div>
                     </div>
 
 
+                    <div class="col-12 text-center m-4 text-success fs-3">Datos de contacto</div>
+
+                    <div class = "row">
+                        <div class="mb-3 col-2">
+                            <label class = "form-label text-white fs-5">Username</label><br>
+                            <input class = "form-control bg-dark border border-success text-success" th:field="*{Username}" onkeypress="UserNameValido(this, event)" onblur="UserNameValidoBlur(this)"> 
+                            <span th:if="${#fields.hasErrors('Username')}" th:errors="*{Username}" class='text-danger'></span>
+
+                        </div>
+
+                        <div class="mb-3 col-2">
+                            <label class = "form-label text-white fs-5">Email</label><br>
+                            <input class = "form-control bg-dark border border-success text-success" th:field="*{Email}"> 
+                            <span th:if="${#fields.hasErrors('Email')}" th:errors="*{Email}" class='text-danger'></span>
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label class = "form-label text-white fs-5">Número telefónico</label><br>
+                            <input type="text" class = "form-control bg-dark border border-success text-success" th:field="*{NumeroTelefonico}" maxlength="10" onkeypress="NumeroyCelular(this, event)" onblur="NumeroyCelularBlur(this)"> 
+                            <span th:if="${#fields.hasErrors('NumeroTelefonico')}" th:errors="*{NumeroTelefonico}" class='text-danger'></span>
+
+                        </div>
+
+                      
+
+
+                        <div class="mb-3 col-2">
+                            <label class = "form-label text-white fs-5">Celular</label><br>
+                            <input type="text" class = "form-control bg-dark border border-success text-success" th:field="*{Celular}" maxlength="10" onkeypress="NumeroyCelular(this, event)" onblur="NumeroyCelularBlur(this)"> 
+                            <span th:if="${#fields.hasErrors('Celular')}" th:errors="*{Celular}" class='text-danger'></span>
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label class = "form-label text-white fs-5">Rol</label><br>
+                            <select class="form-select form-select-sm w-25 bg-dark text-success border-success" th:field="*{rol.idRol}">
+                                <option value = 0 selected >Seleccione un rol</option>
+                                <option th:each = "rol : ${roles}" th:value = "${rol.idRol}" th:text = "${rol.NombreRol}"></option>
+
+
+
+                            </select>                    
+                        </div>
+                    </div>
+
+
+
+
+
+                    </div>
+
+
+
+                    
+
+                    </div>
+
+
+
             </div>
+                              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                              <button type ="submit" class = "btn btn-success mb-4 w-10">Guardar</button>
+                            </div>
+                        
+                              
+                       </form>
+
+                          </div>
+                        </div>
+                      </div>
+
+            
+            
         </tr> 
 
     </tbody>
@@ -140,7 +222,6 @@
         
         </div>
         
-<!--        /////////////////////////////////////////////////   modal   //////////////////////////////////////////////////////-->
 
 
         
@@ -148,4 +229,191 @@
         
         
     </body>
+    
+    
+    <script>
+        
+         $(document).ready(function () {
+
+            console.log("Se ha cargado correctamente la pagina");
+
+
+            $("#ddlpais").change(function () {
+                console.log("Ha cambiado la informacion");
+                var idPais = $("#ddlpais").val();
+                if (idPais != 0) {
+                    $.ajax({
+                        url: "getEstadosByPais/" + idPais,
+                        type: "GET",
+                        dataType: 'json',
+                        success: function (data, textStatus, jqXHR) {
+                            console.log("Todo OK");
+                            $("#ddlestado").empty();
+                            $("#ddlestado").append("<option value=0 selected>Selecciona un estado</option>");
+                            $.each(data.objects, function (i, estado) {
+                                console.log(estado.Nombre)
+                                $("#ddlestado").append("<option value=" + estado.idEstado + ">" + estado.Nombre + "</option>");
+                            });
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("No se pudo procesar la tarea");
+                        }
+                    });
+                } else {
+                    $("#ddlestado").empty();
+                    $("#ddlestado").append("<option value=0 selected>Seleccione un estado</option>");
+                }
+                //Agregar modificaciones para el municipio y colonia
+
+            });
+            
+            
+
+
+            $("#ddlestado").change(function () {
+                console.log("Ha cambiado la informacion");
+                var idEstado = $("#ddlestado").val();
+                if (idEstado != 0) {
+
+                    $.ajax({
+                        url: "getMunicipioByEstado/" + idEstado,
+                        type: "GET",
+                        dataType: 'json',
+                        success: function (data, textStatus, jqXHR) {
+                            console.log("Todo OK");
+                            $("#ddlmunicipio").empty();
+                            $("#ddlmunicipio").append("<option value=0 selected>Selecciona un municipio</option>");
+                            $.each(data.objects, function (i, municipio) {
+                                console.log(municipio.Nombre)
+                                $("#ddlmunicipio").append("<option value=" + municipio.idMunicipio + ">" + municipio.Nombre + "</option>");
+                            });
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("No se pudo procesar la tarea");
+                        }
+                    });
+                } else {
+                    $("#ddlmunicipio").empty();
+                    $("#ddlmunicipio").append("<option value=0 selected>Seleccione un municipio</option>");
+                }
+                //Agregar modificaciones para el municipio y colonia
+
+
+
+
+
+
+            });
+
+
+
+
+
+            $("#ddlmunicipio").change(function () {
+                console.log("Ya cambie, municipio");
+                var idMunicipio = $("#ddlmunicipio").val();
+                console.log(idMunicipio);
+                if (idMunicipio != 0) {
+                    $.ajax({
+                        url: "/usuario/getColoniaByMunicipio/" + idMunicipio,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (data, textStatus, jqXHR) {
+                            console.log("Todo ok, municipio");
+                            $("#ddlcolonia").empty();
+                            $("#ddlcolonia").append("<option value= 0 selected> selecciona tu colonia</option>");
+                            $.each(data.objects, function (i, colonia) {
+                                console.log(colonia.Nombre);
+                                console.log(colonia.CodigoPostal);
+
+                                $("#ddlcolonia").append("<option value=" + colonia.idColonia + " data-cp=" + colonia.CodigoPostal + ">" + colonia.Nombre + "</option>");
+
+//                                document.getElementById("#ddlcodigopostal").value(data - cp);
+//                                $("#ddlcodigopostal").append("<input >" + data - cp + "</input>");
+
+
+                            });
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("No se pudo procesar la tarea, municipio");
+                        }
+                    });
+                } else {
+                    $("#ddlcolonia").empty();
+                    $("#ddlcolonia").append("<option value= 0 selected> selecciona tu colonia</option>");
+                    $("#codigopostal").val("");
+                }
+
+
+            });
+
+
+            $("#ddlcolonia").change(function () {
+                $("#codigopostal").val($("#ddlcolonia option:selected").data("cp"));
+            });
+
+
+
+
+
+        });
+    </script>
+    
 </html>
+
+
+<!--
+
+ACtualizar los SP de la base de datos
+
+
+create or replace NONEDITIONABLE PROCEDURE UsuarioDireccionGetById (
+pCursor out SYS_REFCURSOR,
+pIdUsuario IN number
+)
+AS
+
+BEGIN 
+OPEN pCursor for
+SELECT Usuario.idUsuario, Usuario.NombreUsuario as NombreUsuario, Usuario.ApellidoPaterno, Usuario.ApellidoMaterno, Usuario.FechaNacimiento, Usuario.CURP, Usuario.Email, Usuario.NumeroTelefonico as NumeroTelefonico, Usuario.Password,
+Usuario.Sexo, Usuario.Celular, Usuario.Username,Rol.idRol, Rol.NombreRol, Usuario.Imagen, Direccion.idDireccion, Direccion.Calle, Direccion.NumeroInterior, Direccion.NumeroExterior, Direccion.idColonia_fk as idColonia, Colonia.NombreColonia as NombreColonia, Colonia.CodigoPostal, Colonia.idMunicipio_fk as idMunicipio,
+Municipio.NombreMunicipio, Municipio.idEstado_fk as idEstado, Estado.NombreEstado as NombreEstado, Estado.idPais_fk as idPais, Pais.NombrePais as NombrePais
+FROM Usuario
+LEFT JOIN Rol on Rol.idRol = Usuario.idRol_fk
+LEFT JOIN Direccion on Usuario.idUsuario = Direccion.idUsuario_fk
+LEFT JOIN Colonia on Direccion.idColonia_fk  = Colonia.idColonia
+LEFT JOIN Municipio on Colonia.idMunicipio_fk = Municipio.idMunicipio
+LEFT JOIN Estado on Municipio.idEstado_fk = Estado.idEstado
+LEFT JOIN Pais on Estado.idPais_fk = Pais.idPais where Usuario.idUsuario = pIdUsuario;
+
+END UsuarioDireccionGetById;
+
+var pCursor REFCURSOR
+exec UsuarioDireccionGetById(:pCursor,27)
+print pCursor
+
+select * from rol
+
+
+create or replace NONEDITIONABLE PROCEDURE                             USUARIOUPDATESP (
+    pNombre IN VARCHAR,
+    pApellidoPaterno IN VARCHAR,
+    pApellidoMaterno IN VARCHAR,
+    pFechaNacimiento IN DATE,
+    pCURP IN VARCHAR,
+    pUsername IN VARCHAR,
+    pEmail IN VARCHAR,
+    pNuevoTelefono IN VARCHAR,
+    pSexo IN CHAR,
+    pCelular IN CHAR,
+    pidRol_fk IN NUMBER,
+    pidUsuario IN VARCHAR
+    )
+    AS
+    
+    BEGIN
+    UPDATE Usuario set Nombreusuario = pNombre, ApellidoPaterno = pApellidoPaterno, ApellidoMaterno = pApellidoMaterno, FechaNacimiento = pFechaNacimiento , CURP = pCURP, Username = pUsername, Email = pEmail,
+    NumeroTelefonico = pNuevoTelefono, Sexo = pSexo, Celular = pCelular, idRol_fk = pidRol_fk WHERE idUsuario = pidUsuario;
+
+    END UsuarioUpdateSP;
+-->

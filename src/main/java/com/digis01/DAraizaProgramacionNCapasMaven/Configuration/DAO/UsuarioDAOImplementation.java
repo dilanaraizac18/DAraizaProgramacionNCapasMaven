@@ -169,6 +169,7 @@ public class UsuarioDAOImplementation implements IUsuario{
                         usuario.setCelular(resultSet.getString("Celular"));
                         usuario.setImagen(resultSet.getString("Imagen"));
                         usuario.Rol = new Rol();
+                        usuario.Rol.setidRol(resultSet.getInt("idRol"));
                         usuario.Rol.setNombreRol(resultSet.getString("NombreRol"));
 
                         int idDireccion = resultSet.getInt("IdDireccion");
@@ -303,21 +304,21 @@ public class UsuarioDAOImplementation implements IUsuario{
 
         try {
 
-            jdbcTemplate.execute("{CALL usuarioupdate(?,?,?,?,?,?,?,?,?,?,?,?,?)}", (CallableStatementCallback<Boolean>) callableStatement -> {
+            jdbcTemplate.execute("{CALL UsuarioUpdateSP(?,?,?,?,?,?,?,?,?,?,?,?)}", (CallableStatementCallback<Boolean>) callableStatement -> {
 
                 callableStatement.setString(1, usuario.getNombre());
                 callableStatement.setString(2, usuario.getApellidoPaterno());
                 callableStatement.setString(3, usuario.getApellidoMaterno());
-                callableStatement.setDate(4, new java.sql.Date(usuario.getFechaNacimiento().getTime()));
-                callableStatement.setString(5, usuario.getNumeroTelefonico());
-                callableStatement.setString(6, usuario.getEmail());
-                callableStatement.setString(7, usuario.getUsername());
-                callableStatement.setString(8, usuario.getPassword());
+                callableStatement.setDate(4, new java.sql.Date(usuario.getFechaNacimiento().getTime()));                
+                callableStatement.setString(5, usuario.getCURP());                
+                callableStatement.setString(6, usuario.getUsername());
+                callableStatement.setString(7, usuario.getEmail());
+
+                callableStatement.setString(8, usuario.getNumeroTelefonico());
                 callableStatement.setString(9, usuario.getSexo());
                 callableStatement.setString(10, usuario.getCelular());
-                callableStatement.setString(11, usuario.getCURP());
-                callableStatement.setInt(12, usuario.Rol.getidRol());
-                callableStatement.setInt(13, usuario.getIdUsuario());
+                callableStatement.setInt(11, usuario.Rol.getidRol());
+                callableStatement.setInt(12, usuario.getIdUsuario());
                 
                 int rowAffectted = 0;
                 rowAffectted = callableStatement.executeUpdate();
