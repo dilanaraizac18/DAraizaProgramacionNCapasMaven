@@ -336,6 +336,35 @@ public class UsuarioDAOImplementation implements IUsuario{
 
         return result;
     }
-}
 
+    
+    @Override
+    public Result UpdateImagen(Usuario usuario){
+        Result result = new Result();
+        
+        try{
+            jdbcTemplate.execute("{CALL UsuarioImageUpdateSP(?,?)}", (CallableStatementCallback<Boolean>) callableStatement ->{
+            callableStatement.setString(1, usuario.getImagen());
+            callableStatement.setInt(2, usuario.getIdUsuario());
+             int rowAffectted = 0;
+                rowAffectted = callableStatement.executeUpdate();
+                
+                result.correct = rowAffectted != 0 ? true : false;
+
+                return true;
+            } );
+        
+        
+        }
+            
+            
+        catch(Exception ex){
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+        
+        return result;
+}
+}
  

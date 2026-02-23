@@ -17,4 +17,6 @@ public interface IUsuario {
     Result Add(Usuario Usuario);
     Result Delete(int identificadorUsuario);
     Result Update(Usuario Usuario);
+        Result UpdateImagen(Usuario Usuario);
+
 }
