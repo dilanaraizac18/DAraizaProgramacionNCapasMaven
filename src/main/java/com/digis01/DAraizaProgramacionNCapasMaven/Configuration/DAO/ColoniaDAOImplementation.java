@@ -39,7 +39,7 @@ public class ColoniaDAOImplementation implements IColonia{
             result.objects.add(colonia);
             
             colonia.setIdColonia(resultSet.getInt("idColonia"));
-            colonia.setNombre(resultSet.getString("NombreColonia"));
+            colonia.setNombre(resultSet.getString("Nombre"));
             colonia.setCodigoPostal(resultSet.getString("CodigoPostal"));
             
         }

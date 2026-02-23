@@ -146,7 +146,7 @@ public class UsuarioDAOImplementation implements IUsuario{
                         direccion.colonia.setNombre(resultSet.getString("NombreColonia"));
                         direccion.colonia.setCodigoPostal(resultSet.getString("CodigoPostal"));
                         direccion.colonia.municipio.setIdMunicipio(resultSet.getInt("idMunicipio"));
-                        direccion.colonia.municipio.setNombre(resultSet.getString("NombreMunicipio"));
+                        direccion.colonia.municipio.setNombre(resultSet.getString("MunicipioNombre"));
                         direccion.colonia.municipio.estado.setIdEstado(resultSet.getInt("idEstado"));
                         direccion.colonia.municipio.estado.setNombre(resultSet.getString("NombreEstado"));
                         direccion.colonia.municipio.estado.pais.setIdPais(resultSet.getInt("idPais"));
@@ -190,7 +190,7 @@ public class UsuarioDAOImplementation implements IUsuario{
                             direccion.colonia.setNombre(resultSet.getString("NombreColonia"));
                             direccion.colonia.setCodigoPostal(resultSet.getString("CodigoPostal"));
                             direccion.colonia.municipio.setIdMunicipio(resultSet.getInt("IdMunicipio"));
-                            direccion.colonia.municipio.setNombre(resultSet.getString("NombreMunicipio"));
+                            direccion.colonia.municipio.setNombre(resultSet.getString("MunicipioNombre"));
                             direccion.colonia.municipio.estado.setIdEstado(resultSet.getInt("IdEstado"));
                             direccion.colonia.municipio.estado.setNombre(resultSet.getString("NombreEstado"));
                             direccion.colonia.municipio.estado.pais.setIdPais(resultSet.getInt("IdPais"));

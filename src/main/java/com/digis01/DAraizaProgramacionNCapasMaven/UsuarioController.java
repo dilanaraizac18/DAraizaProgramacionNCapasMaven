@@ -261,31 +261,49 @@ public class UsuarioController {
     }
 
 //    COLOCAR EL PROCEDURE O ACTUALIZAR EN LA BASE DE DATOS, NO OLVIDAR CAMBIAR LOS NOMBRES DE LAS TABLAS EN LA BD DE LA EMPRESA
-//    CREATE OR REPLACE PROCEDURE UsuarioDireccionGetById (
-//pCursor out SYS_REFCURSOR,
-//pIdUsuario IN number
-//)
-//AS
-//
-//BEGIN 
-//OPEN pCursor for
-//SELECT Usuario.idUsuario, Usuario.NombreUsuario as NombreUsuario, Usuario.ApellidoPaterno, Usuario.ApellidoMaterno, Usuario.FechaNacimiento, Usuario.CURP, Usuario.Email, Usuario.NumeroTelefonico as NumeroTelefonico, Usuario.Password,
-//Usuario.Sexo, Usuario.Celular, Usuario.Username,Rol.NombreRol, Usuario.Imagen, Direccion.idDireccion, Direccion.Calle, Direccion.NumeroInterior, Direccion.NumeroExterior, Direccion.idColonia_fk as idColonia, Colonia.NombreColonia as NombreColonia, Colonia.CodigoPostal, Colonia.idMunicipio_fk as idMunicipio,
-//Municipio.NombreMunicipio, Municipio.idEstado_fk as idEstado, Estado.NombreEstado as NombreEstado, Estado.idPais_fk as idPais, Pais.NombrePais as NombrePais
-//FROM Usuario
-//LEFT JOIN Rol on Rol.idRol = Usuario.idRol_fk
-//LEFT JOIN Direccion on Usuario.idUsuario = Direccion.idUsuario_fk
-//LEFT JOIN Colonia on Direccion.idColonia_fk  = Colonia.idColonia
-//LEFT JOIN Municipio on Colonia.idMunicipio_fk = Municipio.idMunicipio
-//LEFT JOIN Estado on Municipio.idEstado_fk = Estado.idEstado
-//LEFT JOIN Pais on Estado.idPais_fk = Pais.idPais where Usuario.idUsuario = pIdUsuario;
-//
-//END UsuarioDireccionGetById;
+
 //
 //    
     
     
-    
+    @PostMapping("/updateimg/{IdUsuario}")
+    public String UpdateImagen(@Valid @ModelAttribute("usuario") Usuario usuario, BindingResult bindingResult, @PathVariable("IdUsuario") int identificador, @RequestParam("imagen") MultipartFile imagen, Model model) {
+        Result result = new Result();
+        try {
+            //  Verificar si se subió un archivo nuevo
+            if (imagen != null && !imagen.isEmpty()) {
+                String nombreArchivo = imagen.getOriginalFilename();
+                String extension = nombreArchivo.substring(nombreArchivo.lastIndexOf(".") + 1).toLowerCase();
+ 
+                if (extension.equals("jpg") || extension.equals("png") || extension.equals("jpeg")) {
+                    // Leer bytes y convertir a Base64
+                    byte[] fileContent = imagen.getBytes();
+                    String encodedString = Base64.getEncoder().encodeToString(fileContent);
+                    usuario.setImagen(encodedString);
+                }
+            } else {
+ 
+                result = usuarioDAOImplementation.GetById(identificador);
+                if (result.correct) {
+                    Usuario usuarioanterior = (Usuario) result.object;
+                    usuario.setImagen(usuarioanterior.getImagen());
+                }
+            }
+ 
+            // Ejecutar la actualización
+            result = usuarioDAOImplementation.UpdateImagen(usuario);
+ 
+            if (!result.correct) {
+                return "redirect:/usuario/details/" + identificador;
+            }
+ 
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+ 
+        return "redirect:/usuario/details/" + identificador;
+    }
+ 
     
 
     @GetMapping("getEstadosByPais/{idPais}")
