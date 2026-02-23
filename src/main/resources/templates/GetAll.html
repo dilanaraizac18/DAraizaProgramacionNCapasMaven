@@ -20,146 +20,179 @@
     <body class = "bg-dark text-white">
         <div class="container">
 
-            <div class = "row">
+            <div class="col-12" >   
+                <div class="row">
+                    <form method="post" th:object="${usuario}" th:action="@{/usuario/form} " enctype="multipart/form-data">
 
-                <h1 class = "text-center mb-4 mt-4">Información del usuario</h1>
+                        <div class="col order-first">
+                            <label id= "NombreUsuario" class = "form-label text-white fs-5">Nombre</label><br>
+                            <input id= "NombreUsuario" class = "form-control bg-dark border border-success text-success"  onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
 
-
-                <div class = "col-md mt-4 mb-4 text-center">
-                    <p class = "text-success fs-2">Presione el boton para agregar</p>
-
-                </div>
-                <div class="col-md mt-4 mb-4 text-center">
-                    <a class = "btn btn-success" th:href="@{usuario/form}">Agregar</a>
-
-                </div>
-
-
-
-
-            </div>
-
-            <div class = "col-sm table-responsive">
-                <table class = "table table-dark table-striped table-responsive border border-success table-hover">
-                    <thead class = "table-dark ">
-                        <tr>
-                            <!--                        <th>Datos Personales</th>
-                                                        <th>Información de contacto</th>
-                                                        <th>Rol del usuario</th>    
-                                                        <th>Acciones</th>
-                            -->
-                            <th>Datos Personales</th>
-                            <th>Información de contacto</th>                            
-                            <th>Direccion(es)</th>                           
-                            <th>Acciones</th>
-
-
-
-                        </tr>
-                    </thead>
-
-                    <tbody  >
-
-                        <tr th:each = "usuario : ${usuario}">
-
-
-                            <td >
-                    <li id="idUsuario" th:text ="${usuario.idUsuario}" hidden></li>            
-                    <li th:text = "|Nombre: ${usuario.Nombre} ${usuario.ApellidoPaterno} ${usuario.ApellidoMaterno}|"></li>
-                    <li th:text = "|CURP: ${usuario.CURP}|"></li>
-                    <li th:text = "|Fecha de nacimiento: ${usuario.FechaNacimiento} |"></li>
-                    <img th:src="|data:image/png;base64,${usuario.Imagen}|" style="width:  150px"/>
-
-                    </td>
-                    <td >
-                    <li th:text =" | Numero telefonico: ${usuario.NumeroTelefonico}|" ></li>
-                    <li th:text = "|Username: ${usuario.Username}|"></li>
-                    <li th:text = "|Email: ${usuario.Email}|"></li>
-                    <li th:each = "rol : ${usuario.Rol}" th:text="|Rol: ${rol.NombreRol}|"></li>
-
-
-
-                    </td>
-                    <td>
-                    <li th:each = "direccion : ${usuario.Direcciones} " th:text="|Calle: ${direccion.Calle} ${direccion.NumeroInterior} ${direccion.NumeroExterior}|"></li>
-                    <!--                    <li th:each = "colonia : ${usuario.direccion.colonia}" th:text = "|${colonia.Nombre}|"></li>-->
-                    </td> 
-
-
-                    <!--  colocar esto despues dentro del a                  -->
-                    <td>
-                        <a class="btn btn-success" th:href="@{usuario/form}"><i class="bi bi-pencil-fill"></i></a> 
-                        <a class="btn btn-danger" href= "#" data-bs-target="#modalEliminar" data-bs-toggle="modal" th:onclick="|ChangeUrl(${usuario.idUsuario})|"><i class="bi bi-person-dash"></i></a>
-                        <a th:href="@{/usuario/details/{IdUsuario}(IdUsuario=${usuario.idUsuario})}" class="btn btn-warning" ><i class="bi bi-info-circle"></i></a>
-                    </td>
-<!--  --------------------------------------------            INICIO DEL MODAL --------------------------------------------------------------------------------------->
-                    <div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-hiden="true" >
-                        <div class="modal-dialog bg-dark" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">¿Está seguro que desea eliminar el usuario?</h5>
-                                </div>
-                                <div class="modal-body">
-                                    <span th:text="|¡El usuario será eliminado permanentemente!|"> </span>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <a id="btnEliminar" type="button" class="btn btn-danger" href="#">Eliminar usuario</a>
-
-
-                                    <!--     codigo para poder obtener un id desde la consola del navegador                               $("#btnEliminar").attr("href","/usuario/delete/5");-->
-                                    <!--      Funcion que permite obtener el id del usuario por medio de changeUrl y onclick   th:onclick="|ChangeUrl(${usuario.idUsuario})|"                           -->
-                                    <script>
-
-                                        function ChangeUrl(idUsuario) {
-                                            $("#btnEliminar").attr("href", "/usuario/delete/" + idUsuario);
-                                        }
-                                        document.getElementById("btnEliminar").addEventListener('click', function () {
-                                            alert("se ha tomado la entrada del boton")
-                                            var idUsuario = $("idUsuario").val();
-                                            console.log(idUsuario);
-                                            $.ajax({
-                                                url: "/delete/" + idUsuario,
-                                                type: "GET",
-                                                dataType: 'json',
-                                                success: function (data, textStatus, jqXHR) {
-                                                    console.log("Todo OK");
-
-                                                },
-                                                error: function (jqXHR, textStatus, errorThrown) {
-                                                    alert("No se pudo procesar la tarea");
-                                                }
-                                            }
-                                            )
-
-                                        });
-
-
-
-                                    </script>
-
-                                </div>
-                            </div>
-                            
-<!--       ---------------------------------------------   FIN DEL MODAL       ------------------------------------------------           -->
-                            
-                            
-                            
                         </div>
+                        <div class="col">
+                            <label id= "ApellidoPaternoUsuario" class = "form-label text-white fs-5">Apellido Paterno</label><br>
+                            <input id= "ApellidoPaternoUsuario" type="text" class = "form-control bg-dark border border-success text-success"   onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
+
+                        </div>
+                        <div class="col order-last">
+                            <label class = "form-label text-white fs-5">Apellido Materno</label><br>
+                            <input id='ApellidoMaternoUsuario' class = "form-control bg-dark border border-success text-success" onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
+
+
+                            <select class="form-select form-select-sm w-25 bg-dark text-success border-success" >
+                                <option value = 0 selected >Seleccione un rol</option>
+                                <option th:each = "rol : ${roles}" th:value = "${rol.idRol}" th:text = "${rol.NombreRol}"></option>
+
+
+
+                            </select>                
+                            <a class="btn btn-info" th:href="@{usuario/form}"><i class="bi bi-search"></i></i></a> 
+
+
+                        </div>
+                </div>
+                </form>
+
+                <div class = "row">
+
+                    <h1 class = "text-center mb-4 mt-4">Información del usuario</h1>
+
+
+                    <div class = "col-md mt-4 mb-4 text-center">
+                        <p class = "text-success fs-2">Presione el boton para agregar</p>
+
+                    </div>
+                    <div class="col-md mt-4 mb-4 text-center">
+                        <a class = "btn btn-success" th:href="@{usuario/form}">Agregar</a>
+
                     </div>
 
 
+
+
+                </div>
+
+                <div class = "col-sm table-responsive">
+                    <table class = "table table-dark table-striped table-responsive border border-success table-hover">
+                        <thead class = "table-dark ">
+                            <tr>
+                                <!--                        <th>Datos Personales</th>
+                                                            <th>Información de contacto</th>
+                                                            <th>Rol del usuario</th>    
+                                                            <th>Acciones</th>
+                                -->
+                                <th>Datos Personales</th>
+                                <th>Información de contacto</th>                            
+                                <th>Direccion(es)</th>                           
+                                <th>Acciones</th>
+
+
+
+                            </tr>
+                        </thead>
+
+                        <tbody  >
+
+                            <tr th:each = "usuario : ${usuario}">
+
+
+                                <td >
+                        <li id="idUsuario" th:text ="${usuario.idUsuario}" hidden></li>            
+                        <li th:text = "|Nombre: ${usuario.Nombre} ${usuario.ApellidoPaterno} ${usuario.ApellidoMaterno}|"></li>
+                        <li th:text = "|CURP: ${usuario.CURP}|"></li>
+                        <li th:text = "|Fecha de nacimiento: ${usuario.FechaNacimiento} |"></li>
+                        <img th:src="|data:image/png;base64,${usuario.Imagen}|" style="width:  150px"/>
+
+                        </td>
+                        <td >
+                        <li th:text =" | Numero telefonico: ${usuario.NumeroTelefonico}|" ></li>
+                        <li th:text = "|Username: ${usuario.Username}|"></li>
+                        <li th:text = "|Email: ${usuario.Email}|"></li>
+                        <li th:each = "rol : ${usuario.Rol}" th:text="|Rol: ${rol.NombreRol}|"></li>
+
+
+
+                        </td>
+                        <td>
+                        <li th:each = "direccion : ${usuario.Direcciones} " th:text="|Calle: ${direccion.Calle} ${direccion.NumeroInterior} ${direccion.NumeroExterior}|"></li>
+                        <!--                    <li th:each = "colonia : ${usuario.direccion.colonia}" th:text = "|${colonia.Nombre}|"></li>-->
+                        </td> 
+
+
+                        <!--  colocar esto despues dentro del a                  -->
+                        <td>
+                            <a class="btn btn-success" th:href="@{usuario/form}"><i class="bi bi-pencil-fill"></i></a> 
+                            <a class="btn btn-danger" href= "#" data-bs-target="#modalEliminar" data-bs-toggle="modal" th:onclick="|ChangeUrl(${usuario.idUsuario})|"><i class="bi bi-person-dash"></i></a>
+                            <a th:href="@{/usuario/details/{IdUsuario}(IdUsuario=${usuario.idUsuario})}" class="btn btn-warning" ><i class="bi bi-info-circle"></i></a>
+                        </td>
+                        <!--  --------------------------------------------            INICIO DEL MODAL --------------------------------------------------------------------------------------->
+                        <div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-hiden="true" >
+                            <div class="modal-dialog bg-dark" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">¿Está seguro que desea eliminar el usuario?</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <span th:text="|¡El usuario será eliminado permanentemente!|"> </span>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <a id="btnEliminar" type="button" class="btn btn-danger" href="#">Eliminar usuario</a>
+
+
+                                        <!--     codigo para poder obtener un id desde la consola del navegador                               $("#btnEliminar").attr("href","/usuario/delete/5");-->
+                                        <!--      Funcion que permite obtener el id del usuario por medio de changeUrl y onclick   th:onclick="|ChangeUrl(${usuario.idUsuario})|"                           -->
+                                        <script>
+
+                                            function ChangeUrl(idUsuario) {
+                                                $("#btnEliminar").attr("href", "/usuario/delete/" + idUsuario);
+                                            }
+                                            document.getElementById("btnEliminar").addEventListener('click', function () {
+                                                alert("se ha tomado la entrada del boton")
+                                                var idUsuario = $("idUsuario").val();
+                                                console.log(idUsuario);
+                                                $.ajax({
+                                                    url: "/delete/" + idUsuario,
+                                                    type: "GET",
+                                                    dataType: 'json',
+                                                    success: function (data, textStatus, jqXHR) {
+                                                        console.log("Todo OK");
+
+                                                    },
+                                                    error: function (jqXHR, textStatus, errorThrown) {
+                                                        alert("No se pudo procesar la tarea");
+                                                    }
+                                                }
+                                                )
+
+                                            });
+
+
+
+                                        </script>
+
+                                    </div>
+                                </div>
+
+                                <!--       ---------------------------------------------   FIN DEL MODAL       ------------------------------------------------           -->
+
+
+
+                            </div>
+                        </div>
+
+
+                </div>
+                </tr> 
+
+                </tbody>
+
+                </table>
             </div>
-        </tr> 
-
-    </tbody>
-
-</table>
-</div>
 
 
-</div>
+        </div>
 
-</body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </html>
