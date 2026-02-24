@@ -65,16 +65,26 @@ public class UsuarioController {
         model.addAttribute("usuario", result.objects);
         return ("GetAll");
     }
+    
+    
     @PostMapping
     public String Search(@ModelAttribute ("usuariobuscar") Usuario usuario, Model model){
-        Result result = usuarioDAOImplementation.Search(usuario);
-        model.addAttribute("usuariobuscar", result.objects);
+        Result result = new Result();
+        try{
+        Result resultsearch = usuarioDAOImplementation.Search(usuario);
+        model.addAttribute("usuarios", resultsearch.objects);
         Result resultRol = rolDAOImplementation.GetAll();
         model.addAttribute("roles", resultRol.objects);
-        Result resultall = usuarioDAOImplementation.GetAll();
-        model.addAttribute("usuario", resultall.objects);
-        
+        Result resultpais = paisDAOImplementation.GetAll();
+        model.addAttribute("paises", resultpais.objects);
 //        return "GetAll"; cambiar la url despjues
+        }catch(Exception ex){
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+            
+        }
+    return "GetAll";
     }
     
     

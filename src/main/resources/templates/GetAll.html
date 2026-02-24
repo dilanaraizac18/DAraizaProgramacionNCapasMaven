@@ -22,24 +22,24 @@
 
             <div class="col-12" >   
                 <div class="row">
-                    <form method="post" th:object="${usuario}" th:action="@{/usuario/form} " enctype="multipart/form-data">
+                    <form method="post" th:object="${usuariobuscar}" th:action="@{/usuario} " >
 
                         <div class="col order-first">
                             <label id= "NombreUsuario" class = "form-label text-white fs-5">Nombre</label><br>
-                            <input id= "NombreUsuario" class = "form-control bg-dark border border-success text-success"  onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
+                            <input id= "NombreUsuario" class = "form-control bg-dark border border-success text-success"  th:field="*{Nombre}"> 
 
                         </div>
                         <div class="col">
                             <label id= "ApellidoPaternoUsuario" class = "form-label text-white fs-5">Apellido Paterno</label><br>
-                            <input id= "ApellidoPaternoUsuario" type="text" class = "form-control bg-dark border border-success text-success"   onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
+                            <input id= "ApellidoPaternoUsuario" type="text" class = "form-control bg-dark border border-success text-success"   th:field="*{ApellidoPaterno}"> 
 
                         </div>
                         <div class="col order-last">
                             <label class = "form-label text-white fs-5">Apellido Materno</label><br>
-                            <input id='ApellidoMaternoUsuario' class = "form-control bg-dark border border-success text-success" onkeypress="validarExpresionLetras(this, event)" onblur="validarUsuarioBlur(this, event)"> 
+                            <input id='ApellidoMaternoUsuario' class = "form-control bg-dark border border-success text-success" th:field="*{ApellidoMaterno}"> 
 
 
-                            <select class="form-select form-select-sm w-25 bg-dark text-success border-success" >
+                            <select class="form-select form-select-sm w-25 bg-dark text-success border-success" th:field="*{Rol.IdRol}>
                                 <option value = 0 selected >Seleccione un rol</option>
                                 <option th:each = "rol : ${roles}" th:value = "${rol.idRol}" th:text = "${rol.NombreRol}"></option>
 
