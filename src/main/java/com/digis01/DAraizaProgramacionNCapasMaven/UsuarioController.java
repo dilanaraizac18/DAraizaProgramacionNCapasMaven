@@ -63,6 +63,9 @@ public class UsuarioController {
         model.addAttribute("roles", resultRol.objects);
         Result result = usuarioDAOImplementation.GetAll();
         model.addAttribute("usuario", result.objects);
+        
+        model.addAttribute("usuariobuscar", new Usuario() );
+        
         return ("GetAll");
     }
     
@@ -77,7 +80,8 @@ public class UsuarioController {
         model.addAttribute("roles", resultRol.objects);
         Result resultpais = paisDAOImplementation.GetAll();
         model.addAttribute("paises", resultpais.objects);
-//        return "GetAll"; cambiar la url despjues
+        model.addAttribute("usuariobuscar", usuario);
+
         }catch(Exception ex){
             result.correct = false;
             result.errorMessage = ex.getLocalizedMessage();

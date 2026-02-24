@@ -39,14 +39,14 @@
                             <input id='ApellidoMaternoUsuario' class = "form-control bg-dark border border-success text-success" th:field="*{ApellidoMaterno}"> 
 
 
-                            <select class="form-select form-select-sm w-25 bg-dark text-success border-success" th:field="*{Rol.IdRol}>
+                            <select class="form-select form-select-sm w-25 bg-dark text-success border-success" th:field="*{rol.IdRol}">
                                 <option value = 0 selected >Seleccione un rol</option>
                                 <option th:each = "rol : ${roles}" th:value = "${rol.idRol}" th:text = "${rol.NombreRol}"></option>
 
 
 
                             </select>                
-                            <a class="btn btn-info" th:href="@{usuario/form}"><i class="bi bi-search"></i></i></a> 
+                            <button type="submit" class="btn btn-info"> <i class="bi bi-search"></i></i></button> 
 
 
                         </div>
