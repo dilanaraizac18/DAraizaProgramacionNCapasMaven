@@ -366,5 +366,42 @@ public class UsuarioDAOImplementation implements IUsuario{
         
         return result;
 }
+    
+    @Override 
+    public Result Search(Usuario Usuario){
+        Result result = new Result();
+        
+        Usuario usuario = new Usuario();
+        usuario.Rol = new Rol();
+        
+        try{
+            
+            jdbcTemplate.execute("{CALL UsuarioSearchSP(?,?,?,?,?)}", (CallableStatementCallback<Boolean>) callableStatement ->{
+              callableStatement.setString(1, usuario.getNombre());
+              callableStatement.setString(2, usuario.getApellidoPaterno());
+              callableStatement.setString(3, usuario.getApellidoMaterno());
+              callableStatement.setInt(4, usuario.Rol.getidRol());
+                
+                
+                
+                
+                return true;
+            });
+            
+            
+            
+            
+            
+            
+        }catch(Exception ex){
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+            
+        }
+        
+        
+        return result;
+    }
 }
  

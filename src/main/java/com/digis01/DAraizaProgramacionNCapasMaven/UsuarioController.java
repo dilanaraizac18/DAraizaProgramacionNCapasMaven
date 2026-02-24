@@ -58,12 +58,25 @@ public class UsuarioController {
 //        model.addAttribute("usuario", usuario);
 //        return "GetAll";
     
-    Result resultRol = rolDAOImplementation.GetAll();
+        
+        Result resultRol = rolDAOImplementation.GetAll();
         model.addAttribute("roles", resultRol.objects);
         Result result = usuarioDAOImplementation.GetAll();
         model.addAttribute("usuario", result.objects);
         return ("GetAll");
     }
+    @PostMapping
+    public String Search(@ModelAttribute ("usuariobuscar") Usuario usuario, Model model){
+        Result result = usuarioDAOImplementation.Search(usuario);
+        model.addAttribute("usuariobuscar", result.objects);
+        Result resultRol = rolDAOImplementation.GetAll();
+        model.addAttribute("roles", resultRol.objects);
+        Result resultall = usuarioDAOImplementation.GetAll();
+        model.addAttribute("usuario", resultall.objects);
+        
+//        return "GetAll"; cambiar la url despjues
+    }
+    
     
     @GetMapping("details")
     public String DetailsVista( Model model){
