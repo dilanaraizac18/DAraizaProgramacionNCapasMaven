@@ -405,3 +405,135 @@ public class UsuarioDAOImplementation implements IUsuario{
     }
 }
  
+
+
+
+//create or replace NONEDITIONABLE PROCEDURE UsuarioDireccionGetAllSP(
+//pCursor OUT SYS_REFCURSOR
+//)
+//AS
+//
+//BEGIN 
+//OPEN pCursor FOR
+//SELECT Usuario.idUsuario, Usuario.Nombre as NombreUsuario, Usuario.ApellidoPaterno, Usuario.ApellidoMaterno, Usuario.FechaNacimiento, Usuario.CURP, Usuario.UserName, Usuario.Email, Usuario.NuevoTelefono as NumeroTelefonico, Usuario.Password,
+//Usuario.Sexo, Usuario.Celular, Usuario.Imagen, Rol.NombreRol, Rol.idRol, Direccion.idDireccion, Direccion.Calle, Direccion.NumeroInterior, Direccion.NumeroExterior, Direccion.idColonia_fk, Colonia.Nombre as NombreColonia, Colonia.CodigoPostal, Colonia.idMunicipio_fk,
+//Municipio.Nombre as MunicipioNombre, Municipio.idEstado_fk, Estado.Nombre as NombreEstado, Estado.idPais_fk, Pais.NombrePais as NombrePais
+//FROM Usuario
+//LEFT JOIN Rol on Usuario.idRol_fk = Rol.idRol
+//LEFT JOIN Direccion on Usuario.idUsuario = Direccion.idUsuario_fk
+//LEFT JOIN Colonia on Direccion.idColonia_fk  = Colonia.idColonia
+//LEFT JOIN Municipio on Colonia.idMunicipio_fk = Municipio.idMunicipio
+//LEFT JOIN Estado on Municipio.idEstado_fk = Estado.idEstado
+//LEFT JOIN Pais on Estado.idPais_fk = Pais.idPais order by idUsuario;
+//
+//END UsuarioDireccionGetAllSP;
+//
+//var pCursor REFCURSOR
+//exec UsuarioDireccionGetAllSP(:pCursor)
+//print pCursor
+//
+//var pCursor REFCURSOR
+//exec UsuarioDireccionGetById (:pCursor, 81)
+//print pCursor
+//
+//
+//
+//create or replace NONEDITIONABLE PROCEDURE UsuarioDireccionGetAllSP(
+//pCursor OUT SYS_REFCURSOR
+//)
+//AS
+//
+//BEGIN 
+//OPEN pCursor FOR
+//SELECT Usuario.idUsuario, Usuario.Nombre as NombreUsuario, Usuario.ApellidoPaterno, Usuario.ApellidoMaterno, Usuario.FechaNacimiento, Usuario.CURP, Usuario.UserName, Usuario.Email, Usuario.NuevoTelefono as NumeroTelefonico, Usuario.Password,
+//Usuario.Sexo, Usuario.Celula, Usuario.Imagen, Rol.NombreRol, Rol.idRol, Direccion.idDireccion, Direccion.Calle, Direccion.NumeroInterior, Direccion.NumeroExterior, Direccion.idColonia_fk, Colonia.Nombre as NombreColonia, Colonia.CodigoPostal, Colonia.idMunicipio_fk,
+//Municipio.Nombre as MunicipioNombre, Municipio.idEstado_fk, Estado.Nombre as NombreEstado, Estado.idPais_fk, Pais.NombrePais as NombrePais
+//FROM Usuario
+//LEFT JOIN Rol on Usuario.idRol_fk = Rol.idRol
+//LEFT JOIN Direccion on Usuario.idUsuario = Direccion.idUsuario_fk
+//LEFT JOIN Colonia on Direccion.idColonia_fk  = Colonia.idColonia
+//LEFT JOIN Municipio on Colonia.idMunicipio_fk = Municipio.idMunicipio
+//LEFT JOIN Estado on Municipio.idEstado_fk = Estado.idEstado
+//LEFT JOIN Pais on Estado.idPais_fk = Pais.idPais order by idUsuario;
+//
+//END UsuarioDireccionGetAllSP;
+//
+//
+//
+//
+//    CREATE OR REPLACE PROCEDURE UsuarioDireccionGetById (
+//pCursor out SYS_REFCURSOR,
+//pIdUsuario IN number
+//)
+//AS
+//
+//BEGIN 
+//OPEN pCursor for
+//SELECT Usuario.idUsuario, Usuario.Nombre as NombreUsuario, Usuario.ApellidoPaterno, Usuario.ApellidoMaterno, Usuario.FechaNacimiento, Usuario.CURP, Usuario.Email, Usuario.NuevoTelefono as NumeroTelefonico, Usuario.Password,
+//Usuario.Sexo, Usuario.Celular, Usuario.Username,Rol.idRol, Rol.NombreRol, Usuario.Imagen, Direccion.idDireccion, Direccion.Calle, Direccion.NumeroInterior, Direccion.NumeroExterior, Direccion.idColonia_fk as idColonia, Colonia.Nombre as NombreColonia, Colonia.CodigoPostal, Colonia.idMunicipio_fk as idMunicipio,
+//Municipio.Nombre, Municipio.idEstado_fk as idEstado, Estado.Nombre as NombreEstado, Estado.idPais_fk as idPais, Pais.NombrePais as NombrePais
+//FROM Usuario
+//LEFT JOIN Rol on Rol.idRol = Usuario.idRol_fk
+//LEFT JOIN Direccion on Usuario.idUsuario = Direccion.idUsuario_fk
+//LEFT JOIN Colonia on Direccion.idColonia_fk  = Colonia.idColonia
+//LEFT JOIN Municipio on Colonia.idMunicipio_fk = Municipio.idMunicipio
+//LEFT JOIN Estado on Municipio.idEstado_fk = Estado.idEstado
+//LEFT JOIN Pais on Estado.idPais_fk = Pais.idPais where Usuario.idUsuario = pIdUsuario;
+//
+//END UsuarioDireccionGetById;
+//
+//create or replace NONEDITIONABLE procedure UsuarioImageUpdateSP (
+//pImagen in CLOB,
+//pidUsuario in Number
+//)
+//as
+//begin 
+//
+//Update Usuario set Imagen = pImagen where idUsuario = pidUsuario;
+//
+//end UsuarioImageUpdateSP;
+//
+//create or replace view UsuarioGetAllVW
+//as 
+//
+//SELECT Usuario.idUsuario, Usuario.Nombre as NombreUsuario, Usuario.ApellidoPaterno, Usuario.ApellidoMaterno, Usuario.FechaNacimiento, Usuario.CURP, Usuario.UserName, Usuario.Email, Usuario.NuevoTelefono as NumeroTelefonico, Usuario.Password,
+//Usuario.Sexo, Usuario.Celular, Usuario.Imagen, Rol.NombreRol, Rol.idRol, Direccion.idDireccion, Direccion.Calle, Direccion.NumeroInterior, Direccion.NumeroExterior, Direccion.idColonia_fk, Colonia.Nombre as NombreColonia, Colonia.CodigoPostal, Colonia.idMunicipio_fk,
+//Municipio.Nombre as MunicipioNombre, Municipio.idEstado_fk, Estado.Nombre as NombreEstado, Estado.idPais_fk, Pais.NombrePais as NombrePais
+//FROM Usuario
+//LEFT JOIN Rol on Usuario.idRol_fk = Rol.idRol
+//LEFT JOIN Direccion on Usuario.idUsuario = Direccion.idUsuario_fk
+//LEFT JOIN Colonia on Direccion.idColonia_fk  = Colonia.idColonia
+//LEFT JOIN Municipio on Colonia.idMunicipio_fk = Municipio.idMunicipio
+//LEFT JOIN Estado on Municipio.idEstado_fk = Estado.idEstado
+//LEFT JOIN Pais on Estado.idPais_fk = Pais.idPais order by idUsuario;
+//
+//
+//select * from UsuarioGetAllVW where Lower(NombreUsuario) like lower('%a%')
+//and lower (ApellidoPaterno) like lower ('%or%')
+//and NVL(LOWER (ApellidoMaterno), 'Sin apellido Materno') like lower ('%%')
+//and idRol  = 4
+//
+//;
+//
+//create or replace procedure UsuarioSearchSP(
+//pCursor out SYS_REFCURSOR,
+//pNombre in Varchar,
+//pApellidoPaterno in varchar,
+//pApellidoMaterno in varchar,
+//pidRol in varchar
+//
+//)
+//AS
+//
+//BEGIN 
+//OPEN pCursor for
+//select NombreUsuario, ApellidoPaterno, ApellidoMaterno, idRol from UsuarioGetAllVW where Lower(NombreUsuario) like lower('%'||pNombre||'%')
+//and lower (ApellidoPaterno) like lower ('%'||pApellidoPaterno||'%')
+//and NVL(LOWER (ApellidoMaterno), 'Sin apellido Materno') like lower ('%'||pApellidoMaterno||'%')
+//and idRol  = pidRol;
+//
+//end UsuarioSearchSP;
+//
+//var pCursor REFCURSOR
+//exec UsuarioSearchSP(:pCursor, 'a','ro','',4)
+//print pCursor
