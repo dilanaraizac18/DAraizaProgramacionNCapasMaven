@@ -11,8 +11,13 @@ import com.digis01.DAraizaProgramacionNCapasMaven.ML.Pais;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Result;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Rol;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario;
+import com.digis01.DAraizaProgramacionNCapasMaven.Service.ValidationService;
 import jakarta.validation.Valid;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,6 +60,9 @@ public class UsuarioController {
 
     @Autowired
     private ColoniaDAOImplementation coloniaDAOImplementation;
+    
+    @Autowired
+    private ValidationService validationService;
 
     @GetMapping
     public String Usuarios(Model model) {
@@ -359,15 +368,25 @@ public class UsuarioController {
                 List<Usuario> usuarios = null;
                 if (extension.equals("txt")) {
                     archivo.transferTo(new File(rutaArchivo));
-//                    alumnos = LecturaArchivoTxt();
+               usuarios = LecturaArchivoTxt(new File(rutaArchivo));
                 } else if (extension.equals("xlsx")) {
 
                 } else {
                     System.out.println("Extensión erronea, manda archivos del formato solicitado");
                 }
 
-                ValidarDatos(usuarios);
-
+                
+                List<ErroresArchivo> errores = ValidarDatos(usuarios);
+                
+                 if (errores.isEmpty()) {
+//                    se guarda info
+                } else {
+//                    retorno lista errores, y la renderizo.
+                }
+                /*
+                    - insertarlos
+                    - renderizar la lista de errores
+                 */
                 /*
                     - insertarlos
                     - renderizar la lista de errores
@@ -383,10 +402,26 @@ public class UsuarioController {
 
     public List<Usuario> LecturaArchivoTxt(File archivo) {
         List<Usuario> usuarios = new ArrayList<>();
-        /*
-            apertura de archivo
-            lectura de datos
-         */
+        try(InputStream inputStream = new FileInputStream(archivo);
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))){
+            
+            usuarios = new ArrayList<>();
+            String cadena = "";
+            while ( (cadena = bufferedReader.readLine()) != null) {                
+//                Nombre|ApellidoPaterno|Materno|Fecha
+                String[] datosAlumno = cadena.split("\\|");
+                Usuario usuario = new Usuario();
+                usuario.setNombre(datosAlumno[0]);
+                usuario.setApellidoPaterno(datosAlumno[1]);
+                
+                usuarios.add(usuario);
+            }
+            
+        }catch(Exception ex){
+            return null;
+        }
+        
+        
         return usuarios;
     }
 
@@ -396,20 +431,28 @@ public class UsuarioController {
     int fila = 1;
 
     for (Usuario usuario : usuarios) {
-
+            BindingResult bindingResult = validationService.ValidateObject(usuario);
+            
+            
+             if (bindingResult.hasErrors()) {
+                for (ObjectError objectError : bindingResult.getAllErrors()) {
+                    ErroresArchivo erroresArchivo = new ErroresArchivo();
+//                    erroresArchivo.dato = objectError.getObjectName();
+                }
+            }
         // Validar nombre
-        if (usuario.getNombre() == null || usuario.getNombre().trim().isEmpty()) {
-            errores.add(new ErroresArchivo(fila, "nombre", "El nombre está vacío"));
-        }
-
-        // Validar apellidoPaterno
-        if (usuario.getApellidoPaterno() == null || usuario.getApellidoPaterno().trim().isEmpty()) {
-            errores.add(new ErroresArchivo(fila, "apellido", "El apellido está vacío"));
-        }
-        
-        if (usuario.getApellidoMaterno() == null || usuario.getApellidoMaterno().trim().isEmpty()) {
-            errores.add(new ErroresArchivo(fila, "apellido", "El apellido está vacío"));
-        }
+//        if (usuario.getNombre() == null || usuario.getNombre().trim().isEmpty()) {
+//            errores.add(new ErroresArchivo(fila, "nombre", "El nombre está vacío"));
+//        }
+//
+//        // Validar apellidoPaterno
+//        if (usuario.getApellidoPaterno() == null || usuario.getApellidoPaterno().trim().isEmpty()) {
+//            errores.add(new ErroresArchivo(fila, "apellido", "El apellido está vacío"));
+//        }
+//        
+//        if (usuario.getApellidoMaterno() == null || usuario.getApellidoMaterno().trim().isEmpty()) {
+//            errores.add(new ErroresArchivo(fila, "apellido", "El apellido está vacío"));
+//        }
         
         
         

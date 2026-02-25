@@ -3,9 +3,9 @@ package com.digis01.DAraizaProgramacionNCapasMaven.ML;
 
 public class ErroresArchivo {
     
-    int fila;
-    String dato;
-    String descripcion;
+    public int fila;
+    public String dato;
+    public String descripcion;
 
     public ErroresArchivo(int fila, String dato, String descripcion) {
         this.fila = fila;
