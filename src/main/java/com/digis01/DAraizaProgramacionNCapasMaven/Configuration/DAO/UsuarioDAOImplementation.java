@@ -510,8 +510,6 @@ public class UsuarioDAOImplementation implements IUsuario{
 
 
 //CHECAR EL PROCEDURE Y ARREGLAR LA BD DE LA CASA
-
-
 //create or replace NONEDITIONABLE PROCEDURE UsuarioDireccionGetAllSP(
 //pCursor OUT SYS_REFCURSOR
 //)
