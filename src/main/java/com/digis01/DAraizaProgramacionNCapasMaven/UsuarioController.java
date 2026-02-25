@@ -6,11 +6,16 @@ import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.MunicipioDAO
 import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.PaisDAOImplementation;
 import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.RolDAOImplementation;
 import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.UsuarioDAOImplementation;
+import com.digis01.DAraizaProgramacionNCapasMaven.ML.ErroresArchivo;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Pais;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Result;
+import com.digis01.DAraizaProgramacionNCapasMaven.ML.Rol;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario;
 import jakarta.validation.Valid;
+import java.io.File;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -333,6 +338,104 @@ public class UsuarioController {
         return "redirect:/usuario/details/" + identificador;
     }
  
+    
+    
+        @GetMapping("/cargamasiva")
+    public String CargaMasiva() {
+        return "CargaMasiva";
+    }
+
+    @PostMapping("/cargamasiva")
+    public String CargaMasiva(@RequestParam("archivo") MultipartFile archivo) {
+        try {
+            if (archivo != null) {
+
+                String rutaBase = System.getProperty("user.dir");
+                String rutaCarpeta = "src/main/resources/archivosCM";
+                String fecha = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmSS"));
+                String nombreArchivo = fecha + archivo.getOriginalFilename();
+                String rutaArchivo = rutaBase + "/" + rutaCarpeta + "/" + nombreArchivo;
+                String extension = archivo.getOriginalFilename().split("\\.")[1];
+                List<Usuario> usuarios = null;
+                if (extension.equals("txt")) {
+                    archivo.transferTo(new File(rutaArchivo));
+//                    alumnos = LecturaArchivoTxt();
+                } else if (extension.equals("xlsx")) {
+
+                } else {
+                    System.out.println("Extensión erronea, manda archivos del formato solicitado");
+                }
+
+                ValidarDatos(usuarios);
+
+                /*
+                    - insertarlos
+                    - renderizar la lista de errores
+                 */
+            }
+        } catch (Exception ex) {
+            // notificación de error
+
+            System.out.println(ex.getLocalizedMessage());
+        }
+        return "CargaMasiva";
+    }
+
+    public List<Usuario> LecturaArchivoTxt(File archivo) {
+        List<Usuario> usuarios = new ArrayList<>();
+        /*
+            apertura de archivo
+            lectura de datos
+         */
+        return usuarios;
+    }
+
+    public List<ErroresArchivo> ValidarDatos(List<Usuario> usuarios) {
+        List<ErroresArchivo> errores = new ArrayList<>();
+
+    int fila = 1;
+
+    for (Usuario usuario : usuarios) {
+
+        // Validar nombre
+        if (usuario.getNombre() == null || usuario.getNombre().trim().isEmpty()) {
+            errores.add(new ErroresArchivo(fila, "nombre", "El nombre está vacío"));
+        }
+
+        // Validar apellidoPaterno
+        if (usuario.getApellidoPaterno() == null || usuario.getApellidoPaterno().trim().isEmpty()) {
+            errores.add(new ErroresArchivo(fila, "apellido", "El apellido está vacío"));
+        }
+        
+        if (usuario.getApellidoMaterno() == null || usuario.getApellidoMaterno().trim().isEmpty()) {
+            errores.add(new ErroresArchivo(fila, "apellido", "El apellido está vacío"));
+        }
+        
+        
+        
+
+        // Validar apellidoMaterno
+//        if (usuario.getEmail() == null || 
+//            !usuario.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+//
+//            errores.add(new ErroresArchivo(fila, "email", "Formato de email inválido"));
+//        }
+
+        // Validar edad numérica y mayor de edad
+//        try {
+//            if (usuario.getEdad() == null || usuario.getEdad() < 18) {
+//                errores.add(new ErroresArchivo(fila, "edad", "Debe ser mayor de edad"));
+//            }
+//        } catch (Exception e) {
+//            errores.add(new ErroresArchivo(fila, "edad", "Edad no es un número válido"));
+//        }
+
+
+        fila++;
+    }
+
+    return errores;
+    }
     
 
     @GetMapping("getEstadosByPais/{idPais}")
