@@ -21,11 +21,11 @@ public class Usuario {
     private String Nombre;
     
     @NotEmpty(message= "No puede ser nulo")
-    @Size(min = 3, max = 50, message = "El nombre debe llevar minimo 3 caracteres")
+    @Size(min = 3, max = 50, message = "El Apellido Paterno debe llevar minimo 3 caracteres")
     private String ApellidoPaterno;
     
     @NotEmpty(message= "No puede ser nulo")
-    @Size(min = 3, max = 50, message = "El nombre debe llevar minimo 3 caracteres")
+    @Size(min = 3, max = 50, message = "El Apellido Materno debe llevar minimo 3 caracteres")
     private String ApellidoMaterno;
     
     @NotEmpty(message = "No puedo ser vacio")
@@ -41,7 +41,7 @@ public class Usuario {
 //    @Pattern(regexp = "^([A-Z][AEIOUX][A-Z]{2}\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\\d])(\\d)$", message = "Formato invalido")
     private String CURP;
     
-    @NotEmpty(message = "No puedo ser vacio")
+    @NotEmpty(message = "No puede ser vacio")
 //    @Pattern(regexp = "^[a-zA-Z ]+[0-9]+$", message = "Introduzca minimo una letra y minimo un numero")
     private String Username;
     
