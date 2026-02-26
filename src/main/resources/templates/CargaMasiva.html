@@ -7,8 +7,14 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        
+        <style>
+            li{
+                list-style :none;
+            }
+        </style>
     </head>
-    <body >
+    <body class="bg-dark">
         <br>
         <br>
 
@@ -30,13 +36,33 @@
                     <button type="submit" class="btn btn-success" id="cargaMasiva">Subir Archivo</button>
                 </form>
             </div>
-            
-            
 
-            
-            
-            
-            
+
+
+            <div class = "col-sm table-responsive">
+                <table class = "table table-dark table-striped table-responsive border border-success table-hover">
+                    <thead class = "table-dark ">
+                        <tr>
+
+                            <th>Fila</th>                            
+                            <th>Descripcion</th>                           
+                            <th>Dato</th>
+
+
+
+                        </tr>
+                    </thead>
+
+                    <tbody  >
+
+                        <tr th:each = "error : ${errores}">
+
+                            <td><li th:text = "${error.fila}"></li></td> 
+                            <td><li th:text = "${error.descripcion}"></li></td>
+                            <td><li th:text = "${error.dato}"></li> </td>
+                    </tr>
+                </table>
+            </div>
 
 
         </div>
