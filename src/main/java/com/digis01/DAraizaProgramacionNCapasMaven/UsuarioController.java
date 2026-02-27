@@ -574,11 +574,19 @@ public class UsuarioController {
         return result;
     }
     
-    @PostMapping("/updateStatus/{status}/{identificador})")
-    public Result updateStatus (@PathVariable ("status") int status, @PathVariable ("identificaro") int identificador){
+    @PostMapping("/updateStatus/{status}/{identificador}")
+    public Result updateStatus (@PathVariable ("status") int status, @PathVariable ("identificador") int identificador){
         Result result = new Result();
         
+        try{
         result = usuarioDAOImplementation.UpdateStatus(status, identificador);
+        
+        }catch(Exception ex){
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+            
+        }
         
         return result;
     }

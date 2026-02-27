@@ -557,14 +557,14 @@ public class UsuarioDAOImplementation implements IUsuario{
     }
 
     @Override
-    public Result UpdateStatus(int identUsuario, int status) {
+    public Result UpdateStatus(int status, int identUsuario) {
         Result result = new Result();
         Usuario usuario = new Usuario();
         
         try{
             jdbcTemplate.execute("{CALL UsuarioUpdateStatus(?,?)}", (CallableStatementCallback<Boolean>) callableStatement -> {
-                callableStatement.setInt(1, identUsuario);
-                callableStatement.setInt(2, status);
+                callableStatement.setInt(1, status);
+                callableStatement.setInt(2, identUsuario);
                 
                 return true;
             });

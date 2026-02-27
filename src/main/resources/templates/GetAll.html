@@ -156,14 +156,15 @@ end UsuarioUpdateStatus;
 
                         <td>
 <!--                        <li th:text="${usuario.Status}"></li>-->
-                        <div class="form-check form-switch">
+                        <div class="form-check form-switch" >
                             <input class="form-check-input switch-estatus" 
                                    type="checkbox" 
                                    role="switch" 
                                    th:id="'switch' + ${usuario.IdUsuario}" 
-                                   th:checked="${usuario.estatus == 1}"
+                                   th:checked="${usuario.Status == 1}"
                                    th:data-id="${usuario.IdUsuario}">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">estatus</label>
+
+
                         </div>
 
                         </td>
@@ -250,7 +251,8 @@ end UsuarioUpdateStatus;
                 console.log("Enviando -> ID: " + idUsuario + " Estatus: " + status);
                 $.ajax({
                     type: "POST",
-                    url: "/usuario/updateStatus/" + status + "/" + idUsuario,
+                    url: "usuario/updateStatus/" + status + "/" + idUsuario,
+                    
                     success: function (response) {
                         if (response.correct) {
 
