@@ -19,6 +19,32 @@
     </head>
     <body class = "bg-dark text-white">
         <div class="container">
+            
+            
+<!--        ASIGNAR UNA NUEVA COLUMNA DENTRO DE USUARIO LLAMADA ESTATUS    
+            Alter table usuario add Status Number(1)
+
+update usuario set Status = 1 where Status is null
+
+
+
+
+
+create or replace UsuarioUpdateStatus(
+pStatus in number(1),
+pidUsuario in number
+)
+
+as
+
+begin
+
+update usuario set status =pStatus  where idUsuario = pidUsuario;
+
+end UsuarioUpdateStatus;
+            -->
+            
+            
 
             <div class="col-12" >   
                 <div class="row">
@@ -85,6 +111,7 @@
                                 <th>Información de contacto</th>                            
                                 <th>Direccion(es)</th>                           
                                 <th>Acciones</th>
+                                <th>Status</th>
 
 
 
@@ -125,6 +152,23 @@
                             <a class="btn btn-danger" href= "#" data-bs-target="#modalEliminar" data-bs-toggle="modal" th:onclick="|ChangeUrl(${usuario.idUsuario})|"><i class="bi bi-person-dash"></i></a>
                             <a th:href="@{/usuario/details/{IdUsuario}(IdUsuario=${usuario.idUsuario})}" class="btn btn-warning" ><i class="bi bi-info-circle"></i></a>
                         </td>
+
+
+                        <td>
+<!--                        <li th:text="${usuario.Status}"></li>-->
+                        <div class="form-check form-switch">
+                            <input class="form-check-input switch-estatus" 
+                                   type="checkbox" 
+                                   role="switch" 
+                                   th:id="'switch' + ${usuario.IdUsuario}" 
+                                   th:checked="${usuario.estatus == 1}"
+                                   th:data-id="${usuario.IdUsuario}">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">estatus</label>
+                        </div>
+
+                        </td>
+
+
                         <!--  --------------------------------------------            INICIO DEL MODAL --------------------------------------------------------------------------------------->
                         <div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-hiden="true" >
                             <div class="modal-dialog bg-dark" role="document">
@@ -195,4 +239,39 @@
 
     </body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+       <script>
+        $(document).ready(function () {
+            $('.switch-estatus').on('change', function () {
+                const checkbox = $(this);
+                const idUsuario = checkbox.data('id'); // Obtiene el ID de th:data-id
+                const status = checkbox.is(':checked') ? 1 : 0;
+                const label = checkbox.next('.form-check-label'); // Selecciona el label de al lado
+                checkbox.prop('disabled', true);
+                console.log("Enviando -> ID: " + idUsuario + " Estatus: " + status);
+                $.ajax({
+                    type: "POST",
+                    url: "/usuario/updateStatus/" + status + "/" + idUsuario,
+                    success: function (response) {
+                        if (response.correct) {
+
+                            console.log("Estatus actualizado con éxito");
+                        } else {
+                            alert("Error al actualizar: " + response.errorMessage);
+                            checkbox.prop('checked', !checkbox.is(':checked'));
+                        }
+                    },
+                    error: function (e) {
+
+                        checkbox.prop('checked', !checkbox.is(':checked'));
+                        
+                    },
+                    complete: function () {
+                        // Re-habilitamos 
+                        checkbox.prop('disabled', false);
+                    }
+                });
+            });
+        });
+    </script>
+
 </html>

@@ -12,10 +12,12 @@ import com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.CallableStatementCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class UsuarioDAOImplementation implements IUsuario{
@@ -79,6 +81,7 @@ public class UsuarioDAOImplementation implements IUsuario{
                     usuario.setPassword(resultSet.getString("Password"));
                     usuario.setCelular(resultSet.getString("Celular"));
                     usuario.setImagen(resultSet.getString("Imagen"));
+                    usuario.setStatus(resultSet.getInt("Status"));
                     usuario.Rol = new Rol();
                     usuario.Rol.setNombreRol(resultSet.getString("NombreRol"));
 
@@ -502,6 +505,75 @@ public class UsuarioDAOImplementation implements IUsuario{
             
         }
         
+        
+        return result;
+    }
+    
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Result AddAll(List<Usuario> usuarios) {
+        Result result = new Result();
+        
+        try{
+            jdbcTemplate.batchUpdate("{CALL  USUARIODIRECCIONESADDSP(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}", usuarios, usuarios.size(), 
+                    (callableStatement,usuario) ->{
+                        
+                        
+                            callableStatement.setString(1, usuario.getNombre());
+                            callableStatement.setString(2, usuario.getApellidoPaterno());
+                            callableStatement.setString(3, usuario.getApellidoMaterno());
+                            callableStatement.setString(4, usuario.getEmail());
+                            callableStatement.setString(5, usuario.getUsername());
+                            callableStatement.setDate(7, new java.sql.Date(usuario.getFechaNacimiento().getTime()));
+                            callableStatement.setString(8, usuario.getSexo());
+                            callableStatement.setString(9, usuario.getNumeroTelefonico());
+                            callableStatement.setString(10,usuario.getCelular());
+                            callableStatement.setString(11, usuario.getCURP());
+                            callableStatement.setInt(12, usuario.Rol.getidRol());
+                callableStatement.setString(13, usuario.getImagen());
+                //aqui empiezan las direcciones
+//                callableStatement.setString(14, direccion.getCalle());
+//                callableStatement.setString(15, direccion.getNumeroInterior());
+//                callableStatement.setString(16, direccion.getNumeroExterior());
+//                callableStatement.setInt(17, direccion.colonia.getIdColonia());
+
+                int rowAffected = 0;
+                rowAffected = callableStatement.executeUpdate();
+
+                result.correct = rowAffected != 0 ? true : false;
+
+            });
+        } catch (Exception e) {
+            result.correct = false;
+            result.errorMessage = e.getLocalizedMessage();
+            result.ex = e;
+        }
+
+      
+        
+        
+        
+        return result;
+    }
+
+    @Override
+    public Result UpdateStatus(int identUsuario, int status) {
+        Result result = new Result();
+        Usuario usuario = new Usuario();
+        
+        try{
+            jdbcTemplate.execute("{CALL UsuarioUpdateStatus(?,?)}", (CallableStatementCallback<Boolean>) callableStatement -> {
+                callableStatement.setInt(1, identUsuario);
+                callableStatement.setInt(2, status);
+                
+                return true;
+            });
+            
+        }catch(Exception ex){
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
         
         return result;
     }

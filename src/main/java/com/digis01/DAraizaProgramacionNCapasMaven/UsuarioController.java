@@ -6,12 +6,15 @@ import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.MunicipioDAO
 import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.PaisDAOImplementation;
 import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.RolDAOImplementation;
 import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.UsuarioDAOImplementation;
+import com.digis01.DAraizaProgramacionNCapasMaven.ML.Colonia;
+import com.digis01.DAraizaProgramacionNCapasMaven.ML.Direccion;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.ErroresArchivo;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Pais;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Result;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Rol;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario;
 import com.digis01.DAraizaProgramacionNCapasMaven.Service.ValidationService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,6 +28,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -345,8 +349,10 @@ public class UsuarioController {
     }
 
     @PostMapping("/cargamasiva")
-    public String CargaMasiva(@RequestParam("archivo") MultipartFile archivo, Model model) {
+    public String CargaMasiva(@RequestParam("archivo") MultipartFile archivo, Model model, HttpSession session) {
         Result result = new Result();
+        UUID uuid = UUID.randomUUID();
+        System.out.println(uuid);
         try {
             if (archivo != null) {
 
@@ -370,18 +376,14 @@ public class UsuarioController {
                 List<ErroresArchivo> errores = ValidarDatos(usuarios);
 
                 if (errores.isEmpty()) {
+                    
+                    model.addAttribute("errores", false);
 //                    se guarda info
+                    session.setAttribute("ruta", uuid);
                 } else {
                     model.addAttribute("errores",errores);
                 }
-                /*
-                    - insertarlos
-                    - renderizar la lista de errores
-                 */
- /*
-                    - insertarlos
-                    - renderizar la lista de errores
-                 */
+              
             }
         } catch (Exception ex) {
             // notificación de error
@@ -396,28 +398,27 @@ public class UsuarioController {
     public List<Usuario> LecturaArchivoTxt(File archivo) {
         Result result = new Result();
         List<Usuario> usuarios = new ArrayList<>();
+        
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         try (InputStream inputStream = new FileInputStream(archivo); BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
-
             usuarios = new ArrayList<>();
             String cadena = "";
             while ((cadena = bufferedReader.readLine()) != null) {
 //                Nombre|ApellidoPaterno|Materno|Fecha
                 String[] datosUsuario = cadena.split("\\|");
                 Usuario usuario = new Usuario();
+                usuario.Rol = new Rol();
                 usuario.setNombre(datosUsuario[0]);
                 usuario.setApellidoPaterno(datosUsuario[1]);
                 usuario.setApellidoMaterno(datosUsuario[2]);
                 try {
                     String fechanacimiento = datosUsuario[3].trim();
                     usuario.setFechaNacimiento(formatoFecha.parse(fechanacimiento));
-
                 } catch (Exception ex) {
                     result.correct = false;
                     result.errorMessage = ex.getLocalizedMessage();
                     result.ex = ex;
                 }
-
                 usuario.setCURP(datosUsuario[4]);
                 usuario.setEmail(datosUsuario[5]);
                 usuario.setNumeroTelefonico(datosUsuario[6].toString());
@@ -425,13 +426,25 @@ public class UsuarioController {
                 usuario.setCelular(datosUsuario[8]);
                 usuario.setUsername(datosUsuario[9]);
                 try {
-                    int IdRol = Integer.parseInt(datosUsuario[10]);
+                    int IdRol = Integer.parseInt(datosUsuario[10].trim());
                     usuario.Rol.setidRol(IdRol);
                 } catch (Exception ex) {
                     result.correct = false;
                     result.errorMessage = ex.getLocalizedMessage();
                     result.ex = ex;
                 }
+                usuario.setImagen(datosUsuario[11].trim());
+                 
+                    Direccion direccion = new Direccion();
+                    direccion.colonia = new Colonia();
+                    direccion.setCalle(datosUsuario[12].trim());
+                    direccion.setNumeroExterior(datosUsuario[13].trim());
+                    direccion.setNumeroInterior(datosUsuario[14].trim());
+                    direccion.colonia.setIdColonia(Integer.parseInt(datosUsuario[15].trim()));
+
+                    usuario.Direcciones = new ArrayList<>();
+                    usuario.Direcciones.add(direccion);
+                    usuarios.add(usuario);
 
                 usuarios.add(usuario);
             }
@@ -462,6 +475,7 @@ public class UsuarioController {
                 usuario.setApellidoPaterno(row.getCell(1).toString());
                 usuario.setApellidoMaterno(row.getCell(2).toString());
                 usuario.setCURP(row.getCell(3).toString());
+                usuario.setFechaNacimiento(row.getCell(4).getDateCellValue());
 
                 usuarios.add(usuario);
 
@@ -487,11 +501,11 @@ public class UsuarioController {
                 BindingResult bindingResult = validationService.ValidateObject(usuario);
 
                 if (bindingResult.hasErrors()) {
-                    ErroresArchivo erroresArchivo = new ErroresArchivo();
 
                     for (ObjectError objectError : bindingResult.getAllErrors()) {
-
                         
+                        ErroresArchivo erroresArchivo = new ErroresArchivo();
+
                         erroresArchivo.dato = ((FieldError) objectError).getField();
                         erroresArchivo.descripcion = objectError.getDefaultMessage();
                         erroresArchivo.fila = fila;
@@ -503,7 +517,6 @@ public class UsuarioController {
 
                 }
                 else{
-                    
                     
                 }
 
@@ -517,13 +530,20 @@ public class UsuarioController {
         return errores;
     }
 
-    @GetMapping("/cargamasiva/procesar")
-    public String ProcesarCargaMasiva(RedirectAttributes redirectAttributes) {
+    @GetMapping("/cargamasiva/procesar/{UUID}")
+    public String ProcesarCargaMasiva(@PathVariable ("UUID") UUID uuid,RedirectAttributes redirectAttributes, HttpSession session) {
         /*Procesar
         Aperturar archivo
         Inertar datos
          */
         // mensaje de confirmación de carga exitosa
+        
+        String rutaArchivo = session.getAttribute("ruta").toString();
+        List <Usuario> usuario = LecturaArchivoExcel(new File(rutaArchivo));
+        
+        Result result = usuarioDAOImplementation.AddAll(usuario); //asignar en el dao el addall
+        
+        
         return "redirect:/usuario";
     }
 
@@ -551,6 +571,15 @@ public class UsuarioController {
         Result result = coloniaDAOImplementation.GetByID(idMunicipio);
 
         result.correct = true;
+        return result;
+    }
+    
+    @PostMapping("/updateStatus/{status}/{identificador})")
+    public Result updateStatus (@PathVariable ("status") int status, @PathVariable ("identificaro") int identificador){
+        Result result = new Result();
+        
+        result = usuarioDAOImplementation.UpdateStatus(status, identificador);
+        
         return result;
     }
 

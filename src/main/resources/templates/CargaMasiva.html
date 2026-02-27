@@ -57,7 +57,15 @@
                         <td><li th:text = "${error.descripcion}"></li></td>
                         <td><li th:text = "${error.dato}"></li> </td>
                     </tr>
+                    
+                </tbody>
                 </table>
+            </div>
+            
+            <div th:if="${errores == null}">
+                <div><span>El documento esta libre de errores</span></div>
+                
+                <a class="btn btn-succes" href="/usuario/cargamasiva">Procesar carga</a>
             </div>
 
 

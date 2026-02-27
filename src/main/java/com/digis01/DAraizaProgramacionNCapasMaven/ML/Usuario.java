@@ -62,6 +62,9 @@ public class Usuario {
     
     public String Imagen;
     
+    public int Status;
+
+    
     @Valid
     public List<com.digis01.DAraizaProgramacionNCapasMaven.ML.Direccion> Direcciones;
     
@@ -74,7 +77,7 @@ public class Usuario {
         this.IdUsuario = IdUsuario;
     }
 
-    public Usuario(int IdUsuario, String Nombre, String ApellidoPaterno, String ApellidoMaterno, String NumeroTelefonico, Date FechaNacimiento, String CURP, String Username, String Sexo, String Celular, String Email, String Imagen,String Password, Rol Rol, List<Direccion> Direcciones) {
+    public Usuario(int IdUsuario, String Nombre, String ApellidoPaterno, String ApellidoMaterno, String NumeroTelefonico, Date FechaNacimiento, String CURP, String Username, String Sexo, String Celular, String Email, String Imagen,int Status,String Password, Rol Rol, List<Direccion> Direcciones) {
         this.IdUsuario = IdUsuario;
         this.Nombre = Nombre;
         this.ApellidoPaterno = ApellidoPaterno;
@@ -86,6 +89,7 @@ public class Usuario {
         this.Sexo = Sexo;
         this.Celular = Celular;
         this.Email = Email;
+        this.Status = Status;
         this.Password = Password;
         this.Rol = Rol;
         this.Direcciones = Direcciones;
@@ -217,5 +221,12 @@ public class Usuario {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
+        public int getStatus() {
+        return Status;
+    }
+
+    public void setStatus(int Status) {
+        this.Status = Status;
+    }
  
 }
