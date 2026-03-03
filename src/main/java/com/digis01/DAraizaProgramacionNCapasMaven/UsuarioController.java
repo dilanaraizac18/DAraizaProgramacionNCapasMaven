@@ -6,6 +6,7 @@ import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.MunicipioDAO
 import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.PaisDAOImplementation;
 import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.RolDAOImplementation;
 import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.UsuarioDAOImplementation;
+import com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO.UsuarioDAOJPAImplementation;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Colonia;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Direccion;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.ErroresArchivo;
@@ -51,6 +52,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("usuario")
 public class UsuarioController {
+    @Autowired
+    private UsuarioDAOJPAImplementation usuarioDAOJPAImplementation;
 
     @Autowired
     private UsuarioDAOImplementation usuarioDAOImplementation;
@@ -80,6 +83,7 @@ public class UsuarioController {
 //        
 //        model.addAttribute("usuario", usuario);
 //        return "GetAll";
+//        Result resultall = usuarioDAOJPAImplementation.GetAll();
 
         Result resultRol = rolDAOImplementation.GetAll();
         model.addAttribute("roles", resultRol.objects);
