@@ -14,4 +14,7 @@ import com.digis01.DAraizaProgramacionNCapasMaven.ML.Result;
 public interface IUsuarioJPA {
     Result GetAll();
     Result ADD(Usuario usuario);
+    Result GetById(int idUsuario);
+    Result Delete(int idusuario);
+    Result UpdateImagen(int idUsuario);
 }

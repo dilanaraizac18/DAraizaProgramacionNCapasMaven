@@ -219,7 +219,7 @@ public class UsuarioController {
     public String Delete(@PathVariable("idUsuario") int idUsuario, RedirectAttributes redirecAttributes) {
 
         Result result = new Result();
-        result = usuarioDAOImplementation.Delete(idUsuario);
+        result = usuarioDAOJPAImplementation.Delete(idUsuario);
 
         if (result.correct == true) {
             redirecAttributes.addFlashAttribute("message", "Usuario eliminado");
@@ -255,7 +255,7 @@ public class UsuarioController {
     public Result GetById(@PathVariable("IdUsuario") int identificador, Model model) {
         Result result = new Result();
         try {
-            result = usuarioDAOImplementation.GetById(identificador);
+            result = usuarioDAOJPAImplementation.GetById(identificador);
 
         } catch (Exception e) {
             result.correct = false;
@@ -326,7 +326,7 @@ public class UsuarioController {
                 }
             } else {
 
-                result = usuarioDAOImplementation.GetById(identificador);
+                result = usuarioDAOJPAImplementation.GetById(identificador);
                 if (result.correct) {
                     Usuario usuarioanterior = (Usuario) result.object;
                     usuario.setImagen(usuarioanterior.getImagen());

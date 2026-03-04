@@ -14,7 +14,7 @@ public class Pais {
     @Column (name="idPais")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPais;
-    @Column(name="nombre")
+    @Column(name="nombrepais")
     private String Nombre;
 
     public Pais(int idPais, String Nombre) {
