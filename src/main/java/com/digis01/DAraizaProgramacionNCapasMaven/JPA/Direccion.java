@@ -19,17 +19,17 @@ import jakarta.persistence.OneToOne;
 public class Direccion {
     @Id
     @GeneratedValue(strategy =GenerationType.IDENTITY)
-    @Column(name="idDireccion")
+    @Column(name="iddireccion")
     private int idDireccion;
-    @Column (name="Calle")
+    @Column (name="calle")
     private String Calle;
-    @Column (name="NumeroInterior")
+    @Column (name="numerointerior")
     private String NumeroInterior;
-    @Column (name="NumeroExterior")
+    @Column (name="numeroexterior")
     private String NumeroExterior;
     
     @OneToOne
-    @JoinColumn(name="idColonia")
+    @JoinColumn(name="idcolonia_fk")
     public Colonia colonia;
 
     public Direccion() {

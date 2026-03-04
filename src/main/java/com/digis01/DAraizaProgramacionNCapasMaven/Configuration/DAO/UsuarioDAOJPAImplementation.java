@@ -8,9 +8,11 @@ import com.digis01.DAraizaProgramacionNCapasMaven.JPA.Usuario;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Result;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 
@@ -30,12 +32,17 @@ public class UsuarioDAOJPAImplementation implements IUsuarioJPA{
             
             List<Usuario> usuarios = queryUsuario.getResultList();
             
+            result.objects = new ArrayList<>();
+            for (Usuario usuario : usuarios) {
+                result.objects.add(usuario);
+                
+            }
             result.correct = true;
             
         }catch( Exception ex){
             result.correct = false;
             result.errorMessage = ex.getLocalizedMessage();
-            
+            result.ex = ex;
         }
         
         
@@ -44,6 +51,25 @@ public class UsuarioDAOJPAImplementation implements IUsuarioJPA{
         
     }
     
+    @Override
+    @Transactional
+    public Result ADD(com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario usuario){
+        Result result = new Result();
+        
+        try{
+            
+            
+        }catch(Exception ex){
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        }
+        
+        
+        return result;
+    }
+    
+ 
     
     
     

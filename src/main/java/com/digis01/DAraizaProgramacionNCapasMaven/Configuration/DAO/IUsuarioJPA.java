@@ -4,6 +4,7 @@
  */
 package com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO;
 
+import com.digis01.DAraizaProgramacionNCapasMaven.JPA.Usuario;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Result;
 
 /**
@@ -12,5 +13,5 @@ import com.digis01.DAraizaProgramacionNCapasMaven.ML.Result;
  */
 public interface IUsuarioJPA {
     Result GetAll();
-    
+    Result ADD(com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario usuario);
 }

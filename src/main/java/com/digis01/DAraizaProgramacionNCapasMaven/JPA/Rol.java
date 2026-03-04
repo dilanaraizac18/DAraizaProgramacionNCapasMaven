@@ -11,11 +11,11 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Rol {
-    @Column(name="NombreRol")
+    @Column(name="nombrerol")
     public String NombreRol;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="idRol")
+    @Column(name="idrol")
     public int idRol;
 
     public Rol(String NombreRol, int idRol) {

@@ -83,12 +83,13 @@ public class UsuarioController {
 //        
 //        model.addAttribute("usuario", usuario);
 //        return "GetAll";
-//        Result resultall = usuarioDAOJPAImplementation.GetAll();
-
+        Result resultall = usuarioDAOJPAImplementation.GetAll();
+        
+        
         Result resultRol = rolDAOImplementation.GetAll();
         model.addAttribute("roles", resultRol.objects);
-        Result result = usuarioDAOImplementation.GetAll();
-        model.addAttribute("usuario", result.objects);
+//        Result result = usuarioDAOImplementation.GetAll();
+        model.addAttribute("usuario", resultall.objects);
 
         model.addAttribute("usuariobuscar", new Usuario());
 

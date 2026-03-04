@@ -26,7 +26,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Usuario {
     
     @Id
-    @Column(name="idUsuario")
+    @Column(name="idusuario")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int IdUsuario;
     
@@ -35,23 +35,23 @@ public class Usuario {
     @Size(min = 3, max = 50, message = "El nombre debe llevar minimo 3 caracteres")
     private String Nombre;
     
-    @Column(name= "apellidomaterno")
+    @Column(name= "apellidopaterno")
     @NotEmpty(message= "No puede ser nulo")
     @Size(min = 3, max = 50, message = "El Apellido Paterno debe llevar minimo 3 caracteres")
     private String ApellidoPaterno;
     
-    @Column(name="apellidoMaterno")
+    @Column(name="apellidomaterno")
     @NotEmpty(message= "No puede ser nulo")
     @Size(min = 3, max = 50, message = "El Apellido Materno debe llevar minimo 3 caracteres")
     private String ApellidoMaterno;
     
-    @Column(name="numerotelofonico")
+    @Column(name="nuevotelefono")
     @NotEmpty(message = "No puedo ser vacio")
     @Pattern(regexp = "^[0-9]{10}$", message = "Solo numeros")
     @Size(min = 10, max = 10, message = "Debe haber minimo 10 numeros")
     private String NumeroTelefonico;
     
-    @Column (name= "FechaNacimiento")
+    @Column (name= "fechanacimiento")
     @NotNull(message = "La fecha no puede ser nula")
     @PastOrPresent(message = "La fecha debe ser en el pasado")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -61,7 +61,7 @@ public class Usuario {
     @Column(name="CURP")
     private String CURP;
     
-    @Column(name="Username")
+    @Column(name="username")
     @NotEmpty(message = "No puede ser vacio")
 //    @Pattern(regexp = "^[a-zA-Z ]+[0-9]+$", message = "Introduzca minimo una letra y minimo un numero")
     private String Username;
@@ -73,16 +73,16 @@ public class Usuario {
 //    @Pattern(regexp = "^[0-9]{10}$", message = "Solo numeros")
     @Size(min = 10, max = 10, message = "Debe haber minimo 10 numeros")
     private String Celular;
-    @Column(name = "Email")
+    @Column(name = "email")
 //    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z]+.com$", message = "formato invalido")
     @NotEmpty(message = "No puedo ser vacio")
     private String Email;
     
-    @Column(name="Password")
+    @Column(name="password")
     private String Password;
     
     @OneToOne
-    @JoinColumn(name="idRol")
+    @JoinColumn(name="idrol_fk")
     public Rol Rol; 
     
     @Column(name="imagen")
@@ -92,7 +92,7 @@ public class Usuario {
     public int Status;
 
     
-    @OneToMany(mappedBy = "Usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "idDireccion", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Direccion> Direcciones;
     
     //setters

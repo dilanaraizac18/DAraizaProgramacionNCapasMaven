@@ -17,15 +17,15 @@ public class Colonia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name = "idColonia")
+    @Column (name = "idcolonia")
     private int idColonia;
-    @Column(name="Nombre")
+    @Column(name="nombre")
     private String Nombre;
-    @Column(name="CodigoPostal")
+    @Column(name="codigopostal")
     private String CodigoPostal;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="idmunicipio")
+    @JoinColumn(name="idmunicipio_fk")
     public Municipio municipio;
 
     public Colonia(int idColonia, String Nombre, String CodigoPostal, Municipio municipio) {
