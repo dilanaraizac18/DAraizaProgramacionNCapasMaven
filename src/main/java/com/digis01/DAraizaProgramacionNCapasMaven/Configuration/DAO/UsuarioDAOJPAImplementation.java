@@ -4,6 +4,9 @@
  */
 package com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO;
 
+import com.digis01.DAraizaProgramacionNCapasMaven.JPA.Colonia;
+import com.digis01.DAraizaProgramacionNCapasMaven.JPA.Direccion;
+import com.digis01.DAraizaProgramacionNCapasMaven.JPA.Rol;
 import com.digis01.DAraizaProgramacionNCapasMaven.JPA.Usuario;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Result;
 import jakarta.persistence.EntityManager;
@@ -57,6 +60,40 @@ public class UsuarioDAOJPAImplementation implements IUsuarioJPA{
         Result result = new Result();
         
         try{
+            Usuario usuariojpa = new Usuario();
+            
+            usuariojpa.setNombre(usuario.getNombre());
+            usuariojpa.setApellidoPaterno(usuario.getApellidoPaterno());
+            usuariojpa.setApellidoMaterno(usuario.getApellidoMaterno());
+            usuariojpa.setEmail(usuario.getEmail());
+            usuariojpa.setFechaNacimiento(usuario.getFechaNacimiento());
+            usuariojpa.setNumeroTelefonico(usuario.getNumeroTelefonico());
+            usuariojpa.setCelular(usuario.getNumeroTelefonico());
+            usuariojpa.setUsername(usuario.getUsername());
+            usuariojpa.setImagen(usuario.getImagen());
+            usuariojpa.setPassword(usuario.getPassword());
+
+            usuariojpa.Rol = new Rol();
+            usuariojpa.Rol.setidRol(usuario.Rol.getidRol());
+            
+            usuariojpa.Direcciones = new ArrayList<>();
+            Direccion direccionjpa = new Direccion();
+            direccionjpa.colonia = new Colonia();
+            
+            com.digis01.DAraizaProgramacionNCapasMaven.ML.Direccion direccion = usuario.Direcciones.get(0);
+            
+            direccionjpa.setCalle(direccion.getCalle());
+            direccionjpa.setNumeroInterior(direccion.getNumeroInterior());
+            direccionjpa.setNumeroExterior(direccion.getNumeroExterior());
+            direccionjpa.colonia.setIdColonia(direccion.colonia.getIdColonia());
+            
+            
+            usuariojpa.Direcciones.add(direccionjpa);
+            direccionjpa.usuario = usuariojpa;
+            
+            entityManager.persist(usuariojpa);
+            
+            result.correct = true;
             
             
         }catch(Exception ex){

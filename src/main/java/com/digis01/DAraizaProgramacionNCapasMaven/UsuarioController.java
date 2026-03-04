@@ -207,7 +207,7 @@ public class UsuarioController {
         System.out.println(
                 "Agregar");
         model.addAttribute("usuario", usuario);
-        result = usuarioDAOImplementation.Add(usuario);
+        result = usuarioDAOJPAImplementation.ADD(usuario);
         if (result.correct == false) {
             return "Formulario";
         }

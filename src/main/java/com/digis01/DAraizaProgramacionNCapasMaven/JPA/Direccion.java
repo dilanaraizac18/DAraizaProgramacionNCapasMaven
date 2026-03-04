@@ -4,10 +4,12 @@ package com.digis01.DAraizaProgramacionNCapasMaven.JPA;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 /**
@@ -28,6 +30,9 @@ public class Direccion {
     @Column (name="numeroexterior")
     private String NumeroExterior;
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idusuario_fk")
+    public Usuario usuario;
     @OneToOne
     @JoinColumn(name="idcolonia_fk")
     public Colonia colonia;
