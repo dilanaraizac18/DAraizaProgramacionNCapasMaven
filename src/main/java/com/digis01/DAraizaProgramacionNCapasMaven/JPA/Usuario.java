@@ -30,7 +30,7 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int IdUsuario;
     
-    @Column(name= "nombreusuario")
+    @Column(name= "nombre")
     @NotEmpty(message= "No puede ser nulo")
     @Size(min = 3, max = 50, message = "El nombre debe llevar minimo 3 caracteres")
     private String Nombre;
@@ -45,7 +45,7 @@ public class Usuario {
     @Size(min = 3, max = 50, message = "El Apellido Materno debe llevar minimo 3 caracteres")
     private String ApellidoMaterno;
     
-    @Column(name="numerotelefonico")
+    @Column(name="nuevotelefono")
     @NotEmpty(message = "No puedo ser vacio")
     @Pattern(regexp = "^[0-9]{10}$", message = "Solo numeros")
     @Size(min = 10, max = 10, message = "Debe haber minimo 10 numeros")

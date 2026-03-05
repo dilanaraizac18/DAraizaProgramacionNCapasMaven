@@ -17,7 +17,7 @@ public class Municipio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idmunicipio")
     private int idMunicipio;
-    @Column(name="nombremunicipio")
+    @Column(name="nombre")
     private String Nombre;
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name="idestado")
