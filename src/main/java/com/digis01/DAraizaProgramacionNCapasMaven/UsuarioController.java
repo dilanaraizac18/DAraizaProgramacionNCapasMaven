@@ -237,7 +237,7 @@ public class UsuarioController {
 
         try {
 
-            result = usuarioDAOImplementation.Update(usuario);
+            result = usuarioDAOJPAImplementation.Updateusuario(usuario);
             if (result.correct == false) {
                 return "GetAll";
             }
