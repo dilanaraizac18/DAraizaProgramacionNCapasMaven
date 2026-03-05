@@ -19,7 +19,7 @@ public class Colonia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "idcolonia")
     private int idColonia;
-    @Column(name="nombrecolonia")
+    @Column(name="nombre")
     private String Nombre;
     @Column(name="codigopostal")
     private String CodigoPostal;
