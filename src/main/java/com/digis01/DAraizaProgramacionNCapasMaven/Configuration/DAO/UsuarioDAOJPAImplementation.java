@@ -14,6 +14,7 @@ import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -168,6 +169,7 @@ public class UsuarioDAOJPAImplementation implements IUsuarioJPA{
     }
 
     @Override
+    @Transactional
     public Result UpdateImagen(int idUsuario) {
         Result result = new Result();
         
@@ -195,14 +197,172 @@ public class UsuarioDAOJPAImplementation implements IUsuarioJPA{
         return result;
         
     }
+
+    @Override
+    @Transactional
+    public Result Updateusuario(com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario usuario) {
+     Result result = new Result();
+     
+     try{
+   com.digis01.DAraizaProgramacionNCapasMaven.JPA.Usuario usuariojpa = entityManager.find(com.digis01.DAraizaProgramacionNCapasMaven.JPA.Usuario.class, usuario.getIdUsuario());
+        if(usuariojpa != null){
+             usuariojpa.setNombre(usuario.getNombre());
+             usuariojpa.setApellidoPaterno(usuario.getApellidoPaterno());
+             usuariojpa.setApellidoMaterno(usuario.getApellidoMaterno());
+             usuariojpa.setCURP(usuario.getCURP());
+             usuariojpa.setCelular(usuario.getCelular());
+             usuariojpa.setEmail(usuario.getEmail());
+             usuariojpa.setFechaNacimiento(usuario.getFechaNacimiento());
+             usuariojpa.setPassword(usuario.getPassword());
+             usuariojpa.setSexo(usuario.getSexo());
+             usuariojpa.setStatus(usuario.getStatus());
+
+             
+
+
+            
+            if (usuariojpa.getRol() != null) {
+                Rol rolBD = entityManager.find(Rol.class, usuariojpa.getRol().getidRol());
+                usuariojpa.setRol(rolBD);
+            }
+
+            usuariojpa.getDirecciones().clear();
+
+            for (com.digis01.DAraizaProgramacionNCapasMaven.ML.Direccion direccionML : usuario.getDirecciones()) {
+
+                com.digis01.DAraizaProgramacionNCapasMaven.JPA.Direccion direccionJPA = new com.digis01.DAraizaProgramacionNCapasMaven.JPA.Direccion();
+
+                direccionJPA.setCalle(direccionML.getCalle());
+                direccionJPA.setNumeroExterior(direccionML.getNumeroExterior());
+
+                direccionJPA.setUsuario(usuariojpa);
+
+                usuariojpa.getDirecciones().add(direccionJPA);
+            }
+
+            result.correct = true;
+             
+            
+        }
+
+         
+     }catch(Exception ex){
+         result.correct = false;
+         result.errorMessage = ex.getLocalizedMessage();
+         result.ex = ex;
+         
+     }
+     
+     return result;
+     
+    }
     
+    
+//    @Override
+//    @Transactional
+//    public Result UpdateUsuario(com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario usuario) {
+//        Result result = new Result();
+//
+//        try {
+//
+//            Usuario usuarioBD = entityManager.find(Usuario.class, usuario.getIdUsuario());
+//            if (usuario != null) { // alumno si existe
+//                //ML -> JPA
+//                ModelMapper modelMapper = new ModelMapper();
+//                modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+//                com.digis01.DAraizaProgramacionNCapasMaven.JPA.Usuario usuarioJpa = modelMapper.map(usuario, com.digis01.DAraizaProgramacionNCapasMaven.JPA.Usuario.class);
+//                
+//                usuarioJpa.Direcciones = usuarioBD.Direcciones;
+//                entityManager.merge(usuarioJpa);
+//                result.correct = true;
+//
+//            }
+//
+//        } catch (Exception e) {
+//            result.correct = false;
+//            result.errorMessage = e.getLocalizedMessage();
+//            result.ex = e;
+//        }
+//
+//        return result;
+//    }
+//    
     
 
  
  
+        @Override
+    public Result DireccionGetById(int idUsuario) {
+        Result result = new Result();
+
+        try {
+
+            com.digis01.DAraizaProgramacionNCapasMaven.JPA.Direccion direccionjpa = entityManager.find(com.digis01.DAraizaProgramacionNCapasMaven.JPA.Direccion.class, idUsuario);
+
+            ModelMapper modelMapper = new ModelMapper();
+            com.digis01.DAraizaProgramacionNCapasMaven.ML.Direccion direccion = modelMapper.map(direccionjpa, com.digis01.DAraizaProgramacionNCapasMaven.ML.Direccion.class);
+            result.object = direccion;
+
+            result.correct = true;
+
+        } catch (Exception e) {
+            result.correct = false;
+            result.errorMessage = e.getLocalizedMessage();
+            result.ex = e;
+        }
+
+        return result;
+    }
+
+
     
+     @Override
+    @Transactional
+    public Result DeleteDireccion(int idDireccion) {
+        Result result = new Result();
+
+        try {
+
+            com.digis01.DAraizaProgramacionNCapasMaven.JPA.Direccion direccionjpa = entityManager.find(com.digis01.DAraizaProgramacionNCapasMaven.JPA.Direccion.class, idDireccion);
+
+            entityManager.remove(direccionjpa);
+            result.correct = true;
+
+        } catch (Exception e) {
+            result.correct = false;
+            result.errorMessage = e.getLocalizedMessage();
+            result.ex = e;
+        }
+
+        return result;
+    }
     
-    
+        @Override
+    @Transactional
+    public Result AddDireccion( com.digis01.DAraizaProgramacionNCapasMaven.ML.Direccion direccion, int idUsuario) {
+        Result result = new Result();
+
+        try {
+
+            ModelMapper modelMapper = new ModelMapper();
+            com.digis01.DAraizaProgramacionNCapasMaven.JPA.Direccion direccionjpa = modelMapper.map(direccion,  com.digis01.DAraizaProgramacionNCapasMaven.JPA.Direccion.class);
+
+            Usuario usuariojpa = new Usuario();
+            usuariojpa.setIdUsuario(idUsuario);
+            direccionjpa.setUsuario(usuariojpa);
+
+            entityManager.persist(direccionjpa);
+            result.correct = true;
+
+        } catch (Exception e) {
+            result.correct = false;
+            result.errorMessage = e.getLocalizedMessage();
+            result.ex = e;
+        }
+
+        return result;
+    }
+
    
     
 }

@@ -37,6 +37,14 @@ public class Direccion {
     @JoinColumn(name="idcolonia_fk")
     public Colonia colonia;
 
+    public com.digis01.DAraizaProgramacionNCapasMaven.JPA.Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(com.digis01.DAraizaProgramacionNCapasMaven.JPA.Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     public Direccion() {
     }
 

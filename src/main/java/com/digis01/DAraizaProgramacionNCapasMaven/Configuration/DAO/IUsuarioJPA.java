@@ -4,6 +4,7 @@
  */
 package com.digis01.DAraizaProgramacionNCapasMaven.Configuration.DAO;
 
+import com.digis01.DAraizaProgramacionNCapasMaven.ML.Direccion;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario;
 import com.digis01.DAraizaProgramacionNCapasMaven.ML.Result;
 
@@ -17,4 +18,10 @@ public interface IUsuarioJPA {
     Result GetById(int idUsuario);
     Result Delete(int idusuario);
     Result UpdateImagen(int idUsuario);
+    Result Updateusuario(Usuario usuario);
+//    Result UpdateUsuario(Usuario usuario);
+    Result DireccionGetById(int idUsuario);
+    Result DeleteDireccion(int idDireccion);
+    Result AddDireccion(Direccion direccion, int idUsuario);
+
 }
