@@ -258,35 +258,35 @@ public class UsuarioDAOJPAImplementation implements IUsuarioJPA{
     }
     
     
-//    @Override
-//    @Transactional
-//    public Result UpdateUsuario(com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario usuario) {
-//        Result result = new Result();
-//
-//        try {
-//
-//            Usuario usuarioBD = entityManager.find(Usuario.class, usuario.getIdUsuario());
-//            if (usuario != null) { // alumno si existe
-//                //ML -> JPA
-//                ModelMapper modelMapper = new ModelMapper();
-//                modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-//                com.digis01.DAraizaProgramacionNCapasMaven.JPA.Usuario usuarioJpa = modelMapper.map(usuario, com.digis01.DAraizaProgramacionNCapasMaven.JPA.Usuario.class);
-//                
-//                usuarioJpa.Direcciones = usuarioBD.Direcciones;
-//                entityManager.merge(usuarioJpa);
-//                result.correct = true;
-//
-//            }
-//
-//        } catch (Exception e) {
-//            result.correct = false;
-//            result.errorMessage = e.getLocalizedMessage();
-//            result.ex = e;
-//        }
-//
-//        return result;
-//    }
-//    
+    @Override
+    @Transactional
+    public Result UpdateUsuario(com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario usuario) {
+        Result result = new Result();
+
+        try {
+
+            Usuario usuarioBD = entityManager.find(Usuario.class, usuario.getIdUsuario());
+            if (usuario != null) { // alumno si existe
+                //ML -> JPA
+                ModelMapper modelMapper = new ModelMapper();
+                modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+                com.digis01.DAraizaProgramacionNCapasMaven.JPA.Usuario usuarioJpa = modelMapper.map(usuario, com.digis01.DAraizaProgramacionNCapasMaven.JPA.Usuario.class);
+                
+                usuarioJpa.Direcciones = usuarioBD.Direcciones;
+                entityManager.merge(usuarioJpa);
+                result.correct = true;
+
+            }
+
+        } catch (Exception e) {
+            result.correct = false;
+            result.errorMessage = e.getLocalizedMessage();
+            result.ex = e;
+        }
+
+        return result;
+    }
+    
     
 
  

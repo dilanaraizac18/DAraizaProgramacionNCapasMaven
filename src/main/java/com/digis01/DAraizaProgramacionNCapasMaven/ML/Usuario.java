@@ -67,6 +67,10 @@ public class Usuario {
     
     @Valid
     public List<com.digis01.DAraizaProgramacionNCapasMaven.ML.Direccion> Direcciones;
+
+    public Usuario(int i, String dilan, Object object, Object object0, Object object1, Object object2, Object object3, Object object4, Object object5, Object object6) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     //setters
     public int getIdUsuario(){
