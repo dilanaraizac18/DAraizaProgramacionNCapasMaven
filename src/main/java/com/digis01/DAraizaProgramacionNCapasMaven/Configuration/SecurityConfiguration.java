@@ -33,6 +33,7 @@ public class SecurityConfiguration {
         .hasAnyRole("Administrador", "Editor", "Usuario Estandar", "Visor", "Invitado")
         .anyRequest().authenticated())
         .formLogin(form -> form 
+         .loginPage("/login")
         .defaultSuccessUrl("/usuario")
         )
         .userDetailsService(userDetailJPA);
