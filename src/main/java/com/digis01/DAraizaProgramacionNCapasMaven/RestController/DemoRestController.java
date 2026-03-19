@@ -57,13 +57,13 @@ public class DemoRestController {
         return ResponseEntity.status(status).body(result.objects);
     }
     
-//    @PostMapping("sumanumeros")
-//    public int SumarNNumeros (@RequestBody List<Integer> numeros){
-//        
-//        
-//        return 
-//        
-//    }
+    @PostMapping("sumanumeros")
+    public int SumarNNumeros (@RequestBody List<Integer> numeros){
+        
+        
+        return 
+        
+    }
             
     
 }
