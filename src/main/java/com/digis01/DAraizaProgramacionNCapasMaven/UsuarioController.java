@@ -90,7 +90,7 @@ public class UsuarioController {
         model.addAttribute("roles", resultRol.objects);
 //        Result result = usuarioDAOImplementation.GetAll();
         model.addAttribute("usuario", resultall.objects);
-
+        model.addAttribute("mensaje", "Bienvenido");
         model.addAttribute("usuariobuscar", new Usuario());
 
         return ("GetAll");
