@@ -29,13 +29,17 @@ public class SecurityConfiguration {
     }
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception{
-        http.authorizeHttpRequests(configurer -> configurer.requestMatchers("/usuario/**")
+        http.authorizeHttpRequests(configurer -> configurer
+        .requestMatchers("/usuario/**")
         .hasAnyRole("Administrador", "Editor", "Usuario Estandar", "Visor", "Invitado")
         .requestMatchers("/css/**", "/js/**", "/images/**", "/login").permitAll()
         .anyRequest().authenticated())
+                
         .formLogin(form -> form 
          .loginPage("/login")
+        .loginProcessingUrl("/login")
         .defaultSuccessUrl("/usuario")
+         .failureUrl("/login?error=true")
         )
         .userDetailsService(userDetailJPA);
         

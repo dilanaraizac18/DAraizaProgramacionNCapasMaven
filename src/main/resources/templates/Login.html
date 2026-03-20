@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+        
         <title>Inicio de sesión</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,10 +17,10 @@
                                          <i class="bi bi-person fs-1"></i>
 
                         <h1>Inicio de sesión</h1>
-                        <form>
+                        <form th:action="@{/login}" method="post">
                             
-                            <input type="text" class="bg-dark border border-success text-center p-2 m-2 text-success rounded" placeholder="Usuario"> <br>
-                            <input type="text" class="bg-dark border border-success text-center p-2 m-2 text-success rounded" placeholder="Contraseña"> <br>
+                            <input type="text" name ="username" class="bg-dark border border-success text-center p-2 m-2 text-success rounded" placeholder="Usuario"> <br>
+                            <input type="password" name="password" class="bg-dark border border-success text-center p-2 m-2 text-success rounded" placeholder="Contraseña"> <br>
                        <button type="submit" class="btn btn-success"><i class="bi bi-box-arrow-in-right"></i> Iniciar sesion</button></center>
                         
                         </form>

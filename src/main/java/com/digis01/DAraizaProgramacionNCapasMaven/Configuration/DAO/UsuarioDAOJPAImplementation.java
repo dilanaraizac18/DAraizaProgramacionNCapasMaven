@@ -362,18 +362,57 @@ public class UsuarioDAOJPAImplementation implements IUsuarioJPA{
 
         return result;
     }
+    
+    public Usuario UsuarioMLtoJPA (com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario  usuario){
+        
+        Usuario usuarioJPA = new Usuario();
+        
+        usuarioJPA.setIdUsuario(usuario.getIdUsuario());
+        usuarioJPA.setNombre(usuario.getNombre());
+        usuarioJPA.setApellidoPaterno(usuario.getApellidoPaterno());
+        usuarioJPA.setApellidoMaterno(usuario.getApellidoMaterno());
+        usuarioJPA.setNumeroTelefonico(usuario.getNumeroTelefonico());
+        usuarioJPA.setEmail(usuario.getEmail());
+        usuarioJPA.setPassword(usuario.getPassword());
+        usuarioJPA.setStatus(usuario.getStatus());
+        usuarioJPA.Rol = new Rol();
+        usuarioJPA.Rol.setidRol(usuario.Rol.getidRol());
+        usuarioJPA.Rol.setNombreRol(usuario.Rol.getNombreRol());
+        
+        return usuarioJPA;
+    }
+    
 
     @Override
     public Result GetByEmail(String email) {
-        
+        ModelMapper model = new ModelMapper();
         Result result = new Result();
 
         try{
-            TypedQuery<Usuario> queryUsuario = entityManager.createQuery("FROM usuario where Email = :pEmail", Usuario.class);
+            
+            TypedQuery<Usuario> queryUsuario = entityManager.createQuery("FROM Usuario where Email = :pEmail", Usuario.class);
             queryUsuario.setParameter("pEmail", email);
             Usuario usuario = queryUsuario.getSingleResult();
             
-            result.object = usuario;
+//            com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario usuarioML =  model.map(
+//                            usuario,
+//                            com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario.class
+//                    );
+
+                com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario usuarioML = new com.digis01.DAraizaProgramacionNCapasMaven.ML.Usuario();
+                
+                usuarioML.setUsername(usuario.getUsername());
+                usuarioML.setPassword(usuario.getPassword());
+                usuarioML.setStatus(usuario.getStatus());
+                usuarioML.setEmail(usuario.getEmail());
+                
+                usuarioML.Rol = new com.digis01.DAraizaProgramacionNCapasMaven.ML.Rol();
+                usuarioML.Rol.setNombreRol(usuario.Rol.getNombreRol());
+                
+                
+                        /*JPA -> ML*/
+            
+            result.object =usuarioML;
             
             result.correct = true;
             

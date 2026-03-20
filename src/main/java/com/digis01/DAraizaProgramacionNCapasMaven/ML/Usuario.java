@@ -77,6 +77,7 @@ public class Usuario {
         return IdUsuario;
     }
     
+    
     public void setIdUsuario(int IdUsuario){
         this.IdUsuario = IdUsuario;
     }
@@ -232,5 +233,7 @@ public class Usuario {
     public void setStatus(int Status) {
         this.Status = Status;
     }
+    
+    
  
 }
